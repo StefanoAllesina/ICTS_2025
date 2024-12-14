@@ -1,0 +1,482 @@
+# The Generalized Lotka-Volterra model
+
+```{r}
+#| warning: false
+#| message: false
+#| echo: false
+library(tidyverse) # plotting, data organization
+library(deSolve) # integrate differential equations
+```
+
+## History
+
+## Equations
+
+We can write the model for $n$ interacting populations in component form as:
+
+$$
+\dfrac{d x_i(t)}{dt} = \dot{x_i} = x_i \left(r_i + \sum_j A_{ij} x_j \right)
+$$
+
+and in matrix form as:
+
+$$
+\dot{x} = D(x) \left(r + Ax \right)
+$$
+
+where $x = x(t)$ is a (column) vector of length $n$ containing the densities of all populations $1, \ldots, n$ at time $t$, $r$ is a vector of "intrinsic growth rates" (or death rates, when negative), measuring the growth (decline) of population $i$ when grown alone at low density, and $A$ is a $n \times n$ matrix of interaction coefficients. We use $D(x)$ to denote the diagonal matrix with $x$ on the diagonal. 
+
+Sometimes the model is written in a slightly different way, by bringing the vector $r$ outside the parenthesis:
+
+$$
+\begin{aligned}
+\dot{x_i} &= x_i \left(r_i + \sum_j A_{ij} x_j \right)\\
+&= r_i x_i \left(1 + \frac{1}{r_i} \sum_j A_{ij} x_j\right)\\
+&= r_i x_i \left(1 + \sum_j B_{ij} x_j\right)\\
+\end{aligned}
+$$
+
+where we have defined $B_{ij} = A_{ij} / r_i$. In matrix form, we obtain:
+
+$$
+\dot{x} = D(x \circ r) \left(1_n + Bx \right)
+$$
+
+where $\circ$ is the Hadamard (element by element) product. This notation is convenient when computing the equilibria of the system; the previous notation is more convenient when investigating stability. We will alternate between the two notations, using $A$ and $B = D(r)^{-1} A$ for the two matrices. 
+
+## Equilibria
+
+If an equilibrium $x^\star$ in which all populations are present exists, it must be the solution of 
+
+$$
+\begin{aligned}
+1_n + Bx^\star &= 0_n\\
+Bx^\star &= - 1_n\\
+x^\star &= -B^{-1} 1_n
+\end{aligned}
+$$
+
+when the matrix $B$ is invertible. Naturally, the equilibrium must be positive (called *feasible*) to be biologically attainable.
+
+EXAMPLE MATRIX WITH GLOBALLY STABLE EQUIL (OR LIMIT CYCLE?)
+
+If the matrix $B$ is rank-deficient (and thus singular) there are infinitely many equilibria; for example, if the rank of $B$ is $n-1$ there are infinitely many equilibria belonging to a line in $\mathbb R^n$.
+
+The model admits at most one positive equilibrium in which all populations are present. However, there can be up to $2^n-1$ equilibria in which one or more populations are absent/extinct. Call $B^{(k,k)}$ the submatrix of $B$ obtained by retaining the rows and columns indexed by the set $k$. Then by solving
+
+$$
+B^{(k,k)} x^{(k)\star} = -1^{(k)}
+$$
+
+we obtain an equilibrium for the subcommunity where only the populations in $k$ are present (provided that the equilibrium is feasibile).
+
+EXAMPLE ABOVE
+
+## Types of dynamics
+
+For a single population, the GLV model can yield only two outcomes: unbounded growth, or convergence to an equilibrium; when the equilibrium is $x^\star = 0$, we say that  the population is extinct. 
+
+When we have two populations, we can also observe neutral cycles, and bistability (i.e., one population survives, while the other goes extinct; which population goes extinct depends on the initial conditions).
+
+For three populations we can observe limit cycles; for four or more populations we can have chaos (i.e., non-periodic oscillations).
+
+FIGURES HERE
+
+## Equilibrium as time-average
+
+Suppose that $x(t)$ has a periodic orbit, of period $T$ (i.e., we assume $x(0) = x(T)$). Further, assume that the GLV has a feasible, interior equilibrium $x^\star$. We want to calculate the average density for each species:
+
+$$
+\frac{1}{T} \int_0^T x(t) dt
+$$
+
+First, we assume that $x(t) > 0$ and write the dynamics of its logarithm:
+
+$$
+\dfrac{d \log(x_i(t))}{dt} = \dfrac{1}{x_i(t)}\dfrac{d x_i(t)}{dt} = r_i + \sum_j A_{ij} x_j(t)
+$$
+
+In vector form:
+
+$$
+\dfrac{d \log{x(t)}}{dt}= r + A x(t)
+$$
+
+Compute the average on both sides:
+
+$$
+\frac{1}{T}\int_0^T \frac{d \log(x(t))}{dt} dt= \frac{1}{T}\int_0^T \left(r + Ax \right) dt
+$$
+
+yielding:
+
+$$
+\frac{1}{T}(\log(x(T)) - \log(x(0))) = 0 = r + A \left( \frac{1}{T} \int_0^T x(t) dt \right)
+$$
+
+Note that the l.h.s. is zero because  $x(0) = x(T)$. Now rearrange:
+
+$$
+-r = A \left( \frac{1}{T} \int_0^T x(t) dt \right)
+$$
+
+Multiplying by the matrix inverse:
+
+$$
+-A^{-1} r = x^\star =  \frac{1}{T} \int_0^T x(t) dt 
+$$
+
+showing that **the average density is** in fact **the equilibrium**. With a similar argument, one can prove that if the trajectory stays in a compact space (i.e., in case of chaotic attractors), then long-time average is still $x^\star$.
+
+A dynamical system is permanent if, for all $x_i(0) > 0$, the limit $\liminf_{t \to \infty} x_i(t) > \delta > 0$ for all $i$. This means that each axis of $\mathbb R^n$ *repels* the dynamics when $t$ is large enough. 
+
+Suppose that a GLV system is permanent, and that population dynamics describe a limit cycle or a chaotic attractor; then, because of the calculation above, there must be a positive equilibrium in $\mathbb R^n$. Thus, a system without a feasible equilibrium cannot be permanent. That is to say, the coexistence of all populations in a GLV system requires a feasible equilibrium.
+
+## Local stability
+
+We want to determine whether an equilibrium point is locally asymptotically stable; this means that, for sufficiently small perturbations of the equilibrium, $x(0) = x^\star + \epsilon$, we have that $\lim_{t \to \infty} x(t) = x^\star$. Let's start by considering the case of a single population: 
+
+- Take an ODE $dx/dt = f(x)$
+- The system is resting at an equilibrium $x^\star$
+- We perturb the system, and track the dynamics when starting at $x(0) = x^\star + \epsilon$, where $\epsilon$ (the perturbation) is taken to be sufficiently small $\| \epsilon \| \ll 1$
+- We write $\Delta x(0) = x(0) - x^\star$
+- We derive the dynamics for $\Delta x$:
+
+By chain rule, 
+
+$$
+\begin{aligned}
+\dfrac{d \Delta x}{dt} &= \dfrac{d \Delta x}{dx} \dfrac{d x}{dt} \\
+&= 1 \dfrac{d x}{dt}\\
+&= f(x)\\
+&= f(\Delta x + x^\star)
+\end{aligned}
+$$
+
+Where we have substituted $x = \Delta x + x^\star$.
+
+- Now we approximate the function $f(\Delta x + x^\star)$ by Taylor-expanding.
+
+::: {.callout-note collapse="true"}
+## Taylor series
+
+We can approximate the behavior of a (infinitely differentiable) function in the vicinity of a point $a$ by a power series:
+
+$$
+f(x) = f(a) + \dfrac{1}{1!} \left. \dfrac{df(x)}{dx} \right|_a (x-a)+ \dfrac{1}{2!} \left. \dfrac{d^2f(x)}{dx^2} \right|_a (x-a)^2+ \dfrac{1}{3!} \left. \dfrac{d^3f(x)}{dx^3} \right|_a (x-a)^3 + \ldots
+$$
+where $n! = n (n-1)(n-2)\ldots 1$ is the factorial function and the derivatives are evaluated at $a$. When we choose $a=0$ this is called the Maclaurin series.
+
+**Example**
+
+Expand $e^x$ around $0$:
+
+$$
+\begin{aligned}
+e^x &= e^0 + \left. e^x\right|_0 x + \frac{1}{2}\left. e^x\right|_0 x^2  + \frac{1}{6}\left. e^x\right|_0 x^3 + \ldots\\
+&=1 + x + \frac{1}{2} x^2  + \frac{1}{6}x^3 + \ldots\\
+&=\sum_{k=0}^\infty \frac{x^k}{k!}
+\end{aligned}
+$$
+
+:::
+
+We want to Taylor-expand $f(x) = f(\Delta x + x^\star)$ around $x^\star$:
+
+$$
+f(x) = f(x^\star) + \left.\dfrac{d f(x)}{d x}\right|_{x^\star} (x - x^\star) + \dfrac{1}{2}\left.\dfrac{d^2 f(x)}{d x^2}\right|_{x^\star} (x - x^\star)^2 + \ldots
+$$
+Note that $f(x^\star) = 0$ by the definition of an equilibrium. If the deviation is small, we can neglect all the higher-order terms, obtaining:
+
+$$
+\dfrac{d \Delta x}{dt} = f(x) \approx \left.\dfrac{d f(x)}{d x}\right|_{x^\star} \Delta x 
+$$
+
+which is the equation of the exponential growth model, with $\rho =  \left.\dfrac{d f(x)}{d x}\right|_{x^\star}$. Then, the solution is $\Delta x(t) = \Delta x(0) e^{\rho t}$, and the deviation from the equilibrium goes to zero (i.e., the system goes back to $x^\star$) whenever $\rho < 0$.
+
+For example, take the logistic growth model and evaluate the stability of $x^\star = 1$; we have:
+
+$$
+\left.\dfrac{d f(x)}{d x}\right|_{x^\star} = \left.\dfrac{d (x - x^2)}{d x}\right|_{x^\star} = \left.(1 - 2x)\right|_{x^\star} = -1
+$$
+
+and thus the equilibrium is *locally asymptotically stable*. Locally, because we have considered very small deviations from the equilibrium, and asymptotic because convergence only happens eventually.
+
+In analogy with the Taylor-expansion of functions of a single variable, we can write:
+
+$$
+f_i(x^\star + \Delta x) = f_i(x^\star) + \sum_k \left. \dfrac{\partial f_i(x)}{\partial x_k} \right|_{x^\star} \Delta x_k + \dfrac{1}{2} \sum_{k}\sum_{l} \left. \dfrac{\partial^2 f_i(x)}{\partial x_k \partial x_l} \right|_{x^\star} \Delta x_k \Delta x_l + \cdots
+$$
+As before, $f_i(x^\star) = 0$, and if we take only the second term (i.e., the term linear in $\Delta x$) we can approximate the function as:
+
+$$
+f_i(x^\star + \Delta x) \approx \sum_k \left. J_{ik} \right|_{x^\star} \Delta x_k
+$$
+
+Where we have defined the *Jacobian* matrix $J$:
+
+$$
+J_{ij} = \dfrac{\partial f_i(x)}{\partial x_j}
+$$
+For each equilibrium in the system, we can obtain a different *community matrix* (the name is due to Levins) $M$:
+
+$$
+M = \left. J \right|_{x^\star}
+$$
+
+As such, a system of ODEs has a *single* Jacobian, and as many community matrices as there are equilibria. As before, we assume that we have slightly perturbed the system at equilibrium, $x(t) = x^\star + \Delta x$, where $\Delta x$ is assumed to be small, and then we approximate the dynamics:
+
+$$
+\dfrac{d\Delta x}{dt} \approx \left. J \right|_{x^\star} \Delta x
+$$
+
+i.e., we need to solve a linear system of ODEs.
+
+::: {.callout-note collapse="true"}
+## Solving systems of linear ODEs
+
+Consider the system of first-order, autnonomous ODEs:
+
+$$
+\dfrac{dx}{dt} = Ax
+$$
+
+If the matrix $A$ is diagonalizable, we can decompose the matrix as:
+
+$$
+A = Q \Lambda Q^{-1}
+$$
+
+We define a new system of equations, by changing the variables:
+
+$$
+y = Q^{-1}x\quad x = Q y
+$$
+
+Then, by chain rule:
+
+$$
+\dfrac{dy}{dt} = Q^{-1} \dfrac{d x}{dt} = Q^{-1}Q \Lambda Q^{-1} x= \Lambda Q^{-1} x = \Lambda y
+$$
+
+We have decoupled all equations: now the $y_i$ grow or decline independently of each other. 
+
+$$
+\dfrac{dy_i}{dt} = \lambda_i y_i
+$$
+
+This is in fact the equation for the exponential growth/decay, with solution $y_i(t) = y(0) e^{\lambda_i t}$. 
+
+We can bring these solutions back to the original form:
+
+$$
+y(t) = e^{\Lambda t} y(0)
+$$
+
+where $e^\Lambda t$ is a diagonal matrix:
+
+$$
+e^{\Lambda t}= \begin{pmatrix}
+e^{\lambda_1 t} & 0 & \cdots &0\\
+0 & e^{\lambda_2 t} & \cdots &0\\
+\cdots & \cdots & \cdots & \cdots\\
+0 & 0 & \cdots & e^{\lambda_n t}\\
+\end{pmatrix}
+$$
+
+Then:
+
+$$
+x(t) = Q y(t) = Q e^{\Lambda t} y(0) = Q e^{\Lambda t} Q^{-1} x(0)
+$$
+
+Allowing to easily compute the solution for any linear systems of ODEs.
+
+**Stability of the origin**
+
+Suppose that $\lambda_i$ is a real, negative number; then $\lim_{t \to \infty}e^{\lambda_i t} = 0$. If $\lambda_i$ is positive, on the other hand, then $\lim_{t \to \infty}e^{\lambda_i t} = \infty$. Thus, if any of the $\lambda_i > 0$, the system will move to $\infty$ in the direction specified by the corresponding eigenvector.
+
+Whenever $\lambda_i$ is complex (e.g., generically, when $A$ is not symmetric), then we need to consider:
+
+$$
+e^{\alpha t + i \beta t} = e^{\alpha t} e^{i \beta t} = e^{\alpha t} (\cos \beta + i \sin \beta )t
+$$
+
+where we have used Euler's formula. Importantly, $(\cos \beta + i \sin \beta )$ is bounded, and in fact its real (imaginary) part is $\leq 1$ (the equation describes a unit circle in the complex plane). Then, $\lim_{t \to \infty} e^{\alpha t + i \beta t} = 0$ if $\alpha < 0$.
+
+Therefore, the vector $0_n$ is an asymptotically stable equilibrium of the system $\dfrac{dx}{dt} = A x$ if and only if *all* the eigenvalues of $A$ have negative real part.
+
+**Stability of the origin for $A_{2 \times 2}$**
+
+As we have shown above, the eigenvalues of a $2\times2$ matrix $A$:
+
+$$
+A = \begin{pmatrix}
+a & b\\
+c & d
+\end{pmatrix}
+$$
+
+are:
+
+$$
+\lambda = \dfrac{a + d \pm \sqrt{4bc + (a-d)^2}}{2}
+$$
+
+We can rewrite the values as:
+
+$$
+\lambda = \dfrac{1}{2} \left(\text{Tr}A \pm\sqrt{\left(\text{Tr}A \right)^2 - 4 \det A} \right)
+$$
+
+If the trace is negative, and the determinant positive, then the eigenvalues have negative real part, and thus the origin is stable for the corresponding system  of linear ODEs. In fact, knowing the trace and the determinant is in this case sufficient to determine the type of dynamics around equilibrium:
+
+![Characterizing dynamics using trace and determinant](https://upload.wikimedia.org/wikipedia/commons/3/3b/Stability_Diagram.png){width=600}
+:::
+
+To probe the local asymptotic stability of the equilibria, we can:
+
+- Calculate the Jacobian matrix, $J$
+- Plug in an equilibrium, obtaining the corresponding community matrix $M$
+- Compute the eigenvalues of $M$, $\lambda_i$
+- If *all* the eigenvalues have negative real part, $\Re (\lambda_i) < 0$, then the equilibrium is locally asymptotically stable; if *any* $\Re (\lambda_i) > 0$, then the equilibrium is unstable, and there are small perturbations that will amplify
+
+For the GLV system with equilibrium $x^\star = -A^{-1}r > 0_n$, we have:
+
+$$
+J_{ii} = \dfrac{\partial (r_i x_i + \sum_j A_{ij} x_i x_j)}{\partial x_i}  = r_i + \sum_j A_{ij} x_j + A_{ii} x_i
+$$
+
+At equilibrium, we have:
+
+$$
+r_i + \sum_j A_{ij} x_j^\star = 0
+$$
+
+and therefore 
+
+$$
+M_{ii} = \left. J_{ii} \right|_{x^\star} = A_{ii} x_i^\star
+$$
+
+Similarly,
+
+$$
+J_{ii} = \dfrac{\partial (r_i x_i + \sum_j A_{ij} x_i x_j)}{\partial x_j}  = A_{ij} x_i
+$$
+
+and thus 
+
+$$
+M_{ij} = \left. J_{ij} \right|_{x^\star} = A_{ij} x_i^\star
+$$
+
+Putting them together, we obtain:
+
+$$
+M = \left. J \right|_{x^\star} = D(x^\star)A
+$$
+
+and thus the equilibrium is l.a.s. if and only if all of the eigenvalues of $D(x^\star)A$ have negative real part.
+
+If the matrix $A$ is symmetric, any feasible equilibrium is stable if and only if the eigenvalues of $A$ are all negative (i.e., $A$ is negative definite). To prove this, take $A = A^T$ and consider the similarity transformation
+
+$$
+\begin{aligned}
+D(x^\star)^{-\frac{1}{2}} D(x^\star) A D(x^\star)^{\frac{1}{2}}\\
+D(x^\star)^{\frac{1}{2}}  A D(x^\star)^{\frac{1}{2}}\\
+\end{aligned}
+$$
+The matrices $D(x^\star) A$ and $D(x^\star)^{\frac{1}{2}} A D(x^\star)^{\frac{1}{2}}$ are *similar*, and thus have the same eigenvalues; the matrices $A$ and $D(x^\star)^{\frac{1}{2}} A D(x^\star)^{\frac{1}{2}}$ are *congruent*, and thus have the same number of positive, negative and zero eigenvalues by Sylvester's law of inertia.
+
+Note that this is generally not the case for nonsymmetric matrices $A$, in which case we could have that $A$ has all eigenvalues with a negative real part, while $D(x^\star)A$ has some eigenvalues with positive real part (or viceversa). For example, take 
+
+$$
+A = \begin{pmatrix}
+-3 & 4 & 0\\
+5 & -2 & -2\\
+5 & 5 & -3
+\end{pmatrix} \quad \lambda(A) = \{-7,\frac{1}{2}(-1 \pm \sqrt{15}) \}
+$$
+and the equilibrium $x^\star = (1,1,1/2)^T$ (obtained for $r = (-1, -2, -17/2)$); we obtain:
+
+$$
+M = D(x^\star)A = \begin{pmatrix}
+-3 & 4 & 0\\
+5 & -2 & -2\\
+\frac{5}{2} & \frac{5}{2} & -\frac{3}{2}
+\end{pmatrix} \quad \lambda(B) = \{-7,\frac{1}{4}(1 \pm \sqrt{31}) \}
+$$
+Thus, the equilibrium is not locally asymptotically stable.
+
+
+### Global Asymptotic Stability
+
+In certain models, we can show that whenever the population starts at a positive value, it will always reach a certain equilibrium $x^\star$. In this case, we say the equilibrium is globally asymptotically stable.
+
+Because as we said solving differential equations is in general very difficult, and in many cases of interest impossible, we employ a proxy function, called a Lyapunov function.
+
+::: {.callout-note collapse="true"}
+## Lyapunov functions
+
+We want to prove that all trajectories originating at $x(0) > 0$ eventually converge to $x^\star$. If we can find a function $V$ such that:
+
+- $V(x(t)) \geq 0$ for all $x(t) > 0$
+- $V(x(t)) = 0$ if and only if $x(t) = x^\star$
+- $\dfrac{d V(x(t))}{dt} \leq 0$ for all $t$ and 
+- $\dfrac{d V(x(t))}{dt} = 0$ if and only if $x(t) = x^\star$
+
+then $x^\star$ is globally asymptotically stable: all trajectories starting at a positive point will converge to it.
+
+The logic of this procedure is to identify a suitable function $V$ that is positive everywhere but at the equilibrium, and is constantly declining in time; then necessarily the function will eventually reach zero, which is attained only at equilibrium. 
+
+**Example**
+
+$V(x(t)) = (x(t) - x^\star)^2$ is a Lyapunov function that can be used to prove that the logistic growth model $dx/dt = x(1-x)$ has an equilibrium $x^\star = 1$ that is globally asymptotically stable.
+
+- $V(x(t))$ is always nonnegative, and is zero only at $x(t) = x^\star = 1$
+- The derivative of $V(x(t))$ w.r.t. time is:
+
+$$
+\begin{aligned}
+\dfrac{dV(t)}{dt} &= \dfrac{dV(t)}{dx(t)}\dfrac{dx(t)}{dt}\\
+&= 2(x(t) - x^\star)\dfrac{dx(t)}{dt}\\
+&=-2(x(t)-1) x(t)(x(t)-1)\\
+&=-2 x(t) (x(t)-1)^2 \leq 0
+\end{aligned}
+$$
+:::
+
+There are two classic Lyapunov functions for Lotka-Volterra models. The first is due to MacArthur, and shows that, when interactions are symmetric and the matrix of interactions is negative definite (i.e., has only negative eigenvalues), a certain quantity is minimized through dynamics.
+
+
+
+## Global stability and saturated equilibria
+
+
+
+## Classic papers
+
+A brief paper discussing how to build models in biology:
+
+- Richard Levins, 1966. [*The strategy of model building in population biology*](https://www.jstor.org/stable/27836590). American Scientist 54:421-431
+
+The Lotka-Volterra predator-prey model was discovered independently by Alfred J. Lotka and Vito Volterra:
+
+- Alfred J. Lotka, 1920. [*Analytical Note on Certain Rhythmic Relations in Organic Systems*](https://www.pnas.org/doi/10.1073/pnas.6.7.410). PNAS 6 (7) 410-415
+
+- Vito Volterra, 1926. [*Fluctuations in the Abundance of a Species Considered Mathematically*](https://www.nature.com/articles/118558a0). Nature 118:558-60
+
+You can read their exchange [here](https://www.nature.com/articles/119012b0).
+
+The constant of motion was derived by Lotka in 1920:
+
+- Alfred J. Lotka, 1920. [*Undamped oscillations derived from the law of mass action*](https://pubs.acs.org/doi/pdf/10.1021/ja01453a010). Journal of the American Chemical Society 42:1595-1599
+
+Volterra considered many variations, including the competition between species. His results caught the eye of an experimentalist, who validated the principle of competitive exclusion using protozoans:
+
+- G.F. Gause, 1934. [Experimental Analysis of Vito Volterra's Mathematical Theory of the Struggle for Existence](https://www.science.org/doi/10.1126/science.79.2036.16.b). Science 79:16-17
+
+The analysis of two-species competitive Lotka-Volterra inspired the so-called Modern Coexistence Theory:
+
+- Chesson, P. 2000. [Mechanisms of Maintenance of Species Diversity](https://www.annualreviews.org/doi/abs/10.1146/annurev.ecolsys.31.1.343). Annual Review of Ecology and Systematics 31:343-366

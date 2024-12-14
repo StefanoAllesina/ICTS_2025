@@ -1,0 +1,59 @@
+---
+title: "About"
+---
+
+These lecture notes were prepared by Stefano Allesina (`sallesina@uchicago.edu`) for the ICTP-ICTS Winter School on Quantitative Systems Biology, held at NCBS, Bengaluru, India. 
+
+Call-out sections contain special material:
+
+::: {.callout-note collapse="fales"}
+## Mathematical review
+
+This type of call-out contains brief reviews of important mathematical concepts.
+:::
+
+::: {.callout-tip collapse="false"}
+## Computing in `R`
+
+This type of call-out contains information about coding dynamical systems in `R`.
+:::
+
+
+### Resources
+
+These are good introductions to theoretical ecology:
+
+- Case, [*An Illustrated Guide to Theoretical Ecology*](https://global.oup.com/ushe/product/an-illustrated-guide-to-theoretical-ecology-9780195085129?cc=us&lang=en&), 1999
+
+- May and McLean, [*Theoretical Ecology: Principles and Applications*](https://academic.oup.com/book/42041), 2007
+
+- Gotelli, [*A primer of ecology*](https://global.oup.com/academic/product/a-primer-of-ecology-9780878933181?cc=us&lang=en&), 2008
+
+- Hofbauer and Sigmund [*Evolutionary Games and Population Dynamics*](https://www.cambridge.org/core/books/evolutionary-games-and-population-dynamics/A8D94EBE6A16837E7CB3CED24E1948F8), 1998
+
+### Mathematical background
+
+Following the material requires basic notions in calculus, linear algebra and dynamical systems. Students should be familiar with:
+
+- Functions, exponential function, logarithm
+- Limits
+- Derivatives and chain rule
+- Integration of functions in one and several variables
+- Taylor series
+- Vectors, dot product, cross product
+- Matrix product, transpose, determinant, eigenvalue decomposition
+- Positive and negative definiteness of a matrix
+
+These are good websites offering a brief review of these materials, and cheat sheets reporting the main formulas:
+
+- [Paul's Online Notes](https://tutorial.math.lamar.edu/) covering calculus I, II and III as well as dynamical systems; the cheat sheets are excellent.
+
+- The legendary Linear Algebra class by [Gilbert Strang](https://www.youtube.com/watch?v=7UJ4CFRGd-U&list=PLE7DDD91010BC51F8), who has written popular books on the subject, and taught legions of students at MIT.
+
+- Ziko Kolter has published a brief [review of linear algebra](https://cs229.stanford.edu/section/cs229-linalg.pdf) concepts.
+
+- Linear algebra [in four pages](https://minireference.com/static/tutorials/linear_algebra_in_4_pages.pdf) by  Ivan Savov.
+
+- Linear algebra [visualized](https://www.3blue1brown.com/topics/linear-algebra) by 3Blue1Brown.
+
+- Steve Brunton's (U. Washington) YouTube channel contains extremely well-done lectures on dynamical systems; for example, here are reviews of [derivatives](https://www.youtube.com/watch?v=-NhgElcA3K8), [Taylor series](https://www.youtube.com/watch?v=ebfOSDj4j3I), [simulating the logistic map](https://www.youtube.com/watch?v=_BvAkyuWhOI), [integrating ODEs in a computer](https://www.youtube.com/watch?v=W-wxKgjBDnc).

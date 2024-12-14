@@ -1,0 +1,34 @@
+# ICTS QSB 2025
+
+We have four lectures, plus some tutorials. We are going to concentrate on the Generalized Lotka-Volterra model---which turns 100 years old in 2026.
+
+- Lecture 1. The Generalized Lotka-Volterra model for $n$ interacting populations.
+- Lecture 2. GLV with random parameters.
+- Lecture 3. GLV to model experimental data.
+- Lecture 4. GLV and metapopulation dynamics.
+
+## Computing
+
+The [GitHub repository](https://github.com/StefanoAllesina/XXX) associated with the lecture notes contains the code used to generate the lecture notes, including all the figures and simulations. Crucially, the code depends on the following `R` packages:
+
+```{r}
+#| warning: false
+#| message: false
+library(tidyverse) # plotting, data organization
+library(deSolve) # integrate differential equations
+```
+
+## Notation
+
+- We write $x(t)$ for the **density** of population $x$ at time $t$. In many cases, we will write simply $x$, as the dependency on time is always assumed. For discrete-time models, we write $x_t$ instead. Typically, $x(t)$ is measured in either $[\text{mass}]/[\text{area/volume}]$ or $[\text{number of individuals}]/[\text{area/volume}]$
+
+- The density of a population typically changes in time, and the change is modulated by several parameters. Unless specified, we use **Greek letters for scalars**, **lower-case Latin letters for vectors**, and **upper-case Latin letters for matrices**. 
+
+- Other useful notation: 
+  - $i$ is the imaginary unit, such that $i^2 = -1$
+  - $0_n$ is a vector of zeros of lenght $n$
+  - $1_n$ is a vector of ones of lenght $n$
+  - $I$ is the identity matrix (i.e., a matrix with $1_n$ on the diagonal, and zeros elsewhere)
+  - $D(a)$ is a diagonal matrix with vector $a$ on the diagonal
+  - $\circ$ is the Hadamard (element by element) product (i.e., $a \circ b = c$ with $c_i = a_i b_i$, the same holds for matrices)
+  - $\dfrac{d x(t)}{dt}$ is sometimes written as $\dfrac{d x}{dt}$ or $\dot{x}$

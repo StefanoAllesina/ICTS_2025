@@ -1,0 +1,45 @@
+# GLV and experimental data
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+library(tidyverse)
+library(deSolve)
+```
+
+## Experiments in which different combinations of species are grown together
+
+For this exploration, we are going to consider a popular experiment in which different combinations of species from a pool are co-cultured. In many cases, only the final outcome (i.e., the density of the populations at the end of the experiment) is available/recorded. Typically, the pool of species to experiment with contains only species that can grow in isolation. 
+
+## Example data
+
+
+
+## A simple statistical framework
+
+## Classic papers
+
+One of the first disease models, proposed by Ronald Ross, who won the Nobel prize for his discovery of malaria transmission via mosquitoes:
+
+- Ronald Ross, 1915. [*Some a priori pathometric equations*](https://www.bmj.com/content/1/2830/546). British Medical Journal 1:546
+
+The paper introducing compartmental models (SEIR):
+
+- W. O. Kermack, A. G. McKendrick, 1927. [*Contribution to the mathematical theory of epidemics* (https://www.jstor.org/stable/94815). Proceedings of the Royal Society of London A 115.772: 700–721.
+
+The two foundational papers by Anderson and May:
+
+- Roy M. Anderson and Robert M. May, 1979. [*Population biology of infectious diseases: Part I*](https://www.nature.com/articles/280361a0). Nature 280.5721: 361–367.
+
+- Robert M. May and Roy M. Anderson, 1979. [*Population biology of infectious diseases: Part II*](https://www.nature.com/articles/280455a0). Nature 280.5722: 455–461.
+
+A very interesting perspective on influence of infectious diseases on human history:
+
+- Andrew P. Dobson and E. Robin Carper, 1996. [*Infectious diseases and human population history*](https://www.jstor.org/stable/1312814). BioScience 46.2: 115–126.
+
+Reflections on the relationship between ecology and epidemiology:
+
+- Roy M. Anderson, 1991. [*Populations and Infectious Diseases: Ecology or Epidemiology?*](https://www.jstor.org/stable/5443) Journal of Animal Ecology, 60:1-50 
+
+

@@ -1,0 +1,57 @@
+# GLV with random parameters
+
+```{r}
+#| warning: false
+#| message: false
+#| echo: false
+library(tidyverse) # plotting, data organization
+library(deSolve) # integrate differential equations
+```
+
+
+## Classic papers
+
+The Lotka-Volterra predator-prey model was discovered independently by Alfred J. Lotka and Vito Volterra:
+
+- Alfred J. Lotka, 1920. [*Analytical Note on Certain Rhythmic Relations in Organic Systems*](https://www.pnas.org/doi/10.1073/pnas.6.7.410). PNAS 6 (7) 410-415
+
+- Vito Volterra, 1926. [*Fluctuations in the Abundance of a Species Considered Mathematically*](https://www.nature.com/articles/118558a0). Nature 118:558-60
+
+You can read their exchange [here](https://www.nature.com/articles/119012b0).
+
+The constant of motion was derived by Lotka in 1920:
+
+- Alfred J. Lotka, 1920. [*Undamped oscillations derived from the law of mass action*](https://pubs.acs.org/doi/pdf/10.1021/ja01453a010). Journal of the American Chemical Society 42:1595-1599
+
+Volterra considered many variations, including the competition between species. His results caught the eye of an experimentalist, who validated the principle of competitive exclusion using protozoans:
+
+- G.F. Gause, 1934. [Experimental Analysis of Vito Volterra's Mathematical Theory of the Struggle for Existence](https://www.science.org/doi/10.1126/science.79.2036.16.b). Science 79:16-17
+
+The analysis of two-species competitive Lotka-Volterra inspired the so-called Modern Coexistence Theory:
+
+- Chesson, P. 2000. [Mechanisms of Maintenance of Species Diversity](https://www.annualreviews.org/doi/abs/10.1146/annurev.ecolsys.31.1.343). Annual Review of Ecology and Systematics 31:343-366
+
+On functional responses:
+
+- Crawford S. Holling, 1959. [Some Characteristics of Simple Types of Predation and Parasitism](https://www.cambridge.org/core/journals/canadian-entomologist/article/abs/some-characteristics-of-simple-types-of-predation-and-parasitism1/9E1E7D2CCC314766A424680444F4EA9F). 
+The Canadian Entomologist 91:385-398
+
+The paper proposing the paradox of enrichment:
+
+- Rosenzweig, Michael, 1971. [The Paradox of Enrichment](https://www.jstor.org/stable/1731139?origin=ads&seq=3). Science 171: 385–387
+
+More on limit cycles in predator-prey systems:
+
+- Robert M. May, 1972. [Limit Cycles in Predator-Prey Communities](https://www.jstor.org/stable/1734806?seq=3) Science 177:900-902
+
+- Michael E. Gilpin, 1972. [Enriched Predator-Prey Systems: Theoretical Stability](https://www.science.org/doi/10.1126/science.177.4052.902) Science 177:902-904
+
+The Nicholson-Bailey model:
+
+- A.J. Nicholson, V.A. Bailey, 1935. [The Balance of Animal Populations. Part I](https://zslpublications.onlinelibrary.wiley.com/doi/10.1111/j.1096-3642.1935.tb01680.x). Proceedings of the Zoological Society of London. 105: 551–598
+
+and its spatial version:
+
+- H.N. Comins, M.P. Hassell, R.M. May, 1992. [The Spatial Dynamics of Host--Parasitoid Systems](https://www.jstor.org/stable/5627?seq=4). Journal of Animal Ecology 61:735-748 
+
+

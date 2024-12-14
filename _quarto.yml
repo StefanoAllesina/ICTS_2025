@@ -1,0 +1,27 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "ICTP-ICTS Winter School --- Allesina lecture notes"
+  sidebar:
+    style: "docked"
+    search: true
+    contents:
+          - index.qmd
+          - ch1.qmd
+          - ch2.qmd
+          - ch3.qmd
+          - ch4.qmd
+  navbar:
+    left:
+      - href: index.qmd
+        text: Lecture notes
+      - about.qmd
+
+format:
+  html:
+    theme: materia
+    css: styles.css
+    toc: true
+
