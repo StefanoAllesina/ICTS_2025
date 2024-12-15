@@ -182,6 +182,8 @@ $\mathbb R^n$. Thus, a system without a feasible equilibrium cannot be
 permanent. That is to say, the coexistence of all populations in a GLV
 system requires a feasible equilibrium.
 
+EXAMPLE DYNAMICS EITHER LIMIT CYCLE OR CHAOS
+
 ## Local stability
 
 We want to determine whether an equilibrium point is locally
@@ -196,7 +198,7 @@ the case of a single population:
     $x(0) = x^\star + \epsilon$, where $\epsilon$ (the perturbation) is
     taken to be sufficiently small $\| \epsilon \| \ll 1$
 -   We write $\Delta x(0) = x(0) - x^\star$
--   We derive the dynamics for $\Delta x$:
+-   We derive the dynamics for $\Delta x$.
 
 By chain rule,
 
@@ -442,7 +444,7 @@ To probe the local asymptotic stability of the equilibria, we can:
     $\Re (\lambda_i) < 0$, then the equilibrium is locally
     asymptotically stable; if *any* $\Re (\lambda_i) > 0$, then the
     equilibrium is unstable, and there are small perturbations that will
-    amplify
+    amplify (at least initially)
 
 For the GLV system with equilibrium $x^\star = -A^{-1}r > 0_n$, we have:
 
@@ -493,7 +495,9 @@ $$
 D(x^\star)^{-\frac{1}{2}} D(x^\star) A D(x^\star)^{\frac{1}{2}}\\
 D(x^\star)^{\frac{1}{2}}  A D(x^\star)^{\frac{1}{2}}\\
 \end{aligned}
-$$ The matrices $D(x^\star) A$ and
+$$
+
+The matrices $D(x^\star) A$ and
 $D(x^\star)^{\frac{1}{2}} A D(x^\star)^{\frac{1}{2}}$ are *similar*, and
 thus have the same eigenvalues; the matrices $A$ and
 $D(x^\star)^{\frac{1}{2}} A D(x^\star)^{\frac{1}{2}}$ are *congruent*,
@@ -517,7 +521,9 @@ A = \begin{pmatrix}
 5 & -2 & -2\\
 5 & 5 & -3
 \end{pmatrix} \quad \lambda(A) = \{-7,\frac{1}{2}(-1 \pm \sqrt{15}) \}
-$$ and the equilibrium $x^\star = (1,1,1/2)^T$ (obtained for
+$$
+
+and the equilibrium $x^\star = (1,1,1/2)^T$ (obtained for
 $r = (-1, -2, -17/2)$); we obtain:
 
 $$
@@ -526,7 +532,9 @@ M = D(x^\star)A = \begin{pmatrix}
 5 & -2 & -2\\
 \frac{5}{2} & \frac{5}{2} & -\frac{3}{2}
 \end{pmatrix} \quad \lambda(B) = \{-7,\frac{1}{4}(1 \pm \sqrt{31}) \}
-$$ Thus, the equilibrium is not locally asymptotically stable.
+$$
+
+Thus, the equilibrium is not locally asymptotically stable.
 
 ### Global Asymptotic Stability
 
@@ -578,20 +586,23 @@ $$
 $$
 :::
 
-There are two classic Lyapunov functions for Lotka-Volterra models. The
-first is due to MacArthur, and shows that, when interactions are
-symmetric and the matrix of interactions is negative definite (i.e., has
-only negative eigenvalues), a certain quantity is minimized through
-dynamics.
+There are two classic candidate Lyapunov functions for Lotka-Volterra
+models. The first is due to MacArthur, and shows that, when interactions
+are symmetric and the matrix of interactions is negative definite (i.e.,
+has only negative eigenvalues), the feasible equilibrium is globally
+stable.
 
-A slightly modified version of MacArthur's function considers $A = A^T$,
-and the function:
+We consider a slightly modified version of MacArthur's function, and
+assume $A = A^T$:
 
 $$
 W(x) = r^Tx^\star - (2 r^T x + x^T A x) 
 $$
 
-Whenever $A$ is negative definite, then $V(x(t))$ is positive everywhere but at equilibrium (the function is convex), and has a single minimum at the equilibrium. Note that, whenever $x^\star > 0_n$ is an equilibrium, then
+Whenever $A$ is negative definite, then $W(x(t))$ is positive everywhere
+but at equilibrium (the function is convex), and has a single minimum at
+the equilibrium. Note that, whenever $x^\star > 0_n$ is an equilibrium,
+then
 
 $$
 \begin{aligned}
@@ -622,6 +633,55 @@ $$
 &=-2 \sum_i x_i (r_i + (Ax)_i)^2 \leq 0
 \end{aligned}
 $$
+
+A more general candidate Lyapunov function is due to Goh, and shows
+that, whenever there exists a positive diagonal matrix $D(w)$ such that
+$D(w)A^T + AD(w)$ is negative definite, then the equilibrium
+$x^\star > 0_n$ is globally stable.
+
+We start with the simplest case in which $w = 1_n$ and thus $D(w) = I$.
+Take the function
+
+$$
+V(x(t)) = \sum_i \left(x_i - x_i^\star - x_i^\star \log \frac{x_i}{x_i^\star} \right)
+$$
+
+The function is positive for every $x \in \mathbb R^n_+$, because
+$z - 1 - \log z \geq 0$ whenever $z > 0$; take $z = x_i / x_i^\star$ and
+then multiply by $x_i^\star$ to prove that the function is nonnegative.
+
+Differentiating with respect to time, we find:
+
+$$
+\begin{aligned}
+\dot{V}(x(t)) &= \sum_i \left(\dot{x}_i - x_i^\star \frac{\dot{x}_i}{x_i^\star} \right)\\
+&= \sum_i \left(x_i (r_i + (Ax)_i) - x_i^\star (r_i + (Ax)_i)\right)\\
+&=\sum_i \Delta x_i (-(Ax^\star)_i + (Ax)_i )\\
+&=\sum_{i,j}\Delta x_i A_{ij} \Delta x_j\\
+&=\Delta x^T A \Delta x\\
+&=\frac{1}{2}\Delta x^T (A + A^T)\Delta x\\ 
+\end{aligned}
+$$
+
+Thus, if the symmetric part of $A$, $H(A) = \frac{1}{2} (A + A^T)$ is
+negative definite, then $\dot{V}(x(t))<0$ for every $\Delta x \neq 0$
+and the equilibrium is stable.
+
+To extend the reach of the candidate function, consider the change of
+variables:
+
+$$
+z_i = x_i / w_i \quad x_i = w_i z_i
+$$
+
+with $w_i>0$. Then,
+
+$$
+\dot{z_i} = \frac{\dot{x}_i}{w_i} = \frac{x_i}{w_i}(r_i + (Ax)_i) = z_i(r_i + (AD(w)z)_i)=z_i(r_i + (\tilde{A}z)_i)
+$$
+
+Thus, if $H(\tilde{A}) = \frac{1}{2} (AD(w) + D(w)A^T)$ is negative
+definite, the equilibrium is stable.
 
 ## Global stability and saturated equilibria
 
