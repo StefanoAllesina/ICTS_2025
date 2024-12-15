@@ -18,6 +18,12 @@ For this exploration, we are going to consider a popular experiment in which dif
 
 ## A simple statistical framework
 
+## The structure of equilibria in GLV
+
+## SSQ, WLS, likelihoods
+
+
+
 ## Classic papers
 
 One of the first disease models, proposed by Ronald Ross, who won the Nobel prize for his discovery of malaria transmission via mosquitoes:

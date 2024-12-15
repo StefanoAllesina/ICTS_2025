@@ -8,6 +8,24 @@ library(tidyverse) # plotting, data organization
 library(deSolve) # integrate differential equations
 ```
 
+## All species growing logistically
+
+## The random zoo
+
+## Random zoo and experimental data
+
+## Competitive GLV
+
+## The average interaction strength does not influence feasibility
+
+## Models with random interactions
+
+## Approximating feasibility
+
+## A more accurate approximation of feasibility
+
+## Only equilibria
+
 
 ## Classic papers
 
