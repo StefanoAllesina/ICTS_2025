@@ -9,7 +9,7 @@ We have four lectures, plus some tutorials. We are going to concentrate on the G
 
 ## Computing
 
-The [GitHub repository](https://github.com/StefanoAllesina/XXX) associated with the lecture notes contains the code used to generate the lecture notes, including all the figures and simulations. Crucially, the code depends on the following `R` packages:
+The [GitHub repository](https://github.com/StefanoAllesina/ICTS_2025) associated with the lecture notes contains the code used to generate the lecture notes, including all the figures and simulations. Crucially, the code depends on the following `R` packages:
 
 ```{r}
 #| warning: false
@@ -30,5 +30,6 @@ library(deSolve) # integrate differential equations
   - $1_n$ is a vector of ones of lenght $n$
   - $I$ is the identity matrix (i.e., a matrix with $1_n$ on the diagonal, and zeros elsewhere)
   - $D(a)$ is a diagonal matrix with vector $a$ on the diagonal
+  - $H(A)$ is the symmetric part of matrix $A$: $H(A) = \frac{1}{2} (A + A^T)$
   - $\circ$ is the Hadamard (element by element) product (i.e., $a \circ b = c$ with $c_i = a_i b_i$, the same holds for matrices)
   - $\dfrac{d x(t)}{dt}$ is sometimes written as $\dfrac{d x}{dt}$ or $\dot{x}$

@@ -163,7 +163,10 @@ ul.task-list li input[type="checkbox"] {
   <ul>
   <li><a href="#the-generalized-lotka-volterra-model" id="toc-the-generalized-lotka-volterra-model" class="nav-link active" data-scroll-target="#the-generalized-lotka-volterra-model">The Generalized Lotka-Volterra model</a>
   <ul class="collapse">
-  <li><a href="#history" id="toc-history" class="nav-link" data-scroll-target="#history">History</a></li>
+  <li><a href="#history" id="toc-history" class="nav-link" data-scroll-target="#history">History</a>
+  <ul class="collapse">
+  <li><a href="#lotka-volterra-interactions" id="toc-lotka-volterra-interactions" class="nav-link" data-scroll-target="#lotka-volterra-interactions">Lotka-Volterra interactions</a></li>
+  </ul></li>
   <li><a href="#equations" id="toc-equations" class="nav-link" data-scroll-target="#equations">Equations</a></li>
   <li><a href="#equilibria" id="toc-equilibria" class="nav-link" data-scroll-target="#equilibria">Equilibria</a></li>
   <li><a href="#types-of-dynamics" id="toc-types-of-dynamics" class="nav-link" data-scroll-target="#types-of-dynamics">Types of dynamics</a></li>
@@ -171,7 +174,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#local-stability" id="toc-local-stability" class="nav-link" data-scroll-target="#local-stability">Local stability</a></li>
   <li><a href="#global-asymptotic-stability" id="toc-global-asymptotic-stability" class="nav-link" data-scroll-target="#global-asymptotic-stability">Global Asymptotic Stability</a></li>
   <li><a href="#global-stability-and-saturated-equilibria" id="toc-global-stability-and-saturated-equilibria" class="nav-link" data-scroll-target="#global-stability-and-saturated-equilibria">Global stability and saturated equilibria</a></li>
-  <li><a href="#classic-papers" id="toc-classic-papers" class="nav-link" data-scroll-target="#classic-papers">Classic papers</a></li>
+  <li><a href="#classic-papers-references-and-further-readings" id="toc-classic-papers-references-and-further-readings" class="nav-link" data-scroll-target="#classic-papers-references-and-further-readings">Classic papers, references and further readings</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -185,6 +188,27 @@ ul.task-list li input[type="checkbox"] {
 <h1>The Generalized Lotka-Volterra model</h1>
 <section id="history" class="level2">
 <h2 class="anchored" data-anchor-id="history">History</h2>
+<div class="quarto-figure quarto-figure-left">
+<figure class="figure">
+<p><img src="images/Lotka.jpg" class="img-fluid figure-img" style="width:20.0%" alt="Alfred J. Lotka"></p>
+</figure>
+</div>
+<p>Alfred J. Lotka (1880-1949) was born to French-speaking American parents in Lemberg (then part of the Habsburg empire, now Lviv, Ukraine). He studied in France, Germany and England, receiving a BSc in 1901 and a DSc in 1912 from Birmingham university. He moved to the US in 1902, and worked at the US Patent office, as an editor of Scientific American, and as a statistician at the Metropolitan Life Insturance Company in NYC. He wrote more than a hundred papers and five books, spanning a large range of topics. He’s best known for the book <em>Elements of Physical Biology</em>, his contributions to demography, and one of the first studies dealing with bibliometrics.</p>
+<p>Starting in 1910he investigated coupled differential equations relating to chemical as well as ecological dynamics. In 1920 he studied a system of two ODEs that gave rise to perpetual oscillations: <em>“It was, therefore, with considerable surprise that the writer, on applying his method to certain special cases, found these to lead to undamped, and hence indefinitely continued, oscillations.”</em> He went on to describe <em>“1. A species of organism <span class="math inline">\(S_1\)</span>, a plant species, say, deriving its nourishment from a source presented in such large excess that the mass of the source may be considered constant during the period of time with which we are concerned. 2. A species <span class="math inline">\(S_2\)</span>, for example a herbivorous animal species, feeding on <span class="math inline">\(S_1\)</span>.”</em></p>
+<p>The equations he had derived (and then studied later in more detail) are now termed Lotka-Volterra equations.</p>
+<div class="quarto-figure quarto-figure-left">
+<figure class="figure">
+<p><img src="images/Volterra.jpg" class="img-fluid figure-img" style="width:20.0%" alt="Vito Volterra"></p>
+</figure>
+</div>
+<p>Vito Volterra (1860-1940) was born in Ancona (then part of the Papal State) in a poor Jewish family. The financial situation precipitated with the death of his father, when Vito was two. Vito and his mother went to live with relatives in Turin and then Florence. Volterra showed amazing mathematical talent at a very young age. Antonio Roiti, professor of physics in Florence, noticed the budding mathematician and hired him as his assistant, so that he could continue his studies. He went on to enroll at the Scuola Normale in Pisa, receiving a degree in Physics in 1882. At age 23 he was made full professor of Rational Mechanics in Pisa, and then in 1900 of Mathematical Physics in Rome. For thirty years, he contributed important studies in mathematics, and enriched academic life in Italy (for example, he was the first director of the National Center for Research). In 1931 he refused to take an oath of loyalty to the fascist regime (only 12 professors out of 1250 refused), and was therefore forced to resign (his take on the fascist enterprise: <em>“Empires die, but Euclid’s theorems keep their youth forever”</em>).</p>
+<p>His interest in mathematical ecology is due to Umberto D’Ancona (his son-in-law), who had studied the trends in fisheries in the Adriatic sea before and immediately after WWI. In 1914-1918 fisheries in the Adriatic had stopped completely because of the conflict. D’Ancona had noticed that, while herbivorous fish had remained about constant, the piscivorous fish had increased dramatically in numbers. The problem piqued Volterra who immediately published a sophisticated study, proposing the same equations studied by Lotka. In a short letter to Nature 1926, he stated the so-called “Volterra’s Effect” (which he termed “Law III”): <em>“a complete closure of the fishery was a form of ‘protection’ under which the voracious fishes were much the better and prospered accordingly, but the ordinary food-fishes, on which these are accustomed to prey, were worse off than before.”</em> This brief paper was a summary of the much extensive paper published in Italian.</p>
+<section id="lotka-volterra-interactions" class="level3">
+<h3 class="anchored" data-anchor-id="lotka-volterra-interactions">Lotka-Volterra interactions</h3>
+<p>In 1927, Lotka wrote to Nature to raise the issue that the equations studied by Volterra and the figures presented in Volterra’s brief article were identical to those found in <em>Elements of Physical Biology</em> (published in 1925). He concluded: <em>“It would be gratifying if Prof.&nbsp;Volterra’s publication should direct attention to a field and method of inquiry which apparently has hitherto passed almost unnoticed.”</em></p>
+<p>Volterra graciously conceded <em>“I recognize his priority, and am sorry not to have known his work, and therefore not have been able to mention it.”</em> He however listed a few points in which the two authors had pursued different directions, and concluded <em>“Working independently the one from the other, we have found some common results, and this confirms the exactitude and the interest in the position of the problem. I agree with him in his conclusions that these studies and these methods of research deserve to receive greated attention from scholars, and should give rise to important applications.”</em></p>
+<p><img src="images/funzionemondo.png" class="img-fluid"> <em>Vito Volterra and Umberto D’Ancona explore the Lotka-Volterra model. Taken from the fantastic </em>La funzione del mondo<em>, a graphic novel on Volterra by Bilotta and Grillotti.</em></p>
+</section>
 </section>
 <section id="equations" class="level2">
 <h2 class="anchored" data-anchor-id="equations">Equations</h2>
@@ -222,14 +246,63 @@ x^\star &amp;= -B^{-1} 1_n
 \end{aligned}
 \]</span></p>
 <p>when the matrix <span class="math inline">\(B\)</span> is invertible. Naturally, the equilibrium must be positive (called <em>feasible</em>) to be biologically attainable.</p>
-<p>EXAMPLE MATRIX WITH GLOBALLY STABLE EQUIL (OR LIMIT CYCLE?)</p>
-<p>If the matrix <span class="math inline">\(B\)</span> is rank-deficient (and thus singular) there are infinitely many equilibria; for example, if the rank of <span class="math inline">\(B\)</span> is <span class="math inline">\(n-1\)</span> there are infinitely many equilibria belonging to a line in <span class="math inline">\(\mathbb R^n\)</span>.</p>
+<p>For example, consider:</p>
+<p><span class="math display">\[
+A = \begin{pmatrix}
+-4 &amp; -1 &amp; -3\\
+-14 &amp; -8 &amp; -10\\
+-6 &amp; -15 &amp; -13
+\end{pmatrix} \quad r = \begin{pmatrix}
+8\\
+32\\
+34
+\end{pmatrix}\quad B = D(r)^{-1}A = \begin{pmatrix}
+-\frac{1}{2} &amp; -\frac{1}{8} &amp; -\frac{3}{8}\\
+-\frac{7}{16} &amp; -\frac{1}{4} &amp; -\frac{5}{16}\\
+-\frac{3}{17} &amp; -\frac{15}{34} &amp; -\frac{13}{34}
+\end{pmatrix}
+\]</span> There is an equilibrium when at which all populations are present:</p>
+<p><span class="math display">\[
+x^\star = -A^{-1} r = -B^{-1}1_n = \begin{pmatrix}
+1\\
+1\\
+1
+\end{pmatrix}
+\]</span> If the matrix <span class="math inline">\(B\)</span> is rank-deficient (and thus singular) there are infinitely many equilibria; for example, if the rank of <span class="math inline">\(B\)</span> is <span class="math inline">\(n-1\)</span> there are infinitely many equilibria belonging to a line in <span class="math inline">\(\mathbb R^n\)</span>.</p>
 <p>When <span class="math inline">\(B\)</span> is nonsingular, the model admits at most one positive equilibrium in which all populations are present. However, there can be up to <span class="math inline">\(2^n-1\)</span> equilibria in which one or more populations are absent/extinct. Call <span class="math inline">\(B^{(k,k)}\)</span> the submatrix of <span class="math inline">\(B\)</span> obtained by retaining the rows and columns indexed by the set <span class="math inline">\(k\)</span>. Then by solving</p>
 <p><span class="math display">\[
 B^{(k,k)} x^{(k)\star} = -1^{(k)}
 \]</span></p>
 <p>we obtain an equilibrium for the subcommunity where only the populations in <span class="math inline">\(k\)</span> are present (provided that the equilibrium is feasibile).</p>
-<p>EXAMPLE ABOVE</p>
+<p>For the example above, we have:</p>
+<p><span class="math display">\[
+B^{(\{1,2\},\{1,2\})} = \begin{pmatrix}
+-\frac{1}{2}&amp; -\frac{1}{8}\\
+-\frac{7}{16} &amp; -\frac{1}{4}
+\end{pmatrix}
+\]</span></p>
+<p>and</p>
+<p><span class="math display">\[
+x^{(\{1,2\})\star} = -(B^{(\{1,2\},\{1,2\})})^{-1}1_2=\begin{pmatrix}
+\frac{16}{9}\\
+\frac{8}{9}
+\end{pmatrix}
+\]</span></p>
+<p>Therefore, the subsystem in which only the first two populations are present has a feasible equilibrium.</p>
+<p>Similarly,</p>
+<p><span class="math display">\[
+x^{(\{1,3\})\star} = \begin{pmatrix}
+\frac{1}{17}\\
+\frac{44}{17}
+\end{pmatrix} \quad x^{(\{1\})\star} = \begin{pmatrix}
+2\\
+\end{pmatrix} \quad x^{(\{2\})\star} = \begin{pmatrix}
+4\\
+\end{pmatrix} \quad x^{(\{3\})\star} = \begin{pmatrix}
+\frac{34}{13}\\
+\end{pmatrix}
+\]</span></p>
+<p>The subsystem in which only populations 2 and 3 are present does not have a feasible equilibrium.</p>
 </section>
 <section id="types-of-dynamics" class="level2">
 <h2 class="anchored" data-anchor-id="types-of-dynamics">Types of dynamics</h2>
@@ -301,7 +374,6 @@ B^{(k,k)} x^{(k)\star} = -1^{(k)}
 </div>
 </div>
 </div>
-<p>EXAMPLE DYNAMICS EITHER LIMIT CYCLE OR CHAOS</p>
 </section>
 <section id="local-stability" class="level2">
 <h2 class="anchored" data-anchor-id="local-stability">Local stability</h2>
@@ -522,7 +594,7 @@ A = \begin{pmatrix}
 -3 &amp; 4 &amp; 0\\
 5 &amp; -2 &amp; -2\\
 5 &amp; 5 &amp; -3
-\end{pmatrix} \quad \lambda(A) = \{-7,\frac{1}{2}(-1 \pm \sqrt{15}) \}
+\end{pmatrix} \quad \lambda(A) = \{-7,\frac{1}{2}(-1 \pm i \sqrt{15}) \}
 \]</span></p>
 <p>and the equilibrium <span class="math inline">\(x^\star = (1,1,1/2)^T\)</span> (obtained for <span class="math inline">\(r = (-1, -2, -17/2)\)</span>); we obtain:</p>
 <p><span class="math display">\[
@@ -530,14 +602,14 @@ M = D(x^\star)A = \begin{pmatrix}
 -3 &amp; 4 &amp; 0\\
 5 &amp; -2 &amp; -2\\
 \frac{5}{2} &amp; \frac{5}{2} &amp; -\frac{3}{2}
-\end{pmatrix} \quad \lambda(B) = \{-7,\frac{1}{4}(1 \pm \sqrt{31}) \}
+\end{pmatrix} \quad \lambda(B) = \{-7,\frac{1}{4}(1 \pm i\sqrt{31}) \}
 \]</span></p>
 <p>Thus, the equilibrium is not locally asymptotically stable.</p>
 </section>
 <section id="global-asymptotic-stability" class="level2">
 <h2 class="anchored" data-anchor-id="global-asymptotic-stability">Global Asymptotic Stability</h2>
-<p>In certain models, we can show that whenever the populations start at a positive value, they will always reach a certain equilibrium <span class="math inline">\(x^\star\)</span>. In this case, we say the equilibrium is globally asymptotically stable.</p>
-<p>Because, as we said, solving differential equations is in general very difficult, and in many cases of interest impossible, we employ a proxy function, called a Lyapunov function.</p>
+<p>In certain models, we can show that whenever all the populations start at a positive value, they will always reach a certain equilibrium <span class="math inline">\(x^\star\)</span>. In this case, we say the equilibrium is globally asymptotically stable.</p>
+<p>Because solving differential equations is in general very difficult, and in many cases of interest impossible, we employ a proxy function, called a Lyapunov function.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -638,31 +710,67 @@ z_i = x_i / w_i \quad x_i = w_i z_i
 <section id="global-stability-and-saturated-equilibria" class="level2">
 <h2 class="anchored" data-anchor-id="global-stability-and-saturated-equilibria">Global stability and saturated equilibria</h2>
 <p>When Goh’s function holds, we can prove that dynamics starting from positive conditions <span class="math inline">\(x(t)&gt;0_n\)</span> will converge to a <em>saturated equilibrium</em> <span class="math inline">\(\tilde{x}\)</span> characterized by two conditions. We have <span class="math inline">\(n\)</span> populations, and at the saturated equilibrium the populations in set <span class="math inline">\(k\)</span> coexist at a globally stable equilibrium, and the remaining populations, belonging to set <span class="math inline">\(n-k\)</span> are extinct, and cannot re-invade the system starting from low abundance.</p>
-<p>Without loss of generality, we can order the populations such that the set of coexisting populations are labeled <span class="math inline">\(k = \{1, 2, \ldots, \|k\|\}\)</span>, and the remaining species are labeled <span class="math inline">\(\{\|k\|+1, \ldots, n\}\)</span>. We partition the saturated equilibrium, the vector of growth rates and the matrix of interactions accordingly:</p>
+<p>Without loss of generality, we can order the populations such that the first <span class="math inline">\(\|k\|\)</span> populations are those that coexist at the saturated equilibrium, and the remaining <span class="math inline">\(\| n- k\|\)</span> are those extinct at the saturated equilibrium. We partition all variables according to the two sets:</p>
 <p><span class="math display">\[
-\tilde{x} = \begin{pmatrix}
-x^{(k)\star}\\
+x = \begin{pmatrix}
+y\\
+z
+\end{pmatrix} \quad \tilde{x} = \begin{pmatrix}
+y^\star\\
 0_{n-k}
-\end{pmatrix} \quad
-r = \begin{pmatrix}
-r^{(k)}\\
-r^{(n-k)}
 \end{pmatrix} \quad A = \begin{pmatrix}
-A^{(k,k)} &amp; A^{(k,n-k)}\\
-A^{(n-k,k)} &amp; A^{(n-k,n-k)}
+\mathfrak A &amp; \mathfrak B\\
+\mathfrak C &amp; \mathfrak D
+\end{pmatrix}\quad r = \begin{pmatrix}
+\mathfrak r\\
+\mathfrak s
 \end{pmatrix}
 \]</span></p>
-<p>We consider a modification of Goh’s function:</p>
+<p>We consider a minor modification of Goh’s function:</p>
 <p><span class="math display">\[
-V(x) = \sum_{i \in k}\left(x_i - x_i^\star - x_i^\star \log \frac{x_i}{x_i^\star}\right) + \sum_{i \in n-k} x_i
+V(x (t)) = \sum_{i \in k} \left(y_i - y_i^\star - y_i^\star \log \frac{y_i}{y_i^\star} \right) +
+\sum_{i \in n-k} z_i
 \]</span></p>
-<p>The derivative:</p>
+<p>Differentiating with respect to time, we obtain:</p>
 <p><span class="math display">\[
-\dot{V}(x) = \sum_i \left( \right) +
+\begin{aligned}
+\dot{V}(x(t)) &amp;= \sum_{i \in k} \left(\dot{y}_i - y_i^\star \frac{\dot{y}_i}{y_i} \right)+\sum_{i \in n-k} \dot{z}_i\\
+&amp;=\Delta y^T(\mathfrak r + \mathfrak A y + \mathfrak Bz) + z^T(\mathfrak s + \mathfrak C y+ \mathfrak D z)
+\end{aligned}
 \]</span></p>
+<p>Now we substitute <span class="math inline">\(\mathfrak r = -\mathfrak A y^\star\)</span>, and add and subtract <span class="math inline">\(z^T \mathfrak C y^\star\)</span>:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\dot{V}(x(t)) &amp;=\Delta y^T(-\mathfrak A y^\star + \mathfrak A y + \mathfrak Bz) + z^T(\mathfrak s + \mathfrak C y+ \mathfrak D z  + \mathfrak C y^\star - \mathfrak C y^\star)\\
+&amp;=\Delta y^T(\mathfrak A \Delta y + \mathfrak Bz) + z^T(\mathfrak s + \mathfrak C \Delta y+ \mathfrak D z  + \mathfrak C y^\star)
+\end{aligned}
+\]</span> Now we write the function as the sum of two parts:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\dot{V}(x(t)) &amp;= (\Delta y^T \mathfrak A \Delta y + \Delta y^T \mathfrak B z + z^T \mathfrak C \Delta y + z^T \mathfrak D z) + z^T(s + \mathfrak C y^\star)\\
+&amp;= \begin{pmatrix}
+\Delta y\\
+z
+\end{pmatrix}^T \begin{pmatrix}
+\mathfrak A &amp; \mathfrak B\\
+\mathfrak C &amp; \mathfrak D
+\end{pmatrix}\begin{pmatrix}
+\Delta y\\
+z
+\end{pmatrix}+ z^T(s + \mathfrak C y^\star)\\\\
+&amp;= \begin{pmatrix}
+\Delta y\\
+z
+\end{pmatrix}^T A\begin{pmatrix}
+\Delta y\\
+z
+\end{pmatrix}+ z^T(s + \mathfrak C y^\star)\\\\
+\end{aligned}
+\]</span></p>
+<p>Whenever <span class="math inline">\(H(A) = \frac{1}{2}(A + A^T)\)</span> is negative definite, then the first term is negative for any choice of <span class="math inline">\(y\)</span> and <span class="math inline">\(z\)</span>. Examining the second term, we see that <span class="math inline">\(\mathfrak s + \mathfrak C y^\star\)</span> measures the invasion growth rate of the populations in the set <span class="math inline">\(n-k\)</span> when they are attempting to invade the community that is resting at <span class="math inline">\(y^\star\)</span>. Thus, if we can find a saturated equilibrium, it is globally stable and will be reached for any <span class="math inline">\(x(0) &gt; 0_n\)</span>.</p>
 </section>
-<section id="classic-papers" class="level2">
-<h2 class="anchored" data-anchor-id="classic-papers">Classic papers</h2>
+<section id="classic-papers-references-and-further-readings" class="level2">
+<h2 class="anchored" data-anchor-id="classic-papers-references-and-further-readings">Classic papers, references and further readings</h2>
 <p>A brief paper discussing how to build models in biology:</p>
 <ul>
 <li>Richard Levins, 1966. <a href="https://www.jstor.org/stable/27836590"><em>The strategy of model building in population biology</em></a>. American Scientist 54:421-431</li>
@@ -673,7 +781,7 @@ V(x) = \sum_{i \in k}\left(x_i - x_i^\star - x_i^\star \log \frac{x_i}{x_i^\star
 <li><p>Vito Volterra, 1926. <a href="https://www.nature.com/articles/118558a0"><em>Fluctuations in the Abundance of a Species Considered Mathematically</em></a>. Nature 118:558-60</p></li>
 </ul>
 <p>You can read their exchange <a href="https://www.nature.com/articles/119012b0">here</a>.</p>
-<p>The constant of motion was derived by Lotka in 1920:</p>
+<p>The constant of motion that underlies the candidate Lyapunov functions was derived by Lotka in 1920:</p>
 <ul>
 <li>Alfred J. Lotka, 1920. <a href="https://pubs.acs.org/doi/pdf/10.1021/ja01453a010"><em>Undamped oscillations derived from the law of mass action</em></a>. Journal of the American Chemical Society 42:1595-1599</li>
 </ul>
@@ -681,9 +789,22 @@ V(x) = \sum_{i \in k}\left(x_i - x_i^\star - x_i^\star \log \frac{x_i}{x_i^\star
 <ul>
 <li>G.F. Gause, 1934. <a href="https://www.science.org/doi/10.1126/science.79.2036.16.b">Experimental Analysis of Vito Volterra’s Mathematical Theory of the Struggle for Existence</a>. Science 79:16-17</li>
 </ul>
-<p>The analysis of two-species competitive Lotka-Volterra inspired the so-called Modern Coexistence Theory:</p>
+<p>The paper by MacArthur, on consumer-resource dynamics:</p>
 <ul>
-<li>Chesson, P. 2000. <a href="https://www.annualreviews.org/doi/abs/10.1146/annurev.ecolsys.31.1.343">Mechanisms of Maintenance of Species Diversity</a>. Annual Review of Ecology and Systematics 31:343-366</li>
+<li>R. MacArthur, 1970. <a href="https://www.sciencedirect.com/science/article/pii/0040580970900390">Species packing and competitive equilibrium for many species</a>. Theoretical population biology, 1(1), pp.1-11.</li>
+</ul>
+<p>The paper by B.S. Goh on global stability:</p>
+<ul>
+<li>B.S. Goh, 1977. <a href="https://www.journals.uchicago.edu/doi/abs/10.1086/283144">Global stability in many-species systems</a>. The American Naturalist, 111(977), pp.135-143.</li>
+</ul>
+<p>The convergence to saturated equilibria has strong implications for ecological assembly. See for example:</p>
+<ul>
+<li><p>J. Hofbauer, S.J. Schreiber, 2022. <a href="https://link.springer.com/article/10.1007/s00285-022-01815-2">Permanence via invasion graphs: incorporating community assembly into modern coexistence theory</a>. Journal of mathematical biology. Nov;85(5):54.</p></li>
+<li><p>C.A. Serván, S. Allesina, 2021. <a href="https://onlinelibrary.wiley.com/doi/full/10.1111/ele.13702">Tractable models of ecological assembly</a>. Ecology Letters May;24(5):1029-37.</p></li>
+</ul>
+<p>I have recently written a paper on Lyapunov functions for GLV that extends and generalizes Goh’s function. Ask me about it if you want to know more!</p>
+<ul>
+<li>S. Allesina, 2025. Global stability of ecological and evolutionary dynamics via equivalence. In review</li>
 </ul>
 
 

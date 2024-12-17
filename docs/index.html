@@ -170,19 +170,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ch2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Models for two populations</span></a>
+ <span class="menu-text">GLV with random parameters</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ch3.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Models for disease dynamics</span></a>
+ <span class="menu-text">GLV and experimental data</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ch4.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Models for many populations</span></a>
+ <span class="menu-text">GLV and metatpopulation dynamics</span></a>
   </div>
 </li>
     </ul>
@@ -219,7 +219,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <section id="computing" class="level2">
 <h2 class="anchored" data-anchor-id="computing">Computing</h2>
-<p>The <a href="https://github.com/StefanoAllesina/XXX">GitHub repository</a> associated with the lecture notes contains the code used to generate the lecture notes, including all the figures and simulations. Crucially, the code depends on the following <code>R</code> packages:</p>
+<p>The <a href="https://github.com/StefanoAllesina/ICTS_2025">GitHub repository</a> associated with the lecture notes contains the code used to generate the lecture notes, including all the figures and simulations. Crucially, the code depends on the following <code>R</code> packages:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co"># plotting, data organization</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(deSolve) <span class="co"># integrate differential equations</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -237,6 +237,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><span class="math inline">\(1_n\)</span> is a vector of ones of lenght <span class="math inline">\(n\)</span></li>
 <li><span class="math inline">\(I\)</span> is the identity matrix (i.e., a matrix with <span class="math inline">\(1_n\)</span> on the diagonal, and zeros elsewhere)</li>
 <li><span class="math inline">\(D(a)\)</span> is a diagonal matrix with vector <span class="math inline">\(a\)</span> on the diagonal</li>
+<li><span class="math inline">\(H(A)\)</span> is the symmetric part of matrix <span class="math inline">\(A\)</span>: <span class="math inline">\(H(A) = \frac{1}{2} (A + A^T)\)</span></li>
 <li><span class="math inline">\(\circ\)</span> is the Hadamard (element by element) product (i.e., <span class="math inline">\(a \circ b = c\)</span> with <span class="math inline">\(c_i = a_i b_i\)</span>, the same holds for matrices)</li>
 <li><span class="math inline">\(\dfrac{d x(t)}{dt}\)</span> is sometimes written as <span class="math inline">\(\dfrac{d x}{dt}\)</span> or <span class="math inline">\(\dot{x}\)</span></li>
 </ul></li>

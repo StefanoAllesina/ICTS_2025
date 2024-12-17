@@ -16,6 +16,30 @@ library(deSolve) # integrate differential equations
 
 ## History
 
+![](images/Lotka.jpg){fig-alt="Alfred J. Lotka" fig-align="left" width=20%}
+
+Alfred J. Lotka (1880-1949) was born to French-speaking American parents in Lemberg (then part of the Habsburg empire, now Lviv, Ukraine). He studied in France, Germany and England, receiving a BSc in 1901 and a DSc in 1912 from Birmingham university. He moved to the US in 1902, and worked at the US Patent office, as an editor of Scientific American, and as a statistician at the Metropolitan Life Insturance Company in NYC. He wrote more than a hundred papers and five books, spanning a large range of topics. He's best known for the book *Elements of Physical Biology*, his contributions to demography, and one of the first studies dealing with bibliometrics. 
+
+Starting in 1910he investigated coupled differential equations relating to chemical as well as ecological dynamics. In 1920 he studied a system of two ODEs that gave rise to perpetual oscillations: *"It was, therefore, with considerable surprise that the writer, on applying his method to certain special cases, found these to lead to undamped, and hence indefinitely continued, oscillations."* He went on to describe *"1. A species of organism $S_1$, a plant species, say, deriving its nourishment from a source presented in such large excess that the mass of the source may be considered constant during the period of time with which we are concerned. 2. A species $S_2$, for example a herbivorous animal species, feeding on $S_1$."* 
+
+The equations he had derived (and then studied later in more detail) are now termed Lotka-Volterra equations.
+
+![](images/Volterra.jpg){fig-alt="Vito Volterra" fig-align="left" width=20%}
+
+Vito Volterra (1860-1940) was born in Ancona (then part of the Papal State) in a poor Jewish family. The financial situation precipitated with the death of his father, when Vito was two. Vito and his mother went to live with relatives in Turin and then Florence. Volterra showed amazing mathematical talent at a very young age. Antonio Roiti, professor of physics in Florence, noticed the budding mathematician and hired him as his assistant, so that he could continue his studies. He went on to enroll at the Scuola Normale in Pisa, receiving a degree in Physics in 1882. At age 23 he was made full professor of Rational Mechanics in Pisa, and then in 1900 of Mathematical Physics in Rome. For thirty years, he contributed important studies in mathematics, and enriched academic life in Italy (for example, he was the first director of the National Center for Research). In 1931 he refused to take an oath of loyalty to the fascist regime (only 12 professors out of 1250 refused), and was therefore forced to resign (his take on the fascist enterprise: *"Empires die, but Euclid's theorems keep their youth forever"*). 
+
+His interest in mathematical ecology is due to Umberto D'Ancona (his son-in-law), who had studied the trends in fisheries in the Adriatic sea before and immediately after WWI. In 1914-1918 fisheries in the Adriatic had stopped completely because of the conflict. D'Ancona had noticed that, while herbivorous fish had remained about constant, the piscivorous fish had increased dramatically in numbers. The problem piqued Volterra who immediately published a sophisticated study, proposing the same equations studied by Lotka. In a short letter to Nature 1926, he stated the so-called "Volterra's Effect" (which he termed "Law III"): *"a complete closure of the fishery was a form of 'protection' under which the voracious fishes were much the better and prospered accordingly, but the ordinary food-fishes, on which these are accustomed to prey, were worse off than before."* This brief paper was a summary of the much extensive paper published in Italian.
+
+### Lotka-Volterra interactions
+
+In 1927, Lotka wrote to Nature to raise the issue that the equations studied by Volterra and the figures presented in Volterra's brief article were identical to those found in *Elements of Physical Biology* (published in 1925). He concluded: *"It would be gratifying if Prof. Volterra's publication should direct attention to a field and method of inquiry which apparently has hitherto passed almost unnoticed."*
+
+Volterra graciously conceded *"I recognize his priority, and am sorry not to have known his work, and therefore not have been able to mention it."* He however listed a few points in which the two authors had pursued different directions, and concluded *"Working independently the one from the other, we have found some common results, and this confirms the exactitude and the interest in the position of the problem. I agree with him in his conclusions that these studies and these methods of research deserve to receive greated attention from scholars, and should give rise to important applications."*
+
+![](images/funzionemondo.png)
+*Vito Volterra and Umberto D'Ancona explore the Lotka-Volterra model. Taken from the fantastic *La funzione del mondo*, a graphic novel on Volterra by Bilotta and Grillotti.*
+
+
 ## Equations
 
 We can write the GLV model for $n$ interacting populations in component form
@@ -75,36 +99,84 @@ x^\star &= -B^{-1} 1_n
 \end{aligned}
 $$
 
-when the matrix $B$ is invertible. Naturally, the equilibrium must be
-positive (called *feasible*) to be biologically attainable.
+when the matrix $B$ is invertible. Naturally, the equilibrium must be positive (called *feasible*) to be biologically attainable.
 
-EXAMPLE MATRIX WITH GLOBALLY STABLE EQUIL (OR LIMIT CYCLE?)
+For example, consider:
 
-If the matrix $B$ is rank-deficient (and thus singular) there are
-infinitely many equilibria; for example, if the rank of $B$ is $n-1$
-there are infinitely many equilibria belonging to a line in
-$\mathbb R^n$.
+$$
+A = \begin{pmatrix}
+-4 & -1 & -3\\
+-14 & -8 & -10\\
+-6 & -15 & -13
+\end{pmatrix} \quad r = \begin{pmatrix}
+8\\
+32\\
+34
+\end{pmatrix}\quad B = D(r)^{-1}A = \begin{pmatrix}
+-\frac{1}{2} & -\frac{1}{8} & -\frac{3}{8}\\
+-\frac{7}{16} & -\frac{1}{4} & -\frac{5}{16}\\
+-\frac{3}{17} & -\frac{15}{34} & -\frac{13}{34}
+\end{pmatrix}
+$$ 
+There is an equilibrium when at which all populations are present:
 
-When $B$ is nonsingular, the model admits at most one positive
-equilibrium in which all populations are present. However, there can be
-up to $2^n-1$ equilibria in which one or more populations are
-absent/extinct. Call $B^{(k,k)}$ the submatrix of $B$ obtained by
-retaining the rows and columns indexed by the set $k$. Then by solving
+$$
+x^\star = -A^{-1} r = -B^{-1}1_n = \begin{pmatrix}
+1\\
+1\\
+1
+\end{pmatrix}
+$$
+If the matrix $B$ is rank-deficient (and thus singular) there are infinitely many equilibria; for example, if the rank of $B$ is $n-1$ there are infinitely many equilibria belonging to a line in $\mathbb R^n$.
+
+When $B$ is nonsingular, the model admits at most one positive equilibrium in which all populations are present. However, there can be up to $2^n-1$ equilibria in which one or more populations are absent/extinct. Call $B^{(k,k)}$ the submatrix of $B$ obtained by retaining the rows and columns indexed by the set $k$. Then by solving
 
 $$
 B^{(k,k)} x^{(k)\star} = -1^{(k)}
 $$
 
-we obtain an equilibrium for the subcommunity where only the populations
-in $k$ are present (provided that the equilibrium is feasibile).
+we obtain an equilibrium for the subcommunity where only the populations in $k$ are present (provided that the equilibrium is feasibile).
 
-EXAMPLE ABOVE
+For the example above, we have:
+
+$$
+B^{(\{1,2\},\{1,2\})} = \begin{pmatrix}
+-\frac{1}{2}& -\frac{1}{8}\\
+-\frac{7}{16} & -\frac{1}{4}
+\end{pmatrix}
+$$
+
+and
+
+$$
+x^{(\{1,2\})\star} = -(B^{(\{1,2\},\{1,2\})})^{-1}1_2=\begin{pmatrix}
+\frac{16}{9}\\
+\frac{8}{9}
+\end{pmatrix}
+$$
+
+Therefore, the subsystem in which only the first two populations are present has a feasible equilibrium.
+
+Similarly,
+
+$$
+x^{(\{1,3\})\star} = \begin{pmatrix}
+\frac{1}{17}\\
+\frac{44}{17}
+\end{pmatrix} \quad x^{(\{1\})\star} = \begin{pmatrix}
+2\\
+\end{pmatrix} \quad x^{(\{2\})\star} = \begin{pmatrix}
+4\\
+\end{pmatrix} \quad x^{(\{3\})\star} = \begin{pmatrix}
+\frac{34}{13}\\
+\end{pmatrix}
+$$
+
+The subsystem in which only populations 2 and 3 are present does not have a feasible equilibrium.
 
 ## Types of dynamics
 
-For a single population, the GLV model can yield only two outcomes:
-unbounded growth, or convergence to an equilibrium; if the equilibrium
-is $x^\star = 0$, we say that the population is extinct at the equilibrium.
+For a single population, the GLV model can yield only two outcomes: unbounded growth, or convergence to an equilibrium; if the equilibrium is $x^\star = 0$, we say that the population is extinct at the equilibrium.
 
 ```{r}
 #| warning: false
@@ -118,10 +190,7 @@ source("code/type_of_dynamics.R")
 pl1
 ```
 
-When we have two populations, we can also observe neutral cycles (as in
-the classic LV predator-prey system), and bistability (i.e., one
-population survives, while the other goes extinct; the identity of the
-population going extinct depends on the initial conditions).
+When we have two populations, we can also observe neutral cycles (as in the classic LV predator-prey system), and bistability (i.e., one population survives, while the other goes extinct; the identity of the population going extinct depends on the initial conditions).
 
 ```{r}
 #| warning: false
@@ -202,10 +271,7 @@ $$
 -A^{-1} r = x^\star =  \frac{1}{T} \int_0^T x(t) dt 
 $$
 
-showing that *the average density is* in fact *the equilibrium*. With a
-similar argument, one can prove that if the trajectory stays in a
-compact space (i.e., in case of chaotic attractors), then the long-time
-average is still $x^\star$.
+showing that *the average density is* in fact *the equilibrium*. With a similar argument, one can prove that if the trajectory stays in a compact space (i.e., in case of chaotic attractors), then the long-time average is still $x^\star$.
 
 A dynamical system is permanent if, for all $x_i(0) > 0$, the limit $\liminf_{t \to \infty} x_i(t) > \delta > 0$ for all $i$. This means that each axis of $\mathbb R^n$ *repels* the dynamics when $t$ is large enough.
 
@@ -222,11 +288,8 @@ Suppose that a GLV system is permanent, and that population dynamics converge to
 xstar <- solve(A,-r)
 dt1 <- out4.1 %>% as.data.frame() %>% pivot_longer(cols = -time) 
 dt1 <- dt1 %>% group_by(name) %>% mutate(avg = cummean(value)) %>% ungroup()
-ggplot(dt1) + aes(x = time, y = value, colour = name) + geom_line() + geom_line(aes(y = avg), linetype = 3) + geom_hline(data = tibble(name = as.character(1:4), value = xstar), aes(yintercept = value, colour = name), linetype = 2) + theme_bw() + theme(legend.position = "none")
+ggplot(dt1) + aes(x = time, y = value, colour = name) + geom_line(linewidth = 1) + geom_line(aes(y = avg), linetype = 3,linewidth = 1) + geom_hline(data = tibble(name = as.character(1:4), value = xstar, linewidth = 1), aes(yintercept = value, colour = name), linetype = 2) + theme_bw() + theme(legend.position = "none")
 ```
-
-
-EXAMPLE DYNAMICS EITHER LIMIT CYCLE OR CHAOS
 
 ## Local stability
 
@@ -567,7 +630,7 @@ A = \begin{pmatrix}
 -3 & 4 & 0\\
 5 & -2 & -2\\
 5 & 5 & -3
-\end{pmatrix} \quad \lambda(A) = \{-7,\frac{1}{2}(-1 \pm \sqrt{15}) \}
+\end{pmatrix} \quad \lambda(A) = \{-7,\frac{1}{2}(-1 \pm i \sqrt{15}) \}
 $$
 
 and the equilibrium $x^\star = (1,1,1/2)^T$ (obtained for
@@ -578,18 +641,18 @@ M = D(x^\star)A = \begin{pmatrix}
 -3 & 4 & 0\\
 5 & -2 & -2\\
 \frac{5}{2} & \frac{5}{2} & -\frac{3}{2}
-\end{pmatrix} \quad \lambda(B) = \{-7,\frac{1}{4}(1 \pm \sqrt{31}) \}
+\end{pmatrix} \quad \lambda(B) = \{-7,\frac{1}{4}(1 \pm i\sqrt{31}) \}
 $$
 
 Thus, the equilibrium is not locally asymptotically stable.
 
 ## Global Asymptotic Stability
 
-In certain models, we can show that whenever the populations start at a
+In certain models, we can show that whenever all the populations start at a
 positive value, they will always reach a certain equilibrium $x^\star$.
 In this case, we say the equilibrium is globally asymptotically stable.
 
-Because, as we said, solving differential equations is in general very
+Because solving differential equations is in general very
 difficult, and in many cases of interest impossible, we employ a proxy
 function, called a Lyapunov function.
 
@@ -744,38 +807,76 @@ belonging to set $n-k$ are extinct, and cannot re-invade the system
 starting from low abundance.
 
 Without loss of generality, we can order the populations such that the
-set of coexisting populations are labeled $k = \{1, 2, \ldots, \|k\|\}$,
-and the remaining species are labeled $\{\|k\|+1, \ldots, n\}$. We
-partition the saturated equilibrium, the vector of growth rates and the
-matrix of interactions accordingly:
+first $\|k\|$ populations are those that coexist at the saturated equilibrium, and the remaining $\| n- k\|$ are those extinct at the saturated equilibrium. We partition all variables according to the two sets:
 
 $$
-\tilde{x} = \begin{pmatrix}
-x^{(k)\star}\\ 
+x = \begin{pmatrix}
+y\\
+z
+\end{pmatrix} \quad \tilde{x} = \begin{pmatrix}
+y^\star\\
 0_{n-k}
-\end{pmatrix} \quad
-r = \begin{pmatrix}
-r^{(k)}\\ 
-r^{(n-k)}
 \end{pmatrix} \quad A = \begin{pmatrix}
-A^{(k,k)} & A^{(k,n-k)}\\
-A^{(n-k,k)} & A^{(n-k,n-k)}
+\mathfrak A & \mathfrak B\\
+\mathfrak C & \mathfrak D
+\end{pmatrix}\quad r = \begin{pmatrix}
+\mathfrak r\\
+\mathfrak s
 \end{pmatrix}
 $$
 
-We consider a modification of Goh's function:
+We consider a minor modification of Goh's function:
 
 $$
-V(x) = \sum_{i \in k}\left(x_i - x_i^\star - x_i^\star \log \frac{x_i}{x_i^\star}\right) + \sum_{i \in n-k} x_i
+V(x (t)) = \sum_{i \in k} \left(y_i - y_i^\star - y_i^\star \log \frac{y_i}{y_i^\star} \right) + 
+\sum_{i \in n-k} z_i
 $$
 
-The derivative:
+Differentiating with respect to time, we obtain:
 
 $$
-\dot{V}(x) = \sum_i \left( \right) + 
+\begin{aligned}
+\dot{V}(x(t)) &= \sum_{i \in k} \left(\dot{y}_i - y_i^\star \frac{\dot{y}_i}{y_i} \right)+\sum_{i \in n-k} \dot{z}_i\\
+&=\Delta y^T(\mathfrak r + \mathfrak A y + \mathfrak Bz) + z^T(\mathfrak s + \mathfrak C y+ \mathfrak D z)
+\end{aligned}
 $$
 
-## Classic papers
+Now we substitute $\mathfrak r = -\mathfrak A y^\star$, and add and subtract $z^T \mathfrak C y^\star$:
+
+$$
+\begin{aligned}
+\dot{V}(x(t)) &=\Delta y^T(-\mathfrak A y^\star + \mathfrak A y + \mathfrak Bz) + z^T(\mathfrak s + \mathfrak C y+ \mathfrak D z  + \mathfrak C y^\star - \mathfrak C y^\star)\\
+&=\Delta y^T(\mathfrak A \Delta y + \mathfrak Bz) + z^T(\mathfrak s + \mathfrak C \Delta y+ \mathfrak D z  + \mathfrak C y^\star)
+\end{aligned}
+$$
+Now we write the function as the sum of two parts:
+
+$$
+\begin{aligned}
+\dot{V}(x(t)) &= (\Delta y^T \mathfrak A \Delta y + \Delta y^T \mathfrak B z + z^T \mathfrak C \Delta y + z^T \mathfrak D z) + z^T(s + \mathfrak C y^\star)\\
+&= \begin{pmatrix}
+\Delta y\\
+z
+\end{pmatrix}^T \begin{pmatrix}
+\mathfrak A & \mathfrak B\\
+\mathfrak C & \mathfrak D
+\end{pmatrix}\begin{pmatrix}
+\Delta y\\
+z
+\end{pmatrix}+ z^T(s + \mathfrak C y^\star)\\\\
+&= \begin{pmatrix}
+\Delta y\\
+z
+\end{pmatrix}^T A\begin{pmatrix}
+\Delta y\\
+z
+\end{pmatrix}+ z^T(s + \mathfrak C y^\star)\\\\
+\end{aligned}
+$$
+
+Whenever $H(A) = \frac{1}{2}(A + A^T)$ is negative definite, then the first term is negative for any choice of $y$ and $z$. Examining the second term, we see that $\mathfrak s + \mathfrak C y^\star$ measures the invasion growth rate of the populations in the set $n-k$ when they are attempting to invade the community that is resting at $y^\star$. Thus, if we can find a saturated equilibrium, it is globally stable and will be reached for any $x(0) > 0_n$.
+
+## Classic papers, references and further readings
 
 A brief paper discussing how to build models in biology:
 
@@ -799,7 +900,7 @@ Alfred J. Lotka and Vito Volterra:
 You can read their exchange
 [here](https://www.nature.com/articles/119012b0).
 
-The constant of motion was derived by Lotka in 1920:
+The constant of motion that underlies the candidate Lyapunov functions was derived by Lotka in 1920:
 
 -   Alfred J. Lotka, 1920. [*Undamped oscillations derived from the law
     of mass action*](https://pubs.acs.org/doi/pdf/10.1021/ja01453a010).
@@ -814,9 +915,21 @@ the principle of competitive exclusion using protozoans:
     Existence](https://www.science.org/doi/10.1126/science.79.2036.16.b).
     Science 79:16-17
 
-The analysis of two-species competitive Lotka-Volterra inspired the
-so-called Modern Coexistence Theory:
+The paper by MacArthur, on consumer-resource dynamics:
 
--   Chesson, P. 2000. [Mechanisms of Maintenance of Species
-    Diversity](https://www.annualreviews.org/doi/abs/10.1146/annurev.ecolsys.31.1.343).
-    Annual Review of Ecology and Systematics 31:343-366
+- R. MacArthur, 1970. [Species packing and competitive equilibrium for many species](https://www.sciencedirect.com/science/article/pii/0040580970900390).
+  Theoretical population biology, 1(1), pp.1-11.
+
+The paper by B.S. Goh on global stability:
+
+- B.S. Goh, 1977. [Global stability in many-species systems](https://www.journals.uchicago.edu/doi/abs/10.1086/283144). The American Naturalist, 111(977), pp.135-143.
+
+The convergence to saturated equilibria has strong implications for ecological assembly. See for example:
+
+- J. Hofbauer, S.J. Schreiber, 2022. [Permanence via invasion graphs: incorporating community assembly into modern coexistence theory](https://link.springer.com/article/10.1007/s00285-022-01815-2). Journal of mathematical biology. Nov;85(5):54.
+
+- C.A. Serván, S. Allesina, 2021. [Tractable models of ecological assembly](https://onlinelibrary.wiley.com/doi/full/10.1111/ele.13702). Ecology Letters May;24(5):1029-37.
+
+I have recently written a paper on Lyapunov functions for GLV that extends and generalizes Goh's function. Ask me about it if you want to know more!
+
+- S. Allesina, 2025. Global stability of ecological and evolutionary dynamics via equivalence. In review

@@ -16,7 +16,7 @@ plot_dynamics <- function(out1, out2){
     )}
   pl <- toplot %>% 
     ggplot(aes(x = time, y = value, colour = name, linetype = ts)) + 
-    geom_line(linewidth = 0.5) + 
+    geom_line(linewidth = 1) + 
     theme_bw() + 
     theme(legend.position = "none") + 
     scale_y_sqrt()
