@@ -136,19 +136,19 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ch2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Models for two populations</span></a>
+ <span class="menu-text">GLV with random parameters</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ch3.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Models for disease dynamics</span></a>
+ <span class="menu-text">GLV and experimental data</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ch4.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Models for many populations</span></a>
+ <span class="menu-text">GLV and metatpopulation dynamics</span></a>
   </div>
 </li>
     </ul>
@@ -168,10 +168,8 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#equilibria" id="toc-equilibria" class="nav-link" data-scroll-target="#equilibria">Equilibria</a></li>
   <li><a href="#types-of-dynamics" id="toc-types-of-dynamics" class="nav-link" data-scroll-target="#types-of-dynamics">Types of dynamics</a></li>
   <li><a href="#equilibrium-as-time-average" id="toc-equilibrium-as-time-average" class="nav-link" data-scroll-target="#equilibrium-as-time-average">Equilibrium as time-average</a></li>
-  <li><a href="#local-stability" id="toc-local-stability" class="nav-link" data-scroll-target="#local-stability">Local stability</a>
-  <ul class="collapse">
+  <li><a href="#local-stability" id="toc-local-stability" class="nav-link" data-scroll-target="#local-stability">Local stability</a></li>
   <li><a href="#global-asymptotic-stability" id="toc-global-asymptotic-stability" class="nav-link" data-scroll-target="#global-asymptotic-stability">Global Asymptotic Stability</a></li>
-  </ul></li>
   <li><a href="#global-stability-and-saturated-equilibria" id="toc-global-stability-and-saturated-equilibria" class="nav-link" data-scroll-target="#global-stability-and-saturated-equilibria">Global stability and saturated equilibria</a></li>
   <li><a href="#classic-papers" id="toc-classic-papers" class="nav-link" data-scroll-target="#classic-papers">Classic papers</a></li>
   </ul></li>
@@ -190,7 +188,7 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="equations" class="level2">
 <h2 class="anchored" data-anchor-id="equations">Equations</h2>
-<p>We can write the model for <span class="math inline">\(n\)</span> interacting populations in component form as:</p>
+<p>We can write the GLV model for <span class="math inline">\(n\)</span> interacting populations in component form as:</p>
 <p><span class="math display">\[
 \dfrac{d x_i(t)}{dt} = \dot{x_i} = x_i \left(r_i + \sum_j A_{ij} x_j \right)
 \]</span></p>
@@ -198,7 +196,7 @@ ul.task-list li input[type="checkbox"] {
 <p><span class="math display">\[
 \dot{x} = D(x) \left(r + Ax \right)
 \]</span></p>
-<p>where <span class="math inline">\(x = x(t)\)</span> is a (column) vector of length <span class="math inline">\(n\)</span> containing the densities of all populations <span class="math inline">\(1, \ldots, n\)</span> at time <span class="math inline">\(t\)</span>, <span class="math inline">\(r\)</span> is a vector of “intrinsic growth rates” (or death rates, when negative), measuring the growth (decline) of population <span class="math inline">\(i\)</span> when grown alone at low density, and <span class="math inline">\(A\)</span> is a <span class="math inline">\(n \times n\)</span> matrix of interaction coefficients. We use <span class="math inline">\(D(x)\)</span> to denote the diagonal matrix with <span class="math inline">\(x\)</span> on the diagonal.</p>
+<p>where <span class="math inline">\(x = x(t)\)</span> is a (column) vector of length <span class="math inline">\(n\)</span> containing the densities of all populations <span class="math inline">\(1, \ldots, n\)</span> at time <span class="math inline">\(t\)</span>, <span class="math inline">\(r\)</span> is a vector of <em>intrinsic growth rates</em> (or death rates, when negative), measuring the growth (decline) of population <span class="math inline">\(i\)</span> when growing alone at low density, and <span class="math inline">\(A\)</span> is a <span class="math inline">\(n \times n\)</span> matrix of <em>interaction coefficients</em>. We use <span class="math inline">\(D(x)\)</span> to denote the diagonal matrix with <span class="math inline">\(x\)</span> on the diagonal.</p>
 <p>Sometimes the model is written in a slightly different way, by bringing the vector <span class="math inline">\(r\)</span> outside the parenthesis:</p>
 <p><span class="math display">\[
 \begin{aligned}
@@ -211,7 +209,7 @@ ul.task-list li input[type="checkbox"] {
 <p><span class="math display">\[
 \dot{x} = D(x \circ r) \left(1_n + Bx \right)
 \]</span></p>
-<p>where <span class="math inline">\(\circ\)</span> is the Hadamard (element by element) product. This notation is convenient when computing the equilibria of the system; the previous notation is more convenient when investigating stability. We will alternate between the two notations, using <span class="math inline">\(A\)</span> and <span class="math inline">\(B = D(r)^{-1} A\)</span> for the two matrices.</p>
+<p>where <span class="math inline">\(\circ\)</span> is the Hadamard (element by element) product. This notation is convenient when computing the equilibria of the system; the previous notation is more convenient when investigating their stability. We will alternate between the two notations, using <span class="math inline">\(A\)</span> and <span class="math inline">\(B = D(r)^{-1} A\)</span> for the two matrices.</p>
 </section>
 <section id="equilibria" class="level2">
 <h2 class="anchored" data-anchor-id="equilibria">Equilibria</h2>
@@ -226,7 +224,7 @@ x^\star &amp;= -B^{-1} 1_n
 <p>when the matrix <span class="math inline">\(B\)</span> is invertible. Naturally, the equilibrium must be positive (called <em>feasible</em>) to be biologically attainable.</p>
 <p>EXAMPLE MATRIX WITH GLOBALLY STABLE EQUIL (OR LIMIT CYCLE?)</p>
 <p>If the matrix <span class="math inline">\(B\)</span> is rank-deficient (and thus singular) there are infinitely many equilibria; for example, if the rank of <span class="math inline">\(B\)</span> is <span class="math inline">\(n-1\)</span> there are infinitely many equilibria belonging to a line in <span class="math inline">\(\mathbb R^n\)</span>.</p>
-<p>The model admits at most one positive equilibrium in which all populations are present. However, there can be up to <span class="math inline">\(2^n-1\)</span> equilibria in which one or more populations are absent/extinct. Call <span class="math inline">\(B^{(k,k)}\)</span> the submatrix of <span class="math inline">\(B\)</span> obtained by retaining the rows and columns indexed by the set <span class="math inline">\(k\)</span>. Then by solving</p>
+<p>When <span class="math inline">\(B\)</span> is nonsingular, the model admits at most one positive equilibrium in which all populations are present. However, there can be up to <span class="math inline">\(2^n-1\)</span> equilibria in which one or more populations are absent/extinct. Call <span class="math inline">\(B^{(k,k)}\)</span> the submatrix of <span class="math inline">\(B\)</span> obtained by retaining the rows and columns indexed by the set <span class="math inline">\(k\)</span>. Then by solving</p>
 <p><span class="math display">\[
 B^{(k,k)} x^{(k)\star} = -1^{(k)}
 \]</span></p>
@@ -235,10 +233,30 @@ B^{(k,k)} x^{(k)\star} = -1^{(k)}
 </section>
 <section id="types-of-dynamics" class="level2">
 <h2 class="anchored" data-anchor-id="types-of-dynamics">Types of dynamics</h2>
-<p>For a single population, the GLV model can yield only two outcomes: unbounded growth, or convergence to an equilibrium; when the equilibrium is <span class="math inline">\(x^\star = 0\)</span>, we say that the population is extinct.</p>
-<p>When we have two populations, we can also observe neutral cycles, and bistability (i.e., one population survives, while the other goes extinct; which population goes extinct depends on the initial conditions).</p>
-<p>For three populations we can observe limit cycles; for four or more populations we can have chaos (i.e., non-periodic oscillations).</p>
-<p>FIGURES HERE</p>
+<p>For a single population, the GLV model can yield only two outcomes: unbounded growth, or convergence to an equilibrium; if the equilibrium is <span class="math inline">\(x^\star = 0\)</span>, we say that the population is extinct at the equilibrium.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ch1_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>When we have two populations, we can also observe neutral cycles (as in the classic LV predator-prey system), and bistability (i.e., one population survives, while the other goes extinct; the identity of the population going extinct depends on the initial conditions).</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ch1_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>For three populations we can observe limit cycles.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ch1_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>For four or more populations we can have chaos (i.e., non-periodic oscillations).</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ch1_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
 </section>
 <section id="equilibrium-as-time-average" class="level2">
 <h2 class="anchored" data-anchor-id="equilibrium-as-time-average">Equilibrium as time-average</h2>
@@ -256,11 +274,11 @@ B^{(k,k)} x^{(k)\star} = -1^{(k)}
 \]</span></p>
 <p>Compute the average on both sides:</p>
 <p><span class="math display">\[
-\frac{1}{T}\int_0^T \frac{d \log(x(t))}{dt} dt= \frac{1}{T}\int_0^T \left(r + Ax \right) dt
+\frac{1}{T}\int_0^T \frac{d \log(x(t))}{dt} dt= \frac{1}{T}\int_0^T \left(r + Ax(t) \right) dt
 \]</span></p>
 <p>yielding:</p>
 <p><span class="math display">\[
-\frac{1}{T}(\log(x(T)) - \log(x(0))) = 0 = r + A \left( \frac{1}{T} \int_0^T x(t) dt \right)
+\frac{1}{T}(\log(x(T)) - \log(x(0))) = 0_n = r + A \left( \frac{1}{T} \int_0^T x(t) dt \right)
 \]</span></p>
 <p>Note that the l.h.s. is zero because <span class="math inline">\(x(0) = x(T)\)</span>. Now rearrange:</p>
 <p><span class="math display">\[
@@ -270,19 +288,30 @@ B^{(k,k)} x^{(k)\star} = -1^{(k)}
 <p><span class="math display">\[
 -A^{-1} r = x^\star =  \frac{1}{T} \int_0^T x(t) dt
 \]</span></p>
-<p>showing that <strong>the average density is</strong> in fact <strong>the equilibrium</strong>. With a similar argument, one can prove that if the trajectory stays in a compact space (i.e., in case of chaotic attractors), then long-time average is still <span class="math inline">\(x^\star\)</span>.</p>
+<p>showing that <em>the average density is</em> in fact <em>the equilibrium</em>. With a similar argument, one can prove that if the trajectory stays in a compact space (i.e., in case of chaotic attractors), then the long-time average is still <span class="math inline">\(x^\star\)</span>.</p>
 <p>A dynamical system is permanent if, for all <span class="math inline">\(x_i(0) &gt; 0\)</span>, the limit <span class="math inline">\(\liminf_{t \to \infty} x_i(t) &gt; \delta &gt; 0\)</span> for all <span class="math inline">\(i\)</span>. This means that each axis of <span class="math inline">\(\mathbb R^n\)</span> <em>repels</em> the dynamics when <span class="math inline">\(t\)</span> is large enough.</p>
-<p>Suppose that a GLV system is permanent, and that population dynamics describe a limit cycle or a chaotic attractor; then, because of the calculation above, there must be a positive equilibrium in <span class="math inline">\(\mathbb R^n\)</span>. Thus, a system without a feasible equilibrium cannot be permanent. That is to say, the coexistence of all populations in a GLV system requires a feasible equilibrium.</p>
+<p>Suppose that a GLV system is permanent, and that population dynamics converge to a limit cycle or a chaotic attractor; then, because of the calculation above, there must be a positive equilibrium in <span class="math inline">\(\mathbb R^n\)</span>. Thus, a GLV system without a feasible equilibrium cannot be permanent. That is to say, the coexistence of all populations in a GLV system requires a feasible equilibrium.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="ch1_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Solid lines: trajectories; dashed lines: equilibrium values; dotted line: (cumulative) average of trajectory.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>EXAMPLE DYNAMICS EITHER LIMIT CYCLE OR CHAOS</p>
 </section>
 <section id="local-stability" class="level2">
 <h2 class="anchored" data-anchor-id="local-stability">Local stability</h2>
 <p>We want to determine whether an equilibrium point is locally asymptotically stable; this means that, for sufficiently small perturbations of the equilibrium, <span class="math inline">\(x(0) = x^\star + \epsilon\)</span>, we have that <span class="math inline">\(\lim_{t \to \infty} x(t) = x^\star\)</span>. Let’s start by considering the case of a single population:</p>
 <ul>
 <li>Take an ODE <span class="math inline">\(dx/dt = f(x)\)</span></li>
-<li>The system is resting at an equilibrium <span class="math inline">\(x^\star\)</span></li>
-<li>We perturb the system, and track the dynamics when starting at <span class="math inline">\(x(0) = x^\star + \epsilon\)</span>, where <span class="math inline">\(\epsilon\)</span> (the perturbation) is taken to be sufficiently small <span class="math inline">\(\| \epsilon \| \ll 1\)</span></li>
+<li>The population is resting at an equilibrium <span class="math inline">\(x^\star\)</span></li>
+<li>We perturb the population abundance, and track the dynamics when starting at <span class="math inline">\(x(0) = x^\star + \epsilon\)</span>, where <span class="math inline">\(\epsilon\)</span> (the perturbation) is taken to be sufficiently small <span class="math inline">\(\| \epsilon \| \ll 1\)</span></li>
 <li>We write <span class="math inline">\(\Delta x(0) = x(0) - x^\star\)</span></li>
-<li>We derive the dynamics for <span class="math inline">\(\Delta x\)</span>:</li>
+<li>We derive the dynamics for <span class="math inline">\(\Delta x\)</span>.</li>
 </ul>
 <p>By chain rule,</p>
 <p><span class="math display">\[
@@ -312,7 +341,8 @@ Taylor series
 <p>We can approximate the behavior of a (infinitely differentiable) function in the vicinity of a point <span class="math inline">\(a\)</span> by a power series:</p>
 <p><span class="math display">\[
 f(x) = f(a) + \dfrac{1}{1!} \left. \dfrac{df(x)}{dx} \right|_a (x-a)+ \dfrac{1}{2!} \left. \dfrac{d^2f(x)}{dx^2} \right|_a (x-a)^2+ \dfrac{1}{3!} \left. \dfrac{d^3f(x)}{dx^3} \right|_a (x-a)^3 + \ldots
-\]</span> where <span class="math inline">\(n! = n (n-1)(n-2)\ldots 1\)</span> is the factorial function and the derivatives are evaluated at <span class="math inline">\(a\)</span>. When we choose <span class="math inline">\(a=0\)</span> this is called the Maclaurin series.</p>
+\]</span></p>
+<p>where <span class="math inline">\(n! = n (n-1)(n-2)\ldots 1\)</span> is the factorial function and the derivatives are evaluated at <span class="math inline">\(a\)</span>. When we choose <span class="math inline">\(a=0\)</span>, this is called the Maclaurin series.</p>
 <p><strong>Example</strong></p>
 <p>Expand <span class="math inline">\(e^x\)</span> around <span class="math inline">\(0\)</span>:</p>
 <p><span class="math display">\[
@@ -328,12 +358,13 @@ e^x &amp;= e^0 + \left. e^x\right|_0 x + \frac{1}{2}\left. e^x\right|_0 x^2  + \
 <p>We want to Taylor-expand <span class="math inline">\(f(x) = f(\Delta x + x^\star)\)</span> around <span class="math inline">\(x^\star\)</span>:</p>
 <p><span class="math display">\[
 f(x) = f(x^\star) + \left.\dfrac{d f(x)}{d x}\right|_{x^\star} (x - x^\star) + \dfrac{1}{2}\left.\dfrac{d^2 f(x)}{d x^2}\right|_{x^\star} (x - x^\star)^2 + \ldots
-\]</span> Note that <span class="math inline">\(f(x^\star) = 0\)</span> by the definition of an equilibrium. If the deviation is small, we can neglect all the higher-order terms, obtaining:</p>
+\]</span></p>
+<p>Note that <span class="math inline">\(f(x^\star) = 0\)</span> by the definition of an equilibrium. If the deviation is small, we can neglect all the higher-order terms, obtaining:</p>
 <p><span class="math display">\[
 \dfrac{d \Delta x}{dt} = f(x) \approx \left.\dfrac{d f(x)}{d x}\right|_{x^\star} \Delta x
 \]</span></p>
-<p>which is the equation of the exponential growth model, with <span class="math inline">\(\rho = \left.\dfrac{d f(x)}{d x}\right|_{x^\star}\)</span>. Then, the solution is <span class="math inline">\(\Delta x(t) = \Delta x(0) e^{\rho t}\)</span>, and the deviation from the equilibrium goes to zero (i.e., the system goes back to <span class="math inline">\(x^\star\)</span>) whenever <span class="math inline">\(\rho &lt; 0\)</span>.</p>
-<p>For example, take the logistic growth model and evaluate the stability of <span class="math inline">\(x^\star = 1\)</span>; we have:</p>
+<p>which is the equation of the exponential growth model, with <span class="math inline">\(\rho = \left.\dfrac{d f(x)}{d x}\right|_{x^\star}\)</span>. Then, the solution is <span class="math inline">\(\Delta x(t) = \Delta x(0) e^{\rho t}\)</span>, and the deviation from the equilibrium eventually reaches zero (i.e., the system goes back to <span class="math inline">\(x^\star\)</span>) whenever <span class="math inline">\(\rho &lt; 0\)</span>.</p>
+<p>For example, take the logistic growth model <span class="math inline">\(\dot{x} = x(1-x)\)</span>, and evaluate the stability of <span class="math inline">\(x^\star = 1\)</span>; we have:</p>
 <p><span class="math display">\[
 \left.\dfrac{d f(x)}{d x}\right|_{x^\star} = \left.\dfrac{d (x - x^2)}{d x}\right|_{x^\star} = \left.(1 - 2x)\right|_{x^\star} = -1
 \]</span></p>
@@ -341,14 +372,16 @@ f(x) = f(x^\star) + \left.\dfrac{d f(x)}{d x}\right|_{x^\star} (x - x^\star) + \
 <p>In analogy with the Taylor-expansion of functions of a single variable, we can write:</p>
 <p><span class="math display">\[
 f_i(x^\star + \Delta x) = f_i(x^\star) + \sum_k \left. \dfrac{\partial f_i(x)}{\partial x_k} \right|_{x^\star} \Delta x_k + \dfrac{1}{2} \sum_{k}\sum_{l} \left. \dfrac{\partial^2 f_i(x)}{\partial x_k \partial x_l} \right|_{x^\star} \Delta x_k \Delta x_l + \cdots
-\]</span> As before, <span class="math inline">\(f_i(x^\star) = 0\)</span>, and if we take only the second term (i.e., the term linear in <span class="math inline">\(\Delta x\)</span>) we can approximate the function as:</p>
+\]</span></p>
+<p>As before, <span class="math inline">\(f_i(x^\star) = 0\)</span>, and if we take only the second term (i.e., the term linear in <span class="math inline">\(\Delta x\)</span>) we can approximate the function as:</p>
 <p><span class="math display">\[
 f_i(x^\star + \Delta x) \approx \sum_k \left. J_{ik} \right|_{x^\star} \Delta x_k
 \]</span></p>
 <p>Where we have defined the <em>Jacobian</em> matrix <span class="math inline">\(J\)</span>:</p>
 <p><span class="math display">\[
 J_{ij} = \dfrac{\partial f_i(x)}{\partial x_j}
-\]</span> For each equilibrium in the system, we can obtain a different <em>community matrix</em> (the name is due to Levins) <span class="math inline">\(M\)</span>:</p>
+\]</span></p>
+<p>For each equilibrium in the system, we can obtain a different <em>community matrix</em> (the name is due to Levins) <span class="math inline">\(M\)</span>:</p>
 <p><span class="math display">\[
 M = \left. J \right|_{x^\star}
 \]</span></p>
@@ -369,7 +402,7 @@ Solving systems of linear ODEs
 </div>
 <div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Consider the system of first-order, autnonomous ODEs:</p>
+<p>Consider the system of first-order, autonomous ODEs:</p>
 <p><span class="math display">\[
 \dfrac{dx}{dt} = Ax
 \]</span></p>
@@ -409,14 +442,14 @@ x(t) = Q y(t) = Q e^{\Lambda t} y(0) = Q e^{\Lambda t} Q^{-1} x(0)
 \]</span></p>
 <p>Allowing to easily compute the solution for any linear systems of ODEs.</p>
 <p><strong>Stability of the origin</strong></p>
-<p>Suppose that <span class="math inline">\(\lambda_i\)</span> is a real, negative number; then <span class="math inline">\(\lim_{t \to \infty}e^{\lambda_i t} = 0\)</span>. If <span class="math inline">\(\lambda_i\)</span> is positive, on the other hand, then <span class="math inline">\(\lim_{t \to \infty}e^{\lambda_i t} = \infty\)</span>. Thus, if any of the <span class="math inline">\(\lambda_i &gt; 0\)</span>, the system will move to <span class="math inline">\(\infty\)</span> in the direction specified by the corresponding eigenvector.</p>
+<p>Suppose that <span class="math inline">\(\lambda_i\)</span> is a real, negative number; then <span class="math inline">\(\lim_{t \to \infty}e^{\lambda_i t} = 0\)</span>. If <span class="math inline">\(\lambda_i\)</span> is positive, on the other hand, then <span class="math inline">\(\lim_{t \to \infty}e^{\lambda_i t} = \infty\)</span>. Thus, if any of the <span class="math inline">\(\lambda_i &gt; 0\)</span>, the system will initially move toward <span class="math inline">\(\infty\)</span> in the direction specified by the corresponding eigenvector.</p>
 <p>Whenever <span class="math inline">\(\lambda_i\)</span> is complex (e.g., generically, when <span class="math inline">\(A\)</span> is not symmetric), then we need to consider:</p>
 <p><span class="math display">\[
 e^{\alpha t + i \beta t} = e^{\alpha t} e^{i \beta t} = e^{\alpha t} (\cos \beta + i \sin \beta )t
 \]</span></p>
 <p>where we have used Euler’s formula. Importantly, <span class="math inline">\((\cos \beta + i \sin \beta )\)</span> is bounded, and in fact its real (imaginary) part is <span class="math inline">\(\leq 1\)</span> (the equation describes a unit circle in the complex plane). Then, <span class="math inline">\(\lim_{t \to \infty} e^{\alpha t + i \beta t} = 0\)</span> if <span class="math inline">\(\alpha &lt; 0\)</span>.</p>
 <p>Therefore, the vector <span class="math inline">\(0_n\)</span> is an asymptotically stable equilibrium of the system <span class="math inline">\(\dfrac{dx}{dt} = A x\)</span> if and only if <em>all</em> the eigenvalues of <span class="math inline">\(A\)</span> have negative real part.</p>
-<p><strong>Stability of the origin for <span class="math inline">\(A_{2 \times 2}\)</span></strong></p>
+<p><strong>Stability of the origin for</strong> <span class="math inline">\(A_{2 \times 2}\)</span></p>
 <p>As we have shown above, the eigenvalues of a <span class="math inline">\(2\times2\)</span> matrix <span class="math inline">\(A\)</span>:</p>
 <p><span class="math display">\[
 A = \begin{pmatrix}
@@ -447,7 +480,7 @@ c &amp; d
 <li>Calculate the Jacobian matrix, <span class="math inline">\(J\)</span></li>
 <li>Plug in an equilibrium, obtaining the corresponding community matrix <span class="math inline">\(M\)</span></li>
 <li>Compute the eigenvalues of <span class="math inline">\(M\)</span>, <span class="math inline">\(\lambda_i\)</span></li>
-<li>If <em>all</em> the eigenvalues have negative real part, <span class="math inline">\(\Re (\lambda_i) &lt; 0\)</span>, then the equilibrium is locally asymptotically stable; if <em>any</em> <span class="math inline">\(\Re (\lambda_i) &gt; 0\)</span>, then the equilibrium is unstable, and there are small perturbations that will amplify</li>
+<li>If <em>all</em> the eigenvalues have negative real part, <span class="math inline">\(\Re (\lambda_i) &lt; 0\)</span>, then the equilibrium is locally asymptotically stable; if <em>any</em> <span class="math inline">\(\Re (\lambda_i) &gt; 0\)</span>, then the equilibrium is unstable, and there are small perturbations that will amplify (at least initially)</li>
 </ul>
 <p>For the GLV system with equilibrium <span class="math inline">\(x^\star = -A^{-1}r &gt; 0_n\)</span>, we have:</p>
 <p><span class="math display">\[
@@ -480,7 +513,9 @@ M = \left. J \right|_{x^\star} = D(x^\star)A
 D(x^\star)^{-\frac{1}{2}} D(x^\star) A D(x^\star)^{\frac{1}{2}}\\
 D(x^\star)^{\frac{1}{2}}  A D(x^\star)^{\frac{1}{2}}\\
 \end{aligned}
-\]</span> The matrices <span class="math inline">\(D(x^\star) A\)</span> and <span class="math inline">\(D(x^\star)^{\frac{1}{2}} A D(x^\star)^{\frac{1}{2}}\)</span> are <em>similar</em>, and thus have the same eigenvalues; the matrices <span class="math inline">\(A\)</span> and <span class="math inline">\(D(x^\star)^{\frac{1}{2}} A D(x^\star)^{\frac{1}{2}}\)</span> are <em>congruent</em>, and thus have the same number of positive, negative and zero eigenvalues by Sylvester’s law of inertia.</p>
+\]</span></p>
+<p>The matrices <span class="math inline">\(D(x^\star) A\)</span> and <span class="math inline">\(D(x^\star)^{\frac{1}{2}} A D(x^\star)^{\frac{1}{2}}\)</span> are <em>similar</em>, and thus have the same eigenvalues; the matrices <span class="math inline">\(A\)</span> and <span class="math inline">\(D(x^\star)^{\frac{1}{2}} A D(x^\star)^{\frac{1}{2}}\)</span> are <em>congruent</em>, and thus have the same number of positive, negative and zero eigenvalues by Sylvester’s law of inertia.</p>
+<p>A symmetric matrix is negative definite if all its submatrices obtained by deleting a set of rows and the corresponding columns are negative definite as well. Then, if <span class="math inline">\(A = A^T\)</span> is negative definite, a) a feasible equilibrium is locally stable, and b) for any subsystem, feasibility implies local stability.</p>
 <p>Note that this is generally not the case for nonsymmetric matrices <span class="math inline">\(A\)</span>, in which case we could have that <span class="math inline">\(A\)</span> has all eigenvalues with a negative real part, while <span class="math inline">\(D(x^\star)A\)</span> has some eigenvalues with positive real part (or viceversa). For example, take</p>
 <p><span class="math display">\[
 A = \begin{pmatrix}
@@ -488,18 +523,21 @@ A = \begin{pmatrix}
 5 &amp; -2 &amp; -2\\
 5 &amp; 5 &amp; -3
 \end{pmatrix} \quad \lambda(A) = \{-7,\frac{1}{2}(-1 \pm \sqrt{15}) \}
-\]</span> and the equilibrium <span class="math inline">\(x^\star = (1,1,1/2)^T\)</span> (obtained for <span class="math inline">\(r = (-1, -2, -17/2)\)</span>); we obtain:</p>
+\]</span></p>
+<p>and the equilibrium <span class="math inline">\(x^\star = (1,1,1/2)^T\)</span> (obtained for <span class="math inline">\(r = (-1, -2, -17/2)\)</span>); we obtain:</p>
 <p><span class="math display">\[
 M = D(x^\star)A = \begin{pmatrix}
 -3 &amp; 4 &amp; 0\\
 5 &amp; -2 &amp; -2\\
 \frac{5}{2} &amp; \frac{5}{2} &amp; -\frac{3}{2}
 \end{pmatrix} \quad \lambda(B) = \{-7,\frac{1}{4}(1 \pm \sqrt{31}) \}
-\]</span> Thus, the equilibrium is not locally asymptotically stable.</p>
-<section id="global-asymptotic-stability" class="level3">
-<h3 class="anchored" data-anchor-id="global-asymptotic-stability">Global Asymptotic Stability</h3>
-<p>In certain models, we can show that whenever the population starts at a positive value, it will always reach a certain equilibrium <span class="math inline">\(x^\star\)</span>. In this case, we say the equilibrium is globally asymptotically stable.</p>
-<p>Because as we said solving differential equations is in general very difficult, and in many cases of interest impossible, we employ a proxy function, called a Lyapunov function.</p>
+\]</span></p>
+<p>Thus, the equilibrium is not locally asymptotically stable.</p>
+</section>
+<section id="global-asymptotic-stability" class="level2">
+<h2 class="anchored" data-anchor-id="global-asymptotic-stability">Global Asymptotic Stability</h2>
+<p>In certain models, we can show that whenever the populations start at a positive value, they will always reach a certain equilibrium <span class="math inline">\(x^\star\)</span>. In this case, we say the equilibrium is globally asymptotically stable.</p>
+<p>Because, as we said, solving differential equations is in general very difficult, and in many cases of interest impossible, we employ a proxy function, called a Lyapunov function.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -516,13 +554,13 @@ Lyapunov functions
 <ul>
 <li><span class="math inline">\(V(x(t)) \geq 0\)</span> for all <span class="math inline">\(x(t) &gt; 0\)</span></li>
 <li><span class="math inline">\(V(x(t)) = 0\)</span> if and only if <span class="math inline">\(x(t) = x^\star\)</span></li>
-<li><span class="math inline">\(\dfrac{d V(x(t))}{dt} \leq 0\)</span> for all <span class="math inline">\(t\)</span> and</li>
+<li><span class="math inline">\(\dfrac{d V(x(t))}{dt} \leq 0\)</span> for all <span class="math inline">\(x(t)\)</span> and</li>
 <li><span class="math inline">\(\dfrac{d V(x(t))}{dt} = 0\)</span> if and only if <span class="math inline">\(x(t) = x^\star\)</span></li>
 </ul>
 <p>then <span class="math inline">\(x^\star\)</span> is globally asymptotically stable: all trajectories starting at a positive point will converge to it.</p>
-<p>The logic of this procedure is to identify a suitable function <span class="math inline">\(V\)</span> that is positive everywhere but at the equilibrium, and is constantly declining in time; then necessarily the function will eventually reach zero, which is attained only at equilibrium.</p>
+<p>The logic of this procedure is to identify a suitable function <span class="math inline">\(V\)</span> that is positive everywhere but at the equilibrium, and is always declining in time; then necessarily the function will eventually reach zero, which is attained only at equilibrium.</p>
 <p><strong>Example</strong></p>
-<p><span class="math inline">\(V(x(t)) = (x(t) - x^\star)^2\)</span> is a Lyapunov function that can be used to prove that the logistic growth model <span class="math inline">\(dx/dt = x(1-x)\)</span> has an equilibrium <span class="math inline">\(x^\star = 1\)</span> that is globally asymptotically stable.</p>
+<p><span class="math inline">\(V(x(t)) = (x(t) - x^\star)^2\)</span> is a Lyapunov function for the logistic growth model <span class="math inline">\(dx/dt = x(1-x)\)</span>: the model has an equilibrium <span class="math inline">\(x^\star = 1\)</span> that is globally asymptotically stable.</p>
 <ul>
 <li><span class="math inline">\(V(x(t))\)</span> is always nonnegative, and is zero only at <span class="math inline">\(x(t) = x^\star = 1\)</span></li>
 <li>The derivative of <span class="math inline">\(V(x(t))\)</span> w.r.t. time is:</li>
@@ -538,30 +576,90 @@ Lyapunov functions
 </div>
 </div>
 </div>
-<div class="callout callout-style-default callout-warning callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Exercise: Global stability of logistic growth
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-4" class="callout-4-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Show that <span class="math inline">\(V(x(t)) = x(t) - 1 - \log x(t)\)</span> is a Lyapunov function that can be used to prove the global stability of <span class="math inline">\(x^\star = 1\)</span> for the logistic growth model <span class="math inline">\(dx/dt = x(1-x)\)</span>.</p>
-<ul>
-<li>Prove that <span class="math inline">\(V \geq 0\)</span>, with equality only at equilibrium</li>
-<li>Prove that <span class="math inline">\(dV/dt \leq 0\)</span>, with equality only at equilibrium</li>
-</ul>
-</div>
-</div>
-</div>
-</section>
+<p>There are two classic candidate Lyapunov functions for Lotka-Volterra models. The first is due to MacArthur, and shows that, when interactions are symmetric and the matrix of interactions is negative definite (i.e., has only negative eigenvalues), the feasible equilibrium is globally stable.</p>
+<p>We consider a slightly modified version of MacArthur’s function, and assume <span class="math inline">\(A = A^T\)</span>:</p>
+<p><span class="math display">\[
+W(x) = r^Tx^\star - (2 r^T x + x^T A x)
+\]</span></p>
+<p>Whenever <span class="math inline">\(A\)</span> is negative definite, then <span class="math inline">\(W(x(t))\)</span> is positive everywhere but at equilibrium (the function is convex), and has a single minimum at the equilibrium. Note that, whenever <span class="math inline">\(x^\star &gt; 0_n\)</span> is an equilibrium, then</p>
+<p><span class="math display">\[
+\begin{aligned}
+r + A x^\star &amp;= 0_n\\
+r &amp;= -Ax^\star
+\end{aligned}
+\]</span></p>
+<p>Substitute these values in the function <span class="math inline">\(W\)</span>, to obtain:</p>
+<p><span class="math display">\[
+\begin{aligned}
+W(x^\star) &amp;= r^Tx^\star - (2 r^T x^\star + (x^\star)^T A x^\star) \\
+&amp;=r^Tx^\star - (2 r^T x^\star + ((x^\star) A)^T x^\star)\\
+&amp;=r^Tx^\star - (2 r^T x^\star -r^T x^\star)\\
+&amp;=0_n
+\end{aligned}
+\]</span></p>
+<p>Differentiating with respect to time, we find:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\dot{W}(x(t)) &amp;= -(2 r^T \dot{x} + \dot{x}^T A x + x^T A \dot{x})\\
+&amp;= -(2 r^T \dot{x} + \dot{x}^T A^T x + x^T A \dot{x})\\
+&amp;= -2 (r + Ax)^T \dot{x}\\
+&amp;= -2 (r + Ax)^T D(x) (r + Ax)\\
+&amp;=-2 \sum_i x_i (r_i + (Ax)_i)^2 \leq 0
+\end{aligned}
+\]</span></p>
+<p>A more general candidate Lyapunov function is due to Goh, and shows that, whenever there exists a positive diagonal matrix <span class="math inline">\(D(w)\)</span> such that <span class="math inline">\(D(w)A^T + AD(w)\)</span> is negative definite, then the equilibrium <span class="math inline">\(x^\star &gt; 0_n\)</span> is globally stable.</p>
+<p>We start with the simplest case in which <span class="math inline">\(w = 1_n\)</span> and thus <span class="math inline">\(D(w) = I\)</span>. Take the function</p>
+<p><span class="math display">\[
+V(x(t)) = \sum_i \left(x_i - x_i^\star - x_i^\star \log \frac{x_i}{x_i^\star} \right)
+\]</span></p>
+<p>The function is positive for every <span class="math inline">\(x \in \mathbb {R^n}_+\)</span>, because <span class="math inline">\(z - 1 - \log z \geq 0\)</span> whenever <span class="math inline">\(z &gt; 0\)</span>; take <span class="math inline">\(z = x_i / {x_i}^\star\)</span> and then multiply by <span class="math inline">\({x_i}^\star\)</span> to prove that the function is nonnegative.</p>
+<p>Differentiating with respect to time, we find:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\dot{V}(x(t)) &amp;= \sum_i \left(\dot{x}_i - x_i^\star \frac{\dot{x}_i}{x_i} \right)\\
+&amp;= \sum_i \left(x_i (r_i + (Ax)_i) - x_i^\star (r_i + (Ax)_i)\right)\\
+&amp;=\sum_i \Delta x_i (-(Ax^\star)_i + (Ax)_i )\\
+&amp;=\sum_{i,j}\Delta x_i A_{ij} \Delta x_j\\
+&amp;=\Delta x^T A \Delta x\\
+&amp;=\frac{1}{2}\Delta x^T (A + A^T)\Delta x\\
+\end{aligned}
+\]</span></p>
+<p>Thus, if the symmetric part of <span class="math inline">\(A\)</span>, <span class="math inline">\(H(A) = \frac{1}{2} (A + A^T)\)</span> is negative definite, then <span class="math inline">\(\dot{V}(x(t))&lt;0\)</span> for every <span class="math inline">\(\Delta x \neq 0\)</span> and the equilibrium is stable.</p>
+<p>To extend the reach of the candidate function, consider the change of variables:</p>
+<p><span class="math display">\[
+z_i = x_i / w_i \quad x_i = w_i z_i
+\]</span></p>
+<p>with <span class="math inline">\(w_i&gt;0\)</span>. This change of variables cannot impact the existence or stability of equilibria (we are simply changing the unit of measure we Then,</p>
+<p><span class="math display">\[
+\dot{z_i} = \frac{\dot{x}_i}{w_i} = \frac{x_i}{w_i}(r_i + (Ax)_i) = z_i(r_i + (AD(w)z)_i)=z_i(r_i + (\tilde{A}z)_i)
+\]</span></p>
+<p>Thus, if <span class="math inline">\(H(\tilde{A}) = \frac{1}{2} (AD(w) + D(w)A^T)\)</span> is negative definite, the equilibrium is stable.</p>
 </section>
 <section id="global-stability-and-saturated-equilibria" class="level2">
 <h2 class="anchored" data-anchor-id="global-stability-and-saturated-equilibria">Global stability and saturated equilibria</h2>
+<p>When Goh’s function holds, we can prove that dynamics starting from positive conditions <span class="math inline">\(x(t)&gt;0_n\)</span> will converge to a <em>saturated equilibrium</em> <span class="math inline">\(\tilde{x}\)</span> characterized by two conditions. We have <span class="math inline">\(n\)</span> populations, and at the saturated equilibrium the populations in set <span class="math inline">\(k\)</span> coexist at a globally stable equilibrium, and the remaining populations, belonging to set <span class="math inline">\(n-k\)</span> are extinct, and cannot re-invade the system starting from low abundance.</p>
+<p>Without loss of generality, we can order the populations such that the set of coexisting populations are labeled <span class="math inline">\(k = \{1, 2, \ldots, \|k\|\}\)</span>, and the remaining species are labeled <span class="math inline">\(\{\|k\|+1, \ldots, n\}\)</span>. We partition the saturated equilibrium, the vector of growth rates and the matrix of interactions accordingly:</p>
+<p><span class="math display">\[
+\tilde{x} = \begin{pmatrix}
+x^{(k)\star}\\
+0_{n-k}
+\end{pmatrix} \quad
+r = \begin{pmatrix}
+r^{(k)}\\
+r^{(n-k)}
+\end{pmatrix} \quad A = \begin{pmatrix}
+A^{(k,k)} &amp; A^{(k,n-k)}\\
+A^{(n-k,k)} &amp; A^{(n-k,n-k)}
+\end{pmatrix}
+\]</span></p>
+<p>We consider a modification of Goh’s function:</p>
+<p><span class="math display">\[
+V(x) = \sum_{i \in k}\left(x_i - x_i^\star - x_i^\star \log \frac{x_i}{x_i^\star}\right) + \sum_{i \in n-k} x_i
+\]</span></p>
+<p>The derivative:</p>
+<p><span class="math display">\[
+\dot{V}(x) = \sum_i \left( \right) +
+\]</span></p>
 </section>
 <section id="classic-papers" class="level2">
 <h2 class="anchored" data-anchor-id="classic-papers">Classic papers</h2>

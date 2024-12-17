@@ -18,7 +18,7 @@ library(deSolve) # integrate differential equations
 
 ## Equations
 
-We can write the model for $n$ interacting populations in component form
+We can write the GLV model for $n$ interacting populations in component form
 as:
 
 $$
@@ -33,10 +33,10 @@ $$
 
 where $x = x(t)$ is a (column) vector of length $n$ containing the
 densities of all populations $1, \ldots, n$ at time $t$, $r$ is a vector
-of "intrinsic growth rates" (or death rates, when negative), measuring
-the growth (decline) of population $i$ when grown alone at low density,
-and $A$ is a $n \times n$ matrix of interaction coefficients. We use
-$D(x)$ to denote the diagonal matrix with $x$ on the diagonal.
+of *intrinsic growth rates* (or death rates, when negative), measuring
+the growth (decline) of population $i$ when growing alone at low
+density, and $A$ is a $n \times n$ matrix of *interaction coefficients*.
+We use $D(x)$ to denote the diagonal matrix with $x$ on the diagonal.
 
 Sometimes the model is written in a slightly different way, by bringing
 the vector $r$ outside the parenthesis:
@@ -58,8 +58,8 @@ $$
 
 where $\circ$ is the Hadamard (element by element) product. This
 notation is convenient when computing the equilibria of the system; the
-previous notation is more convenient when investigating stability. We
-will alternate between the two notations, using $A$ and
+previous notation is more convenient when investigating their stability.
+We will alternate between the two notations, using $A$ and
 $B = D(r)^{-1} A$ for the two matrices.
 
 ## Equilibria
@@ -104,18 +104,55 @@ EXAMPLE ABOVE
 
 For a single population, the GLV model can yield only two outcomes:
 unbounded growth, or convergence to an equilibrium; if the equilibrium
-is $x^\star = 0$, we say that the population is extinct at the
-equilibrium.
+is $x^\star = 0$, we say that the population is extinct at the equilibrium.
+
+```{r}
+#| warning: false
+#| message: false
+#| echo: false
+#| fig-width: 7
+#| fig-height: 3
+source("code/plot_dynamics.R")
+source("code/check_persistence.R")
+source("code/type_of_dynamics.R")
+pl1
+```
 
 When we have two populations, we can also observe neutral cycles (as in
 the classic LV predator-prey system), and bistability (i.e., one
-population survives, while the other goes extinct; which population goes
-extinct depends on the initial conditions).
+population survives, while the other goes extinct; the identity of the
+population going extinct depends on the initial conditions).
 
-For three populations we can observe limit cycles; for four or more
-populations we can have chaos (i.e., non-periodic oscillations).
+```{r}
+#| warning: false
+#| message: false
+#| echo: false
+#| fig-width: 7
+#| fig-height: 3
+pl2
+```
 
-FIGURES HERE
+For three populations we can observe limit cycles.
+
+```{r}
+#| warning: false
+#| message: false
+#| echo: false
+#| fig-width: 7
+#| fig-height: 3
+pl3
+```
+
+For four or more populations we can have chaos (i.e., non-periodic oscillations).
+
+```{r}
+#| warning: false
+#| message: false
+#| echo: false
+#| fig-width: 7
+#| fig-height: 3
+pl4
+```
 
 ## Equilibrium as time-average
 
@@ -144,7 +181,7 @@ $$
 Compute the average on both sides:
 
 $$
-\frac{1}{T}\int_0^T \frac{d \log(x(t))}{dt} dt= \frac{1}{T}\int_0^T \left(r + Ax \right) dt
+\frac{1}{T}\int_0^T \frac{d \log(x(t))}{dt} dt= \frac{1}{T}\int_0^T \left(r + Ax(t) \right) dt
 $$
 
 yielding:
@@ -165,22 +202,29 @@ $$
 -A^{-1} r = x^\star =  \frac{1}{T} \int_0^T x(t) dt 
 $$
 
-showing that **the average density is** in fact **the equilibrium**.
-With a similar argument, one can prove that if the trajectory stays in a
+showing that *the average density is* in fact *the equilibrium*. With a
+similar argument, one can prove that if the trajectory stays in a
 compact space (i.e., in case of chaotic attractors), then the long-time
 average is still $x^\star$.
 
-A dynamical system is permanent if, for all $x_i(0) > 0$, the limit
-$\liminf_{t \to \infty} x_i(t) > \delta > 0$ for all $i$. This means
-that each axis of $\mathbb R^n$ *repels* the dynamics when $t$ is large
-enough.
+A dynamical system is permanent if, for all $x_i(0) > 0$, the limit $\liminf_{t \to \infty} x_i(t) > \delta > 0$ for all $i$. This means that each axis of $\mathbb R^n$ *repels* the dynamics when $t$ is large enough.
 
-Suppose that a GLV system is permanent, and that population dynamics
-converge to a limit cycle or a chaotic attractor; then, because of the
-calculation above, there must be a positive equilibrium in
-$\mathbb R^n$. Thus, a system without a feasible equilibrium cannot be
-permanent. That is to say, the coexistence of all populations in a GLV
-system requires a feasible equilibrium.
+Suppose that a GLV system is permanent, and that population dynamics converge to a limit cycle or a chaotic attractor; then, because of the calculation above, there must be a positive equilibrium in $\mathbb R^n$. Thus, a GLV system without a feasible equilibrium cannot be permanent. That is to say, the coexistence of all populations in a GLV system requires a feasible equilibrium.
+
+```{r}
+#| warning: false
+#| message: false
+#| echo: false
+#| fig-width: 7
+#| fig-height: 3
+#| fig-cap: "Solid lines: trajectories; dashed lines: equilibrium values; dotted line: (cumulative) average of trajectory."
+# use example out4.1 which is chaotic
+xstar <- solve(A,-r)
+dt1 <- out4.1 %>% as.data.frame() %>% pivot_longer(cols = -time) 
+dt1 <- dt1 %>% group_by(name) %>% mutate(avg = cummean(value)) %>% ungroup()
+ggplot(dt1) + aes(x = time, y = value, colour = name) + geom_line() + geom_line(aes(y = avg), linetype = 3) + geom_hline(data = tibble(name = as.character(1:4), value = xstar), aes(yintercept = value, colour = name), linetype = 2) + theme_bw() + theme(legend.position = "none")
+```
+
 
 EXAMPLE DYNAMICS EITHER LIMIT CYCLE OR CHAOS
 
@@ -193,10 +237,11 @@ that $\lim_{t \to \infty} x(t) = x^\star$. Let's start by considering
 the case of a single population:
 
 -   Take an ODE $dx/dt = f(x)$
--   The system is resting at an equilibrium $x^\star$
--   We perturb the system, and track the dynamics when starting at
-    $x(0) = x^\star + \epsilon$, where $\epsilon$ (the perturbation) is
-    taken to be sufficiently small $\| \epsilon \| \ll 1$
+-   The population is resting at an equilibrium $x^\star$
+-   We perturb the population abundance, and track the dynamics when
+    starting at $x(0) = x^\star + \epsilon$, where $\epsilon$ (the
+    perturbation) is taken to be sufficiently small
+    $\| \epsilon \| \ll 1$
 -   We write $\Delta x(0) = x(0) - x^\star$
 -   We derive the dynamics for $\Delta x$.
 
@@ -224,8 +269,10 @@ function in the vicinity of a point $a$ by a power series:
 
 $$
 f(x) = f(a) + \dfrac{1}{1!} \left. \dfrac{df(x)}{dx} \right|_a (x-a)+ \dfrac{1}{2!} \left. \dfrac{d^2f(x)}{dx^2} \right|_a (x-a)^2+ \dfrac{1}{3!} \left. \dfrac{d^3f(x)}{dx^3} \right|_a (x-a)^3 + \ldots
-$$ where $n! = n (n-1)(n-2)\ldots 1$ is the factorial function and the
-derivatives are evaluated at $a$. When we choose $a=0$ this is called
+$$
+
+where $n! = n (n-1)(n-2)\ldots 1$ is the factorial function and the
+derivatives are evaluated at $a$. When we choose $a=0$, this is called
 the Maclaurin series.
 
 **Example**
@@ -259,11 +306,11 @@ $$
 which is the equation of the exponential growth model, with
 $\rho = \left.\dfrac{d f(x)}{d x}\right|_{x^\star}$. Then, the solution
 is $\Delta x(t) = \Delta x(0) e^{\rho t}$, and the deviation from the
-equilibrium goes to zero (i.e., the system goes back to $x^\star$)
-whenever $\rho < 0$.
+equilibrium eventually reaches zero (i.e., the system goes back to
+$x^\star$) whenever $\rho < 0$.
 
-For example, take the logistic growth model and evaluate the stability
-of $x^\star = 1$; we have:
+For example, take the logistic growth model $\dot{x} = x(1-x)$, and
+evaluate the stability of $x^\star = 1$; we have:
 
 $$
 \left.\dfrac{d f(x)}{d x}\right|_{x^\star} = \left.\dfrac{d (x - x^2)}{d x}\right|_{x^\star} = \left.(1 - 2x)\right|_{x^\star} = -1
@@ -507,8 +554,8 @@ by Sylvester's law of inertia.
 A symmetric matrix is negative definite if all its submatrices obtained
 by deleting a set of rows and the corresponding columns are negative
 definite as well. Then, if $A = A^T$ is negative definite, a) a feasible
-equilibrium is globally stable, and b) for any subsystem, feasibility
-implies global stability.
+equilibrium is locally stable, and b) for any subsystem, feasibility
+implies local stability.
 
 Note that this is generally not the case for nonsymmetric matrices $A$,
 in which case we could have that $A$ has all eigenvalues with a negative
@@ -536,11 +583,11 @@ $$
 
 Thus, the equilibrium is not locally asymptotically stable.
 
-### Global Asymptotic Stability
+## Global Asymptotic Stability
 
-In certain models, we can show that whenever the population starts at a
-positive value, it will always reach a certain equilibrium $x^\star$. In
-this case, we say the equilibrium is globally asymptotically stable.
+In certain models, we can show that whenever the populations start at a
+positive value, they will always reach a certain equilibrium $x^\star$.
+In this case, we say the equilibrium is globally asymptotically stable.
 
 Because, as we said, solving differential equations is in general very
 difficult, and in many cases of interest impossible, we employ a proxy
@@ -555,16 +602,16 @@ that:
 
 -   $V(x(t)) \geq 0$ for all $x(t) > 0$
 -   $V(x(t)) = 0$ if and only if $x(t) = x^\star$
--   $\dfrac{d V(x(t))}{dt} \leq 0$ for all $t$ and
+-   $\dfrac{d V(x(t))}{dt} \leq 0$ for all $x(t)$ and
 -   $\dfrac{d V(x(t))}{dt} = 0$ if and only if $x(t) = x^\star$
 
 then $x^\star$ is globally asymptotically stable: all trajectories
 starting at a positive point will converge to it.
 
 The logic of this procedure is to identify a suitable function $V$ that
-is positive everywhere but at the equilibrium, and is constantly
-declining in time; then necessarily the function will eventually reach
-zero, which is attained only at equilibrium.
+is positive everywhere but at the equilibrium, and is always declining
+in time; then necessarily the function will eventually reach zero, which
+is attained only at equilibrium.
 
 **Example**
 
@@ -646,15 +693,16 @@ $$
 V(x(t)) = \sum_i \left(x_i - x_i^\star - x_i^\star \log \frac{x_i}{x_i^\star} \right)
 $$
 
-The function is positive for every $x \in \mathbb R^n_+$, because
-$z - 1 - \log z \geq 0$ whenever $z > 0$; take $z = x_i / x_i^\star$ and
-then multiply by $x_i^\star$ to prove that the function is nonnegative.
+The function is positive for every $x \in \mathbb {R^n}_+$, because
+$z - 1 - \log z \geq 0$ whenever $z > 0$; take $z = x_i / {x_i}^\star$
+and then multiply by ${x_i}^\star$ to prove that the function is
+nonnegative.
 
 Differentiating with respect to time, we find:
 
 $$
 \begin{aligned}
-\dot{V}(x(t)) &= \sum_i \left(\dot{x}_i - x_i^\star \frac{\dot{x}_i}{x_i^\star} \right)\\
+\dot{V}(x(t)) &= \sum_i \left(\dot{x}_i - x_i^\star \frac{\dot{x}_i}{x_i} \right)\\
 &= \sum_i \left(x_i (r_i + (Ax)_i) - x_i^\star (r_i + (Ax)_i)\right)\\
 &=\sum_i \Delta x_i (-(Ax^\star)_i + (Ax)_i )\\
 &=\sum_{i,j}\Delta x_i A_{ij} \Delta x_j\\
@@ -674,7 +722,9 @@ $$
 z_i = x_i / w_i \quad x_i = w_i z_i
 $$
 
-with $w_i>0$. Then,
+with $w_i>0$. This change of variables cannot impact the existence or
+stability of equilibria (we are simply changing the unit of measure we
+Then,
 
 $$
 \dot{z_i} = \frac{\dot{x}_i}{w_i} = \frac{x_i}{w_i}(r_i + (Ax)_i) = z_i(r_i + (AD(w)z)_i)=z_i(r_i + (\tilde{A}z)_i)
@@ -684,6 +734,46 @@ Thus, if $H(\tilde{A}) = \frac{1}{2} (AD(w) + D(w)A^T)$ is negative
 definite, the equilibrium is stable.
 
 ## Global stability and saturated equilibria
+
+When Goh's function holds, we can prove that dynamics starting from
+positive conditions $x(t)>0_n$ will converge to a *saturated
+equilibrium* $\tilde{x}$ characterized by two conditions. We have $n$
+populations, and at the saturated equilibrium the populations in set $k$
+coexist at a globally stable equilibrium, and the remaining populations,
+belonging to set $n-k$ are extinct, and cannot re-invade the system
+starting from low abundance.
+
+Without loss of generality, we can order the populations such that the
+set of coexisting populations are labeled $k = \{1, 2, \ldots, \|k\|\}$,
+and the remaining species are labeled $\{\|k\|+1, \ldots, n\}$. We
+partition the saturated equilibrium, the vector of growth rates and the
+matrix of interactions accordingly:
+
+$$
+\tilde{x} = \begin{pmatrix}
+x^{(k)\star}\\ 
+0_{n-k}
+\end{pmatrix} \quad
+r = \begin{pmatrix}
+r^{(k)}\\ 
+r^{(n-k)}
+\end{pmatrix} \quad A = \begin{pmatrix}
+A^{(k,k)} & A^{(k,n-k)}\\
+A^{(n-k,k)} & A^{(n-k,n-k)}
+\end{pmatrix}
+$$
+
+We consider a modification of Goh's function:
+
+$$
+V(x) = \sum_{i \in k}\left(x_i - x_i^\star - x_i^\star \log \frac{x_i}{x_i^\star}\right) + \sum_{i \in n-k} x_i
+$$
+
+The derivative:
+
+$$
+\dot{V}(x) = \sum_i \left( \right) + 
+$$
 
 ## Classic papers
 

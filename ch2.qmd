@@ -10,11 +10,141 @@ library(deSolve) # integrate differential equations
 
 ## All species growing logistically
 
+Suppose we take $n$ populations, each growing according to:
+
+$$
+\dot{x}_i = x_i (r_i - A_{ii} x_i)
+$$
+
+with $A_{ii} > 0$. We assume that $r_i \sim Q$, a distribution with mean $0$, $\matbb E(r_i) = 0$ and symmetric about its mean $P(r_i) = P(-r_i)$. For example, we could choose $r_i \sim \mathcal N(0, \sigma^2)$, or $r_i \sim \mathcal U[-1, 1]$. Naturally, whenever $r_i > 0$, the population will grow to $x_i^\star = r_i / A_{ii}$. If $r_i < 0$, on the other hand, the population will go extinct. Because of the symmetry around zero, each population has therefore probability $1/2$ of persisting. When we have $n$ populations, the number of coexisting populations is a random variable following the binomial distribution:
+
+$$
+P(k | n) = \binom{n}{k} \frac{1}{2^n}\quad k \sim \mathcal B\left(n, \frac{1}{2}\right)
+$$
+
 ## The random zoo
+
+Now consider a GLV model with random parameters. We choose $r_i$ from a distribution with mean zero and symmetric about the mean, and each interaction $A_{ij}$ from a distribution with mean zero and symmetric about the mean. Moreover, we add a constant to the diagonal of the matrix such that the symmetric part of $A$, $H(A) = \frac{1}{2} (A + A^T)$ is positive definite. As we have seen before, this means that dynamics will always converge to a saturated equilibrium. 
+
+We now introduce a family of $2^n$ matrices $S_i$, with:
+
+$$
+\begin{aligned}
+S_1 &= \begin{pmatrix}
+1 & 0 & 0 & \cdots & 0\\
+0 & 1 & 0 & \cdots & 0\\
+0 & 0 & 0 & \cdots & 0\\
+\cdots & \cdots & \cdots &\cdots &\cdots\\
+0 & 0 & 0 & 0 &1
+\end{pmatrix} = I_n\\
+S_2 &= \begin{pmatrix}
+-1 & 0 & 0 & \cdots & 0\\
+0 & 1 & 0 & \cdots & 0\\
+0 & 0 & 1 & \cdots & 0\\
+\cdots & \cdots & \cdots &\cdots &\cdots\\
+0 & 0 & 0 & 0 &1
+\end{pmatrix} \\
+S_3 &= \begin{pmatrix}
+1 & 0 & 0 & \cdots & 0\\
+0 & -1 & 0 & \cdots & 0\\
+0 & 0 & 1 & \cdots & 0\\
+\cdots & \cdots & \cdots &\cdots &\cdots\\
+0 & 0 & 0 & 0 &1
+\end{pmatrix} \\
+S_4 &= \begin{pmatrix}
+-1 & 0 & 0 & \cdots & 0\\
+0 & -1 & 0 & \cdots & 0\\
+0 & 0 & 1 & \cdots & 0\\
+\cdots & \cdots & \cdots &\cdots &\cdots\\
+0 & 0 & 0 & 0 &1
+\end{pmatrix}\\
+\cdots\\
+S_{2^n} &= \begin{pmatrix}
+-1 & 0 & 0 & \cdots & 0\\
+0 & -1 & 0 & \cdots & 0\\
+0 & 0 & -1 & \cdots & 0\\
+\cdots & \cdots & \cdots &\cdots &\cdots\\
+0 & 0 & 0 & 0 &-1
+\end{pmatrix} = -I_n\\
+\end{aligned}
+$$
+
+These matrices, called *signature matrices* are their own inverse (called *involutory* matrix), and therefore, we have that $S_i S_i = S_i^2 = I_n$. Geometrically, they represent a reflection in each of the axes corresponding to the negated rows or columns.
+
+We then consider what happens when we transform the parameters by multiplying them by $S_i$. Take an arbitrary GLV system, and solve for the $x$ that makes $r + Ax = 0_n$:
+
+$$
+x = -A^{-1} r
+$$
+
+The vector is a feasible equilibrium for the system if $x > 0_n$. Now consider the transformed system:
+
+$$
+r' = S_i r \quad A' = S_iAS_i
+$$
+
+Note that $A'$ is similar to $A$, and therefore has the same eigenvalues; moreover, $P(r') = P(r)$ and $P(A') = P(A)$, because of symmetry. Now compute the new solution
+
+$$
+\begin{aligned}
+x' &= -(S_iAS_i)^{-1} S_i r\\ &=-S_iA^{-1}S_i S_i r\\
+&=-S_iA^{-1}r\\
+&=-S_i x
+\end{aligned}
+$$
+
+That is, the transformation changes the sign of the components of $x$ corresponding to the negative coefficients in $S_i$. Hence, for any possible choice of $r$, $A$, there is only one possible choice of $S_i$ that makes the equilibrium feasible. Because all matrices $A'$ and all vectors $r'$ have the same probability/density, then the probability of having a positive $x$ is exactly $1/2^n$. 
+
+Thus, systems with random interactions and a strongly stable matrix of interactions have the same probability of feasibility as that of a system in which populations are not interacting!
+
+The same calculation can be repeated for the case in which we a certain set of $k$ components of $x$ to be positive, in which case the probability is $1/2^k$. We now compute the probability that the remaining $n-k$ populations cannot invade when rare.
+
+We have a set of $k$  populations resting at a feasible equilibrium:
+
+$$
+x^{(k)} = -(A^{(k)})^{-1}r^{(k)}
+$$
+
+The invasion growth rate for the remaining $n-k$ populations is:
+
+$$
+\dot{\log (x^{(n-k)})} = r^{(n-k)} - A^{(n-k,k)}x^{(k)}
+$$
+
+Take the family of signature matrices of size $n-k$:
+
+$$
+r^{(n-k)'} = S_i r^{(n-k)}\quad A^{(n-k, k)'} = S_i A^{A^{(n-k, k)}}
+$$
 
 ## Random zoo and experimental data
 
 ## Competitive GLV
+
+We now consider a more complicated case, in which we have a competitive GLV system:
+
+$$
+\dot{x}_i=x_i r_i (1-\sum_j M_{ij}x_j)
+$$
+
+where the matrix of interactions is given by the sum of two matrices:
+
+$$
+M = \alpha I + B
+$$
+and $B$ is a random matrix, with entries sampled independently from a distribution with mean $\mu > 0$, and unit variance. We want to calculate the probability that the system has a feasible equilibrium, and how the probability changes when we increase $\alpha$. 
+
+The value of $\alpha$ can be considered the "excess" intraspecific interaction in the system. To show that this value influences feasibility, we start by showing that a sufficiently large $\alpha$ guarantees feasibility.
+
+## A sufficiently large $\alpha$ guarantees feasibility
+
+We want to show that the system of equations
+
+$$
+(\alpha I + B)x = 1_n
+$$
+
+has a positive solution $x$ for $\alpha$ large enough. To this end, we first divide 
 
 ## The average interaction strength does not influence feasibility
 
