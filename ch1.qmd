@@ -67,7 +67,7 @@ the vector $r$ outside the parenthesis:
 
 $$
 \begin{aligned}
-\dot{x_i} &= x_i \left(r_i + \sum_j A_{ij} x_j \right)\\
+\dot{x}_i &= x_i \left(r_i + \sum_j A_{ij} x_j \right)\\
 &= r_i x_i \left(1 + \frac{1}{r_i} \sum_j A_{ij} x_j\right)\\
 &= r_i x_i \left(1 + \sum_j B_{ij} x_j\right)\\
 \end{aligned}
