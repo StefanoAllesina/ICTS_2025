@@ -16,10 +16,10 @@ $$
 \dot{x}_i = x_i (r_i - A_{ii} x_i)
 $$
 
-with $A_{ii} > 0$. We assume that $r_i \sim Q$, a distribution with mean $0$, $\matbb E(r_i) = 0$ and symmetric about its mean $P(r_i) = P(-r_i)$. For example, we could choose $r_i \sim \mathcal N(0, \sigma^2)$, or $r_i \sim \mathcal U[-1, 1]$. Naturally, whenever $r_i > 0$, the population will grow to $x_i^\star = r_i / A_{ii}$. If $r_i < 0$, on the other hand, the population will go extinct. Because of the symmetry around zero, each population has therefore probability $1/2$ of persisting. When we have $n$ populations, the number of coexisting populations is a random variable following the binomial distribution:
+with $A_{ii} > 0$. We assume that $r_i \sim Q$, a distribution with mean $0$, $\mathbb E(r_i) = 0$ and symmetric about its mean: $P(r_i) = P(-r_i)$. For example, we could choose $r_i \sim \mathcal N(0, \sigma^2)$, or $r_i \sim \mathcal U[-1, 1]$. Naturally, whenever $r_i > 0$, the population will grow to $x_i^\star = r_i / A_{ii}$. If $r_i < 0$, on the other hand, the population will go extinct. Because of the symmetry around zero, each population has therefore probability $1/2$ of persisting. When we have $n$ populations, the number of coexisting populations $\|k\|$ is a random variable following the binomial distribution:
 
 $$
-P(k | n) = \binom{n}{k} \frac{1}{2^n}\quad k \sim \mathcal B\left(n, \frac{1}{2}\right)
+P(\|k\| | n) = \binom{n}{\|k\|} \frac{1}{2^n}\quad \|k\| \sim \mathcal B\left(n, \frac{1}{2}\right)
 $$
 
 ## The random zoo
@@ -34,42 +34,42 @@ S_1 &= \begin{pmatrix}
 1 & 0 & 0 & \cdots & 0\\
 0 & 1 & 0 & \cdots & 0\\
 0 & 0 & 0 & \cdots & 0\\
-\cdots & \cdots & \cdots &\cdots &\cdots\\
+\vdots & \vdots & \vdots &\ddots &\vdots\\
 0 & 0 & 0 & 0 &1
 \end{pmatrix} = I_n\\
 S_2 &= \begin{pmatrix}
 -1 & 0 & 0 & \cdots & 0\\
 0 & 1 & 0 & \cdots & 0\\
 0 & 0 & 1 & \cdots & 0\\
-\cdots & \cdots & \cdots &\cdots &\cdots\\
+\vdots & \vdots & \vdots &\ddots &\vdots\\
 0 & 0 & 0 & 0 &1
 \end{pmatrix} \\
 S_3 &= \begin{pmatrix}
 1 & 0 & 0 & \cdots & 0\\
 0 & -1 & 0 & \cdots & 0\\
 0 & 0 & 1 & \cdots & 0\\
-\cdots & \cdots & \cdots &\cdots &\cdots\\
+\vdots & \vdots & \vdots &\ddots &\vdots\\
 0 & 0 & 0 & 0 &1
 \end{pmatrix} \\
 S_4 &= \begin{pmatrix}
 -1 & 0 & 0 & \cdots & 0\\
 0 & -1 & 0 & \cdots & 0\\
 0 & 0 & 1 & \cdots & 0\\
-\cdots & \cdots & \cdots &\cdots &\cdots\\
+\vdots & \vdots & \vdots &\ddots &\vdots\\
 0 & 0 & 0 & 0 &1
 \end{pmatrix}\\
-\cdots\\
+\vdots\\
 S_{2^n} &= \begin{pmatrix}
 -1 & 0 & 0 & \cdots & 0\\
 0 & -1 & 0 & \cdots & 0\\
 0 & 0 & -1 & \cdots & 0\\
-\cdots & \cdots & \cdots &\cdots &\cdots\\
+\vdots & \vdots & \vdots &\ddots &\vdots\\
 0 & 0 & 0 & 0 &-1
 \end{pmatrix} = -I_n\\
 \end{aligned}
 $$
 
-These matrices, called *signature matrices* are their own inverse (called *involutory* matrix), and therefore, we have that $S_i S_i = S_i^2 = I_n$. Geometrically, they represent a reflection in each of the axes corresponding to the negated rows or columns.
+These matrices, called *signature matrices* are their own inverse (a matrix with this property is called *involutory*), and therefore, we have that $S_i S_i = S_i^2 = I_n$. Geometrically, they represent a reflection in each of the axes corresponding to the negated rows or columns.
 
 We then consider what happens when we transform the parameters by multiplying them by $S_i$. Take an arbitrary GLV system, and solve for the $x$ that makes $r + Ax = 0_n$:
 
@@ -93,29 +93,58 @@ x' &= -(S_iAS_i)^{-1} S_i r\\ &=-S_iA^{-1}S_i S_i r\\
 \end{aligned}
 $$
 
-That is, the transformation changes the sign of the components of $x$ corresponding to the negative coefficients in $S_i$. Hence, for any possible choice of $r$, $A$, there is only one possible choice of $S_i$ that makes the equilibrium feasible. Because all matrices $A'$ and all vectors $r'$ have the same probability/density, then the probability of having a positive $x$ is exactly $1/2^n$. 
+That is, the transformation changes the sign of the components of $x$ corresponding to the negative coefficients in $S_i$. Hence, for any possible choice of $r$ and $A$, there is only one possible choice of $S_i$ that makes the equilibrium feasible. Because all matrices $A'$ and all vectors $r'$ have the same probability/density, then the probability of having a positive $x$ is exactly $1/2^n$. Thus, a system with random parameters and a strongly stable matrix of interactions has the same probability of feasibility as that of a system in which populations are not interacting!
 
-Thus, systems with random interactions and a strongly stable matrix of interactions have the same probability of feasibility as that of a system in which populations are not interacting!
+We have seen that when $A$ is such that $H(A)$ is negative definite, dynamics always converge to a saturated equilibrium. We want to compute the probability of finding a saturated equilibrium, in which populations belonging to set $k$ coexist, and the remaining populations cannot invade when rare. 
 
-The same calculation can be repeated for the case in which we a certain set of $k$ components of $x$ to be positive, in which case the probability is $1/2^k$. We now compute the probability that the remaining $n-k$ populations cannot invade when rare.
-
-We have a set of $k$  populations resting at a feasible equilibrium:
+We thus divide $x$, $r$ and $A$ as:
 
 $$
-x^{(k)} = -(A^{(k)})^{-1}r^{(k)}
+x = \begin{pmatrix}
+y\\
+z
+\end{pmatrix} \quad \tilde{x} = \begin{pmatrix}
+y^\star\\
+0_{\|n-k\|}
+\end{pmatrix} \quad A = \begin{pmatrix}
+\mathfrak A & \mathfrak B\\
+\mathfrak C & \mathfrak D
+\end{pmatrix}\quad r = \begin{pmatrix}
+\mathfrak r\\
+\mathfrak s
+\end{pmatrix}
 $$
 
-The invasion growth rate for the remaining $n-k$ populations is:
+We also divide $S_i$ into:
 
 $$
-\dot{\log (x^{(n-k)})} = r^{(n-k)} - A^{(n-k,k)}x^{(k)}
+S_i = \begin{pmatrix}
+S_{i}^{(k)} & 0_{\|k\|, \|n-k\|}\\
+0_{\|n-k\|, \|n\|} & S_{i}^{(n-k)}
+\end{pmatrix}
 $$
 
-Take the family of signature matrices of size $n-k$:
+When we use the signature matrix, the vector $\mathfrak s$ and the matrix $\mathfrak C$ become:
 
 $$
-r^{(n-k)'} = S_i r^{(n-k)}\quad A^{(n-k, k)'} = S_i A^{A^{(n-k, k)}}
+\mathfrak s' = S_i^{(n-k)} \mathfrak s\quad \mathfrak C' = S_i^{(n-k)} \mathfrak C S_i^{(k)}
 $$
+The feasibility and nonivasibility condition, for a given choice of $S_i$ read:
+
+$$
+\begin{cases}
+y' = S_i^{(k)} (-\mathfrak A^{-1}\mathfrak r)\\
+S_i^{(n-k)}(\mathfrak s + \mathfrak C y') < 0_{\|n-k\|}\\
+\end{cases}
+$$
+
+There is only one choice out of $2^{\|k\|}$ that makes $y' > 0_{\|k\|}$; moreover, there is only one choice of $S_i^{(n-k)}$ that fulfills the noninvasibility condition, out of $2^{\|n-k\|}$ equiprobable choices. Then, we have that the probability of finding exactly $\|k\|$ populations coexisting at the saturated equilibrium, with the remaining $\|n-k\|$ that cannot invade is exactly $1/2^{\|k\|} \cdot 2^{\|n-k\|} = 1/2^n$. The number of coexisting populations at the saturated equilibrium follows the binomial distribution:
+
+$$
+P(\|k\| | n) = \binom{n}{\|k\|} \frac{1}{2^n}\quad \|k\| \sim \mathcal B\left(n, \frac{1}{2}\right)
+$$
+
+exactly as for the non-interacting case.
 
 ## Random zoo and experimental data
 
@@ -124,7 +153,7 @@ $$
 We now consider a more complicated case, in which we have a competitive GLV system:
 
 $$
-\dot{x}_i=x_i r_i (1-\sum_j M_{ij}x_j)
+\dot{x}_i=x_i r_i \left(1-\sum_j M_{ij}x_j\right)
 $$
 
 where the matrix of interactions is given by the sum of two matrices:
@@ -132,21 +161,113 @@ where the matrix of interactions is given by the sum of two matrices:
 $$
 M = \alpha I + B
 $$
+
 and $B$ is a random matrix, with entries sampled independently from a distribution with mean $\mu > 0$, and unit variance. We want to calculate the probability that the system has a feasible equilibrium, and how the probability changes when we increase $\alpha$. 
 
-The value of $\alpha$ can be considered the "excess" intraspecific interaction in the system. To show that this value influences feasibility, we start by showing that a sufficiently large $\alpha$ guarantees feasibility.
+The value of $\alpha > 0$ can be considered the "excess" intraspecific interaction in the system. To show that this value influences feasibility, we start by showing that a sufficiently large $\alpha$ guarantees feasibility.
+
+## Effect of average interaction strength on feasibility
+
+We have taken $M = \alpha I + B$; call $m$ the vector of column means of $B$. Here we show that, as long as $m > 0_n$, its actual value has no effect on feasibility. 
+We can write 
+
+$$
+M = \alpha I + B = \alpha I + 1_n m^T + C
+$$
+
+where $C$ has columns summing to zero ($1_n^T C = 0_n^T$). For feasibility, we need the solution:
+
+$$
+\begin{aligned}
+Mx &= 1_n\\
+x &= M^{-1}1_n > 0
+\end{aligned}
+$$
+
+We consider the simpler system:
+
+$$
+\begin{aligned}
+(\alpha I + C)y &= 1_n\\
+y &=(\alpha I + C)^{-1}1_n
+\end{aligned}
+$$
+and consider the solution $x$ to be the solution of a rank-1 update of the system in $y$.
+
+::: {.callout-note collapse="true"}
+## Sherman-Morrison formula
+
+Suppose that $A + uv^T$ is invertible, where $A$ is a $n\times n$ matrix, and $u$ and $v$ are column vectors of size $n$. The matrix is invertible as long as $1 + v^T A^{-1}u \neq 0$.
+
+If this is the case
+
+$$
+(A + u v^T)^{-1} = A^{-1} - \frac{1}{1 + v^T A^{-1}u} A^{-1} u v^T A^{-1}
+$$
+
+This formula is useful when we need to update the matrix inverse after a rank-1 perturbation.
+:::
+
+Using the Sherman-Morrison formula, we obtain:
+
+$$
+\begin{aligned}
+x &= ((\alpha I + C) + 1_n m^T)^{-1}1_n\\
+&= \left((\alpha I + C)^{-1}  - \frac{1}{1 + m^T ((\alpha I + C)^{-1}) 1_n} (\alpha I + C)^{-1} 1_n m^T (\alpha I + C)^{-1}\right) 1_n\\
+&= y - \frac{1}{1 + m^Ty} y m^T y\\
+&= \frac{1}{1 + m^T y} y
+\end{aligned}
+$$
+
+Thus, $x$ and $y$ are proportional to each other, with constant of proportionality $1 / (1 + m^T y)$. Then $x > 0_n$ when either a) $y > 0_n$, and $1 + m^T y > 0$, or b) $y < 0_n$ and $1 + m^T y < 0$. Sum the equations in $y$:
+
+$$
+\begin{aligned}
+1_n^T (\alpha I + C) y &= 1_n^T 1_n\\
+\alpha 1_n^T y &=n\\
+\frac{1}{n} 1_n^T y &= \frac{1}{\alpha} 
+\end{aligned}
+$$
+
+This means that $y$ cannot be all negative; then given that for $y>0_n$ and $m > 0_n$ we have $1 + m^Ty > 0$, we have that $x$ is feasible if and only if $y$ is feasible. 
+
+This means that any matrix that can be written as $B = C + 1m^T$ with $m > 0_n$ belongs to the same class for feasibility---the exact value of $m$ does not matter.
 
 ## A sufficiently large $\alpha$ guarantees feasibility
 
 We want to show that the system of equations
 
 $$
-(\alpha I + B)x = 1_n
+(\alpha I + C)y = 1_n
 $$
 
-has a positive solution $x$ for $\alpha$ large enough. To this end, we first divide 
+has a positive solution $y > 0_n$ for $\alpha$ large enough. To this end, we first divide both sides by $\alpha > 0$:
 
-## The average interaction strength does not influence feasibility
+$$
+\left(I + \frac{1}{\alpha} C\right)y = \frac{1}{\alpha} 1_n
+$$
+
+We have seen above that $\alpha 1_n^T y/n = 1$; we multiply the r.h.s. by this value, obtaining:
+
+$$
+\begin{aligned}
+\left(I + \frac{1}{\alpha} C\right)y &= \frac{1}{\alpha} 1_n \frac{\alpha}{n} 1_n^Ty\\
+\left(\frac{1}{\alpha} C\right)y  + y&= \frac{1}{n} 1_n1_n^Ty\\\\
+\left(\frac{1}{n} 1_n1_n^T - \frac{1}{\alpha} C\right)y &= y
+\end{aligned}
+$$
+
+Thus, we have that $y$ is a right eigenvector of matrix $\frac{1}{n} 1_n1_n^T - \frac{1}{\alpha} C$, associated with $\lambda = 1$.
+
+::: {.callout-note collapse="true"}
+## Perron-Frobenius theorem
+
+The matrix $A$ has all coefficients positive $A_{ij} > 0\, \forall i,j$. 
+
+Then the matrix has a single positive real eigenvalue $\rho$ (spectral radius, or Perron root) such that $|\lambda_i| < \rho$ for all other eigenvalues. Moreover, the eigenvalue is associated with an eigenvectors that can be made all positive (Perron eigenvector).
+:::
+
+If we choose $\alpha = \alpha_\infty$ such that $C_{ij} / \alpha_\infty < 1/n$, then the matrix $\frac{1}{n} 1_n1_n^T - \frac{1}{\alpha_\infty} C$ has only positive coefficients; moreover all columns sum to unity and therefore the spectral radius is $\rho = 1$. Because of Perron-Frobenius theorem, $y > 0_n$.
 
 ## Models with random interactions
 

@@ -167,8 +167,8 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#the-random-zoo" id="toc-the-random-zoo" class="nav-link" data-scroll-target="#the-random-zoo">The random zoo</a></li>
   <li><a href="#random-zoo-and-experimental-data" id="toc-random-zoo-and-experimental-data" class="nav-link" data-scroll-target="#random-zoo-and-experimental-data">Random zoo and experimental data</a></li>
   <li><a href="#competitive-glv" id="toc-competitive-glv" class="nav-link" data-scroll-target="#competitive-glv">Competitive GLV</a></li>
+  <li><a href="#effect-of-average-interaction-strength-on-feasibility" id="toc-effect-of-average-interaction-strength-on-feasibility" class="nav-link" data-scroll-target="#effect-of-average-interaction-strength-on-feasibility">Effect of average interaction strength on feasibility</a></li>
   <li><a href="#a-sufficiently-large-alpha-guarantees-feasibility" id="toc-a-sufficiently-large-alpha-guarantees-feasibility" class="nav-link" data-scroll-target="#a-sufficiently-large-alpha-guarantees-feasibility">A sufficiently large <span class="math inline">\(\alpha\)</span> guarantees feasibility</a></li>
-  <li><a href="#the-average-interaction-strength-does-not-influence-feasibility" id="toc-the-average-interaction-strength-does-not-influence-feasibility" class="nav-link" data-scroll-target="#the-average-interaction-strength-does-not-influence-feasibility">The average interaction strength does not influence feasibility</a></li>
   <li><a href="#models-with-random-interactions" id="toc-models-with-random-interactions" class="nav-link" data-scroll-target="#models-with-random-interactions">Models with random interactions</a></li>
   <li><a href="#approximating-feasibility" id="toc-approximating-feasibility" class="nav-link" data-scroll-target="#approximating-feasibility">Approximating feasibility</a></li>
   <li><a href="#a-more-accurate-approximation-of-feasibility" id="toc-a-more-accurate-approximation-of-feasibility" class="nav-link" data-scroll-target="#a-more-accurate-approximation-of-feasibility">A more accurate approximation of feasibility</a></li>
@@ -191,9 +191,9 @@ ul.task-list li input[type="checkbox"] {
 <p><span class="math display">\[
 \dot{x}_i = x_i (r_i - A_{ii} x_i)
 \]</span></p>
-<p>with <span class="math inline">\(A_{ii} &gt; 0\)</span>. We assume that <span class="math inline">\(r_i \sim Q\)</span>, a distribution with mean <span class="math inline">\(0\)</span>, <span class="math inline">\(\matbb E(r_i) = 0\)</span> and symmetric about its mean <span class="math inline">\(P(r_i) = P(-r_i)\)</span>. For example, we could choose <span class="math inline">\(r_i \sim \mathcal N(0, \sigma^2)\)</span>, or <span class="math inline">\(r_i \sim \mathcal U[-1, 1]\)</span>. Naturally, whenever <span class="math inline">\(r_i &gt; 0\)</span>, the population will grow to <span class="math inline">\(x_i^\star = r_i / A_{ii}\)</span>. If <span class="math inline">\(r_i &lt; 0\)</span>, on the other hand, the population will go extinct. Because of the symmetry around zero, each population has therefore probability <span class="math inline">\(1/2\)</span> of persisting. When we have <span class="math inline">\(n\)</span> populations, the number of coexisting populations is a random variable following the binomial distribution:</p>
+<p>with <span class="math inline">\(A_{ii} &gt; 0\)</span>. We assume that <span class="math inline">\(r_i \sim Q\)</span>, a distribution with mean <span class="math inline">\(0\)</span>, <span class="math inline">\(\mathbb E(r_i) = 0\)</span> and symmetric about its mean: <span class="math inline">\(P(r_i) = P(-r_i)\)</span>. For example, we could choose <span class="math inline">\(r_i \sim \mathcal N(0, \sigma^2)\)</span>, or <span class="math inline">\(r_i \sim \mathcal U[-1, 1]\)</span>. Naturally, whenever <span class="math inline">\(r_i &gt; 0\)</span>, the population will grow to <span class="math inline">\(x_i^\star = r_i / A_{ii}\)</span>. If <span class="math inline">\(r_i &lt; 0\)</span>, on the other hand, the population will go extinct. Because of the symmetry around zero, each population has therefore probability <span class="math inline">\(1/2\)</span> of persisting. When we have <span class="math inline">\(n\)</span> populations, the number of coexisting populations <span class="math inline">\(\|k\|\)</span> is a random variable following the binomial distribution:</p>
 <p><span class="math display">\[
-P(k | n) = \binom{n}{k} \frac{1}{2^n}\quad k \sim \mathcal B\left(n, \frac{1}{2}\right)
+P(\|k\| | n) = \binom{n}{\|k\|} \frac{1}{2^n}\quad \|k\| \sim \mathcal B\left(n, \frac{1}{2}\right)
 \]</span></p>
 </section>
 <section id="the-random-zoo" class="level2">
@@ -206,41 +206,41 @@ S_1 &amp;= \begin{pmatrix}
 1 &amp; 0 &amp; 0 &amp; \cdots &amp; 0\\
 0 &amp; 1 &amp; 0 &amp; \cdots &amp; 0\\
 0 &amp; 0 &amp; 0 &amp; \cdots &amp; 0\\
-\cdots &amp; \cdots &amp; \cdots &amp;\cdots &amp;\cdots\\
+\vdots &amp; \vdots &amp; \vdots &amp;\ddots &amp;\vdots\\
 0 &amp; 0 &amp; 0 &amp; 0 &amp;1
 \end{pmatrix} = I_n\\
 S_2 &amp;= \begin{pmatrix}
 -1 &amp; 0 &amp; 0 &amp; \cdots &amp; 0\\
 0 &amp; 1 &amp; 0 &amp; \cdots &amp; 0\\
 0 &amp; 0 &amp; 1 &amp; \cdots &amp; 0\\
-\cdots &amp; \cdots &amp; \cdots &amp;\cdots &amp;\cdots\\
+\vdots &amp; \vdots &amp; \vdots &amp;\ddots &amp;\vdots\\
 0 &amp; 0 &amp; 0 &amp; 0 &amp;1
 \end{pmatrix} \\
 S_3 &amp;= \begin{pmatrix}
 1 &amp; 0 &amp; 0 &amp; \cdots &amp; 0\\
 0 &amp; -1 &amp; 0 &amp; \cdots &amp; 0\\
 0 &amp; 0 &amp; 1 &amp; \cdots &amp; 0\\
-\cdots &amp; \cdots &amp; \cdots &amp;\cdots &amp;\cdots\\
+\vdots &amp; \vdots &amp; \vdots &amp;\ddots &amp;\vdots\\
 0 &amp; 0 &amp; 0 &amp; 0 &amp;1
 \end{pmatrix} \\
 S_4 &amp;= \begin{pmatrix}
 -1 &amp; 0 &amp; 0 &amp; \cdots &amp; 0\\
 0 &amp; -1 &amp; 0 &amp; \cdots &amp; 0\\
 0 &amp; 0 &amp; 1 &amp; \cdots &amp; 0\\
-\cdots &amp; \cdots &amp; \cdots &amp;\cdots &amp;\cdots\\
+\vdots &amp; \vdots &amp; \vdots &amp;\ddots &amp;\vdots\\
 0 &amp; 0 &amp; 0 &amp; 0 &amp;1
 \end{pmatrix}\\
-\cdots\\
+\vdots\\
 S_{2^n} &amp;= \begin{pmatrix}
 -1 &amp; 0 &amp; 0 &amp; \cdots &amp; 0\\
 0 &amp; -1 &amp; 0 &amp; \cdots &amp; 0\\
 0 &amp; 0 &amp; -1 &amp; \cdots &amp; 0\\
-\cdots &amp; \cdots &amp; \cdots &amp;\cdots &amp;\cdots\\
+\vdots &amp; \vdots &amp; \vdots &amp;\ddots &amp;\vdots\\
 0 &amp; 0 &amp; 0 &amp; 0 &amp;-1
 \end{pmatrix} = -I_n\\
 \end{aligned}
 \]</span></p>
-<p>These matrices, called <em>signature matrices</em> are their own inverse (called <em>involutory</em> matrix), and therefore, we have that <span class="math inline">\(S_i S_i = S_i^2 = I_n\)</span>. Geometrically, they represent a reflection in each of the axes corresponding to the negated rows or columns.</p>
+<p>These matrices, called <em>signature matrices</em> are their own inverse (a matrix with this property is called <em>involutory</em>), and therefore, we have that <span class="math inline">\(S_i S_i = S_i^2 = I_n\)</span>. Geometrically, they represent a reflection in each of the axes corresponding to the negated rows or columns.</p>
 <p>We then consider what happens when we transform the parameters by multiplying them by <span class="math inline">\(S_i\)</span>. Take an arbitrary GLV system, and solve for the <span class="math inline">\(x\)</span> that makes <span class="math inline">\(r + Ax = 0_n\)</span>:</p>
 <p><span class="math display">\[
 x = -A^{-1} r
@@ -257,21 +257,46 @@ x' &amp;= -(S_iAS_i)^{-1} S_i r\\ &amp;=-S_iA^{-1}S_i S_i r\\
 &amp;=-S_i x
 \end{aligned}
 \]</span></p>
-<p>That is, the transformation changes the sign of the components of <span class="math inline">\(x\)</span> corresponding to the negative coefficients in <span class="math inline">\(S_i\)</span>. Hence, for any possible choice of <span class="math inline">\(r\)</span>, <span class="math inline">\(A\)</span>, there is only one possible choice of <span class="math inline">\(S_i\)</span> that makes the equilibrium feasible. Because all matrices <span class="math inline">\(A'\)</span> and all vectors <span class="math inline">\(r'\)</span> have the same probability/density, then the probability of having a positive <span class="math inline">\(x\)</span> is exactly <span class="math inline">\(1/2^n\)</span>.</p>
-<p>Thus, systems with random interactions and a strongly stable matrix of interactions have the same probability of feasibility as that of a system in which populations are not interacting!</p>
-<p>The same calculation can be repeated for the case in which we a certain set of <span class="math inline">\(k\)</span> components of <span class="math inline">\(x\)</span> to be positive, in which case the probability is <span class="math inline">\(1/2^k\)</span>. We now compute the probability that the remaining <span class="math inline">\(n-k\)</span> populations cannot invade when rare.</p>
-<p>We have a set of <span class="math inline">\(k\)</span> populations resting at a feasible equilibrium:</p>
+<p>That is, the transformation changes the sign of the components of <span class="math inline">\(x\)</span> corresponding to the negative coefficients in <span class="math inline">\(S_i\)</span>. Hence, for any possible choice of <span class="math inline">\(r\)</span> and <span class="math inline">\(A\)</span>, there is only one possible choice of <span class="math inline">\(S_i\)</span> that makes the equilibrium feasible. Because all matrices <span class="math inline">\(A'\)</span> and all vectors <span class="math inline">\(r'\)</span> have the same probability/density, then the probability of having a positive <span class="math inline">\(x\)</span> is exactly <span class="math inline">\(1/2^n\)</span>. Thus, a system with random parameters and a strongly stable matrix of interactions has the same probability of feasibility as that of a system in which populations are not interacting!</p>
+<p>We have seen that when <span class="math inline">\(A\)</span> is such that <span class="math inline">\(H(A)\)</span> is negative definite, dynamics always converge to a saturated equilibrium. We want to compute the probability of finding a saturated equilibrium, in which populations belonging to set <span class="math inline">\(k\)</span> coexist, and the remaining populations cannot invade when rare.</p>
+<p>We thus divide <span class="math inline">\(x\)</span>, <span class="math inline">\(r\)</span> and <span class="math inline">\(A\)</span> as:</p>
 <p><span class="math display">\[
-x^{(k)} = -(A^{(k)})^{-1}r^{(k)}
+x = \begin{pmatrix}
+y\\
+z
+\end{pmatrix} \quad \tilde{x} = \begin{pmatrix}
+y^\star\\
+0_{\|n-k\|}
+\end{pmatrix} \quad A = \begin{pmatrix}
+\mathfrak A &amp; \mathfrak B\\
+\mathfrak C &amp; \mathfrak D
+\end{pmatrix}\quad r = \begin{pmatrix}
+\mathfrak r\\
+\mathfrak s
+\end{pmatrix}
 \]</span></p>
-<p>The invasion growth rate for the remaining <span class="math inline">\(n-k\)</span> populations is:</p>
+<p>We also divide <span class="math inline">\(S_i\)</span> into:</p>
 <p><span class="math display">\[
-\dot{\log (x^{(n-k)})} = r^{(n-k)} - A^{(n-k,k)}x^{(k)}
+S_i = \begin{pmatrix}
+S_{i}^{(k)} &amp; 0_{\|k\|, \|n-k\|}\\
+0_{\|n-k\|, \|n\|} &amp; S_{i}^{(n-k)}
+\end{pmatrix}
 \]</span></p>
-<p>Take the family of signature matrices of size <span class="math inline">\(n-k\)</span>:</p>
+<p>When we use the signature matrix, the vector <span class="math inline">\(\mathfrak s\)</span> and the matrix <span class="math inline">\(\mathfrak C\)</span> become:</p>
 <p><span class="math display">\[
-r^{(n-k)'} = S_i r^{(n-k)}\quad A^{(n-k, k)'} = S_i A^{A^{(n-k, k)}}
+\mathfrak s' = S_i^{(n-k)} \mathfrak s\quad \mathfrak C' = S_i^{(n-k)} \mathfrak C S_i^{(k)}
+\]</span> The feasibility and nonivasibility condition, for a given choice of <span class="math inline">\(S_i\)</span> read:</p>
+<p><span class="math display">\[
+\begin{cases}
+y' = S_i^{(k)} (-\mathfrak A^{-1}\mathfrak r)\\
+S_i^{(n-k)}(\mathfrak s + \mathfrak C y') &lt; 0_{\|n-k\|}\\
+\end{cases}
 \]</span></p>
+<p>There is only one choice out of <span class="math inline">\(2^{\|k\|}\)</span> that makes <span class="math inline">\(y' &gt; 0_{\|k\|}\)</span>; moreover, there is only one choice of <span class="math inline">\(S_i^{(n-k)}\)</span> that fulfills the noninvasibility condition, out of <span class="math inline">\(2^{\|n-k\|}\)</span> equiprobable choices. Then, we have that the probability of finding exactly <span class="math inline">\(\|k\|\)</span> populations coexisting at the saturated equilibrium, with the remaining <span class="math inline">\(\|n-k\|\)</span> that cannot invade is exactly <span class="math inline">\(1/2^{\|k\|} \cdot 2^{\|n-k\|} = 1/2^n\)</span>. The number of coexisting populations at the saturated equilibrium follows the binomial distribution:</p>
+<p><span class="math display">\[
+P(\|k\| | n) = \binom{n}{\|k\|} \frac{1}{2^n}\quad \|k\| \sim \mathcal B\left(n, \frac{1}{2}\right)
+\]</span></p>
+<p>exactly as for the non-interacting case.</p>
 </section>
 <section id="random-zoo-and-experimental-data" class="level2">
 <h2 class="anchored" data-anchor-id="random-zoo-and-experimental-data">Random zoo and experimental data</h2>
@@ -280,24 +305,113 @@ r^{(n-k)'} = S_i r^{(n-k)}\quad A^{(n-k, k)'} = S_i A^{A^{(n-k, k)}}
 <h2 class="anchored" data-anchor-id="competitive-glv">Competitive GLV</h2>
 <p>We now consider a more complicated case, in which we have a competitive GLV system:</p>
 <p><span class="math display">\[
-\dot{x}_i=x_i r_i (1-\sum_j M_{ij}x_j)
+\dot{x}_i=x_i r_i \left(1-\sum_j M_{ij}x_j\right)
 \]</span></p>
 <p>where the matrix of interactions is given by the sum of two matrices:</p>
 <p><span class="math display">\[
 M = \alpha I + B
-\]</span> and <span class="math inline">\(B\)</span> is a random matrix, with entries sampled independently from a distribution with mean <span class="math inline">\(\mu &gt; 0\)</span>, and unit variance. We want to calculate the probability that the system has a feasible equilibrium, and how the probability changes when we increase <span class="math inline">\(\alpha\)</span>.</p>
-<p>The value of <span class="math inline">\(\alpha\)</span> can be considered the “excess” intraspecific interaction in the system. To show that this value influences feasibility, we start by showing that a sufficiently large <span class="math inline">\(\alpha\)</span> guarantees feasibility.</p>
+\]</span></p>
+<p>and <span class="math inline">\(B\)</span> is a random matrix, with entries sampled independently from a distribution with mean <span class="math inline">\(\mu &gt; 0\)</span>, and unit variance. We want to calculate the probability that the system has a feasible equilibrium, and how the probability changes when we increase <span class="math inline">\(\alpha\)</span>.</p>
+<p>The value of <span class="math inline">\(\alpha &gt; 0\)</span> can be considered the “excess” intraspecific interaction in the system. To show that this value influences feasibility, we start by showing that a sufficiently large <span class="math inline">\(\alpha\)</span> guarantees feasibility.</p>
+</section>
+<section id="effect-of-average-interaction-strength-on-feasibility" class="level2">
+<h2 class="anchored" data-anchor-id="effect-of-average-interaction-strength-on-feasibility">Effect of average interaction strength on feasibility</h2>
+<p>We have taken <span class="math inline">\(M = \alpha I + B\)</span>; call <span class="math inline">\(m\)</span> the vector of column means of <span class="math inline">\(B\)</span>. Here we show that, as long as <span class="math inline">\(m &gt; 0_n\)</span>, its actual value has no effect on feasibility. We can write</p>
+<p><span class="math display">\[
+M = \alpha I + B = \alpha I + 1_n m^T + C
+\]</span></p>
+<p>where <span class="math inline">\(C\)</span> has columns summing to zero (<span class="math inline">\(1_n^T C = 0_n^T\)</span>). For feasibility, we need the solution:</p>
+<p><span class="math display">\[
+\begin{aligned}
+Mx &amp;= 1_n\\
+x &amp;= M^{-1}1_n &gt; 0
+\end{aligned}
+\]</span></p>
+<p>We consider the simpler system:</p>
+<p><span class="math display">\[
+\begin{aligned}
+(\alpha I + C)y &amp;= 1_n\\
+y &amp;=(\alpha I + C)^{-1}1_n
+\end{aligned}
+\]</span> and consider the solution <span class="math inline">\(x\)</span> to be the solution of a rank-1 update of the system in <span class="math inline">\(y\)</span>.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Sherman-Morrison formula
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Suppose that <span class="math inline">\(A + uv^T\)</span> is invertible, where <span class="math inline">\(A\)</span> is a <span class="math inline">\(n\times n\)</span> matrix, and <span class="math inline">\(u\)</span> and <span class="math inline">\(v\)</span> are column vectors of size <span class="math inline">\(n\)</span>. The matrix is invertible as long as <span class="math inline">\(1 + v^T A^{-1}u \neq 0\)</span>.</p>
+<p>If this is the case</p>
+<p><span class="math display">\[
+(A + u v^T)^{-1} = A^{-1} - \frac{1}{1 + v^T A^{-1}u} A^{-1} u v^T A^{-1}
+\]</span></p>
+<p>This formula is useful when we need to update the matrix inverse after a rank-1 perturbation.</p>
+</div>
+</div>
+</div>
+<p>Using the Sherman-Morrison formula, we obtain:</p>
+<p><span class="math display">\[
+\begin{aligned}
+x &amp;= ((\alpha I + C) + 1_n m^T)^{-1}1_n\\
+&amp;= \left((\alpha I + C)^{-1}  - \frac{1}{1 + m^T ((\alpha I + C)^{-1}) 1_n} (\alpha I + C)^{-1} 1_n m^T (\alpha I + C)^{-1}\right) 1_n\\
+&amp;= y - \frac{1}{1 + m^Ty} y m^T y\\
+&amp;= \frac{1}{1 + m^T y} y
+\end{aligned}
+\]</span></p>
+<p>Thus, <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> are proportional to each other, with constant of proportionality <span class="math inline">\(1 / (1 + m^T y)\)</span>. Then <span class="math inline">\(x &gt; 0_n\)</span> when either a) <span class="math inline">\(y &gt; 0_n\)</span>, and <span class="math inline">\(1 + m^T y &gt; 0\)</span>, or b) <span class="math inline">\(y &lt; 0_n\)</span> and <span class="math inline">\(1 + m^T y &lt; 0\)</span>. Sum the equations in <span class="math inline">\(y\)</span>:</p>
+<p><span class="math display">\[
+\begin{aligned}
+1_n^T (\alpha I + C) y &amp;= 1_n^T 1_n\\
+\alpha 1_n^T y &amp;=n\\
+\frac{1}{n} 1_n^T y &amp;= \frac{1}{\alpha}
+\end{aligned}
+\]</span></p>
+<p>This means that <span class="math inline">\(y\)</span> cannot be all negative; then given that for <span class="math inline">\(y&gt;0_n\)</span> and <span class="math inline">\(m &gt; 0_n\)</span> we have <span class="math inline">\(1 + m^Ty &gt; 0\)</span>, we have that <span class="math inline">\(x\)</span> is feasible if and only if <span class="math inline">\(y\)</span> is feasible.</p>
+<p>This means that any matrix that can be written as <span class="math inline">\(B = C + 1m^T\)</span> with <span class="math inline">\(m &gt; 0_n\)</span> belongs to the same class for feasibility—the exact value of <span class="math inline">\(m\)</span> does not matter.</p>
 </section>
 <section id="a-sufficiently-large-alpha-guarantees-feasibility" class="level2">
 <h2 class="anchored" data-anchor-id="a-sufficiently-large-alpha-guarantees-feasibility">A sufficiently large <span class="math inline">\(\alpha\)</span> guarantees feasibility</h2>
 <p>We want to show that the system of equations</p>
 <p><span class="math display">\[
-(\alpha I + B)x = 1_n
+(\alpha I + C)y = 1_n
 \]</span></p>
-<p>has a positive solution <span class="math inline">\(x\)</span> for <span class="math inline">\(\alpha\)</span> large enough. To this end, we first divide</p>
-</section>
-<section id="the-average-interaction-strength-does-not-influence-feasibility" class="level2">
-<h2 class="anchored" data-anchor-id="the-average-interaction-strength-does-not-influence-feasibility">The average interaction strength does not influence feasibility</h2>
+<p>has a positive solution <span class="math inline">\(y &gt; 0_n\)</span> for <span class="math inline">\(\alpha\)</span> large enough. To this end, we first divide both sides by <span class="math inline">\(\alpha &gt; 0\)</span>:</p>
+<p><span class="math display">\[
+\left(I + \frac{1}{\alpha} C\right)y = \frac{1}{\alpha} 1_n
+\]</span></p>
+<p>We have seen above that <span class="math inline">\(\alpha 1_n^T y/n = 1\)</span>; we multiply the r.h.s. by this value, obtaining:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\left(I + \frac{1}{\alpha} C\right)y &amp;= \frac{1}{\alpha} 1_n \frac{\alpha}{n} 1_n^Ty\\
+\left(\frac{1}{\alpha} C\right)y  + y&amp;= \frac{1}{n} 1_n1_n^Ty\\\\
+\left(\frac{1}{n} 1_n1_n^T - \frac{1}{\alpha} C\right)y &amp;= y
+\end{aligned}
+\]</span></p>
+<p>Thus, we have that <span class="math inline">\(y\)</span> is a right eigenvector of matrix <span class="math inline">\(\frac{1}{n} 1_n1_n^T - \frac{1}{\alpha} C\)</span>, associated with <span class="math inline">\(\lambda = 1\)</span>.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Perron-Frobenius theorem
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The matrix <span class="math inline">\(A\)</span> has all coefficients positive <span class="math inline">\(A_{ij} &gt; 0\, \forall i,j\)</span>.</p>
+<p>Then the matrix has a single positive real eigenvalue <span class="math inline">\(\rho\)</span> (spectral radius, or Perron root) such that <span class="math inline">\(|\lambda_i| &lt; \rho\)</span> for all other eigenvalues. Moreover, the eigenvalue is associated with an eigenvectors that can be made all positive (Perron eigenvector).</p>
+</div>
+</div>
+</div>
+<p>If we choose <span class="math inline">\(\alpha = \alpha_\infty\)</span> such that <span class="math inline">\(C_{ij} / \alpha_\infty &lt; 1/n\)</span>, then the matrix <span class="math inline">\(\frac{1}{n} 1_n1_n^T - \frac{1}{\alpha_\infty} C\)</span> has only positive coefficients; moreover all columns sum to unity and therefore the spectral radius is <span class="math inline">\(\rho = 1\)</span>. Because of Perron-Frobenius theorem, <span class="math inline">\(y &gt; 0_n\)</span>.</p>
 </section>
 <section id="models-with-random-interactions" class="level2">
 <h2 class="anchored" data-anchor-id="models-with-random-interactions">Models with random interactions</h2>
