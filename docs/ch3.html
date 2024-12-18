@@ -59,6 +59,8 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -187,6 +189,27 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="a-simple-statistical-framework" class="level2">
 <h2 class="anchored" data-anchor-id="a-simple-statistical-framework">A simple statistical framework</h2>
+<p>The simplest model we can write is one in which the outcomes of replicate experiments are independent samples from a distribution:</p>
+<p><span class="math display">\[
+\tilde{x}^{(k,r)}_i \sim Q_i\left(x^{(k)}_i, \gamma_i^{(k)}\right)
+\]</span> where <span class="math inline">\(\tilde{x}_i^{(k, r)}\)</span> is the <em>observed</em> density of population <span class="math inline">\(i\)</span> for the <span class="math inline">\(r\)</span> replicate in which population <span class="math inline">\(i\)</span> is grown in community <span class="math inline">\(k\)</span>. The value <span class="math inline">\(x_i^{(k)}\)</span> represents the <em>true</em> mean of the distribution (i.e., the average if we were to conduct many replicates—hence it does not depend on <span class="math inline">\(r\)</span>), and <span class="math inline">\(\gamma_i^{(k)}\)</span> is a parameter (or several parameters) controlling the shape of the distribution <span class="math inline">\(Q_i\)</span>.</p>
+<p>Implicitly, we are making a very strong assumption: if we observe the community <span class="math inline">\(k\)</span>, it is always found around <span class="math inline">\(x^{(k)}\)</span>—i.e., we cannot have multistability, in which, depending on initial conditions, we end up with different outcomes in which all populations are present.</p>
+<p>This model requires estimating all the <span class="math inline">\(x_i^{(k)}\)</span> and <span class="math inline">\(\gamma_i^{(k)}\)</span>, and is therefore not very useful. To make the model applicable to real data, we make another strong assumption:</p>
+<p><span class="math display">\[
+x_i^{(k)} = \alpha_i - \sum_{j \in k;\, j\neq i } \beta_{ij} x_j^{(k)}
+\]</span> The interpretation is simple: if population <span class="math inline">\(i\)</span> is grown by itself, it will reach the carrying capacity <span class="math inline">\(\alpha_i\)</span>; if other species are co-cultured along with <span class="math inline">\(i\)</span>, they will change the final density of <span class="math inline">\(i\)</span> according to their density (<span class="math inline">\(x_j^{(k)}\)</span>) and an interaction term <span class="math inline">\(\beta_{ij}\)</span>.</p>
+<p>We perform some manipulations:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\sum_{j \in k;\, j\neq i } \beta_{ij} x_j^{(k)} + x_i^{(k)} &amp;= \alpha_i \\
+\sum_{j \in k;\, j\neq i } \frac{\beta_{ij}}{\alpha_i} x_j^{(k)} + \frac{1}{\alpha_i} x_i^{(k)} &amp;= 1 \\
+\sum_{j \in k;\, j\neq i } B_{ij} x_j^{(k)} + B_{ii} x_i^{(k)} &amp;= 1 \\
+\sum_{j \in k}B_{ij} x_j^{(k)} &amp;=1\\
+\left(B^{(k, k)} x^{(k)}\right)_i &amp;=1\\
+B^{(k, k)} x^{(k)} &amp;= 1_{\|k\|}
+\end{aligned}
+\]</span></p>
+<p>But this is exactly the structure of the equilibria for a GLV model, which we have introduced in Lecture 1.</p>
 </section>
 <section id="the-structure-of-equilibria-in-glv" class="level2">
 <h2 class="anchored" data-anchor-id="the-structure-of-equilibria-in-glv">The structure of equilibria in GLV</h2>

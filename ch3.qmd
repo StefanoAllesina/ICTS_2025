@@ -18,6 +18,37 @@ For this exploration, we are going to consider a popular experiment in which dif
 
 ## A simple statistical framework
 
+The simplest model we can write is one in which the outcomes of replicate experiments are independent samples from a distribution:
+
+$$
+\tilde{x}^{(k,r)}_i \sim Q_i\left(x^{(k)}_i, \gamma_i^{(k)}\right)
+$$
+where $\tilde{x}_i^{(k, r)}$ is the *observed* density of population $i$ for the $r$ replicate in which population $i$ is grown in community $k$. The value $x_i^{(k)}$ represents the *true* mean of the distribution (i.e., the average if we were to conduct many replicates---hence it does not depend on $r$), and $\gamma_i^{(k)}$ is a parameter (or several parameters) controlling the shape of the distribution $Q_i$. 
+
+Implicitly, we are making a very strong assumption: if we observe the community $k$, it is always found around $x^{(k)}$---i.e., we cannot have multistability, in which, depending on initial conditions, we end up with different outcomes in which all populations are present.
+
+This model requires estimating all the $x_i^{(k)}$ and $\gamma_i^{(k)}$, and is therefore not very useful. To make the model applicable to real data, we make another strong assumption:
+
+$$
+x_i^{(k)} = \alpha_i - \sum_{j \in k;\, j\neq i } \beta_{ij} x_j^{(k)}
+$$
+The interpretation is simple: if population $i$ is grown by itself, it will reach the carrying capacity $\alpha_i$; if other species are co-cultured along with $i$, they will change the final density of $i$ according to their density ($x_j^{(k)}$) and an interaction term $\beta_{ij}$. 
+
+We perform some manipulations:
+
+$$
+\begin{aligned}
+\sum_{j \in k;\, j\neq i } \beta_{ij} x_j^{(k)} + x_i^{(k)} &= \alpha_i \\
+\sum_{j \in k;\, j\neq i } \frac{\beta_{ij}}{\alpha_i} x_j^{(k)} + \frac{1}{\alpha_i} x_i^{(k)} &= 1 \\
+\sum_{j \in k;\, j\neq i } B_{ij} x_j^{(k)} + B_{ii} x_i^{(k)} &= 1 \\
+\sum_{j \in k}B_{ij} x_j^{(k)} &=1\\
+\left(B^{(k, k)} x^{(k)}\right)_i &=1\\
+B^{(k, k)} x^{(k)} &= 1_{\|k\|}
+\end{aligned}
+$$
+
+But this is exactly the structure of the equilibria for a GLV model, which we have introduced in Lecture 1. 
+
 ## The structure of equilibria in GLV
 
 ## SSQ, WLS, likelihoods
