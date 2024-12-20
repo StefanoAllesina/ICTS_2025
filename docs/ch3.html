@@ -167,8 +167,9 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#example-data" id="toc-example-data" class="nav-link" data-scroll-target="#example-data">Example data</a></li>
   <li><a href="#a-simple-statistical-framework" id="toc-a-simple-statistical-framework" class="nav-link" data-scroll-target="#a-simple-statistical-framework">A simple statistical framework</a></li>
   <li><a href="#the-structure-of-equilibria-in-glv" id="toc-the-structure-of-equilibria-in-glv" class="nav-link" data-scroll-target="#the-structure-of-equilibria-in-glv">The structure of equilibria in GLV</a></li>
-  <li><a href="#ssq-wls-likelihoods" id="toc-ssq-wls-likelihoods" class="nav-link" data-scroll-target="#ssq-wls-likelihoods">SSQ, WLS, likelihoods</a></li>
-  <li><a href="#classic-papers" id="toc-classic-papers" class="nav-link" data-scroll-target="#classic-papers">Classic papers</a></li>
+  <li><a href="#predicting-coexistence" id="toc-predicting-coexistence" class="nav-link" data-scroll-target="#predicting-coexistence">Predicting coexistence</a></li>
+  <li><a href="#scoring-matrices-b" id="toc-scoring-matrices-b" class="nav-link" data-scroll-target="#scoring-matrices-b">Scoring matrices <span class="math inline">\(B\)</span></a></li>
+  <li><a href="#references-and-further-readings" id="toc-references-and-further-readings" class="nav-link" data-scroll-target="#references-and-further-readings">References and further readings</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -182,18 +183,96 @@ ul.task-list li input[type="checkbox"] {
 <h1>GLV and experimental data</h1>
 <section id="experiments-in-which-different-combinations-of-species-are-grown-together" class="level2">
 <h2 class="anchored" data-anchor-id="experiments-in-which-different-combinations-of-species-are-grown-together">Experiments in which different combinations of species are grown together</h2>
-<p>For this exploration, we are going to consider a popular experiment in which different combinations of species from a pool are co-cultured. In many cases, only the final outcome (i.e., the density of the populations at the end of the experiment) is available/recorded. Typically, the pool of species to experiment with contains only species that can grow in isolation.</p>
+<p>For this exploration, we are going to consider a popular type of experiment in which different combinations of species, taken from a <em>species’ pool</em> are co-cultured.</p>
+<p>These experiments are routinely conducted with plants (for example, to test the relationship between productivity and biodiversity), bacteria (for example, to determine rules of thumb for coexistence), protozoans, etc.</p>
+<p>In many cases, only the final outcome (i.e., the density of the populations at the end of each experiment) is available/recorded.</p>
+<p>Typically, the pool of species to experiment with contains only species that can grow in isolation.</p>
+<p>If one has access to a pool of <span class="math inline">\(n\)</span> species, testing all the possible <span class="math inline">\(2^n-1\)</span> combinations obtained by including/excluding each of the species rapidly becomes impractical as <span class="math inline">\(n\)</span> grows. Therefore, all the possible combinations are tested only when <span class="math inline">\(n\)</span> is small, while a small fraction of the possible communities is typically available when <span class="math inline">\(n\)</span> is large.</p>
 </section>
 <section id="example-data" class="level2">
 <h2 class="anchored" data-anchor-id="example-data">Example data</h2>
+<p>For our explorations, we are going to use recent data from Ishizawa and colleagues, which you can find here:</p>
+<p>H. Ishizawa, Y. Tashiro, D. Inoue, M. Ike, H. Futamata. <a href="https://doi.org/10.1073/pnas.2312396121"><em>Learning beyond-pairwise interactions enables the bottom–up prediction of microbial community structure</em></a> PNAS 121 (7) e2312396121 (2024).</p>
+<p>The Authors inoculated duckweed (<em>lemna minor</em>) with synthetic bacterial communities formed by all possible combinations of seven strains. To this end, they cultured the infected duckweed in flasks for 10 days. At the end of the experiment, they plated the communities on agar plates containing antibiotics that would allow the growth only of a particular strain. In this way, they were able to measure the final density of each of the seven strains in each of the <span class="math inline">\(2^7 - 1 = 127\)</span> possible communities, and conducted each experiment in replicate. The full data set reports the outcome of 692 separate experiments!</p>
+<p>More modestly, here we are going to focus on a smaller pool of three strains taken from the seven available. We therefore have <span class="math inline">\(7\)</span> possible communities, ranging from a single strain growing in isolation to the three strains growing together. For example, a few of the measurements are:</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th>DW067</th>
+<th>DW102</th>
+<th>DW145</th>
+<th>community</th>
+<th>replicate</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td></td>
+<td></td>
+<td>0.8</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td></td>
+<td></td>
+<td>0.812</td>
+<td>1</td>
+<td>2</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>0.529</td>
+<td></td>
+<td>2</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>0.356</td>
+<td></td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>0.703</td>
+<td>0.909</td>
+<td>3</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>0.395</td>
+<td>0.661</td>
+<td>3</td>
+<td>2</td>
+</tr>
+<tr class="odd">
+<td>0.386</td>
+<td>0.602</td>
+<td>0.563</td>
+<td>4</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>0.379</td>
+<td>0.774</td>
+<td>0.293</td>
+<td>4</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+<p>We can therefore associated each measurement with a) the strain being measured, <span class="math inline">\(i\)</span>; b) the community in which <span class="math inline">\(i\)</span> was grown, <span class="math inline">\(k\)</span>; and c) the (biological) replicate experiment, <span class="math inline">\(r\)</span>.</p>
 </section>
 <section id="a-simple-statistical-framework" class="level2">
 <h2 class="anchored" data-anchor-id="a-simple-statistical-framework">A simple statistical framework</h2>
-<p>The simplest model we can write is one in which the outcomes of replicate experiments are independent samples from a distribution:</p>
+<p>The simplest model we can write for this type of data is one in which the outcomes of replicate experiments are independent samples from a distribution:</p>
 <p><span class="math display">\[
 \tilde{x}^{(k,r)}_i \sim Q_i\left(x^{(k)}_i, \gamma_i^{(k)}\right)
 \]</span> where <span class="math inline">\(\tilde{x}_i^{(k, r)}\)</span> is the <em>observed</em> density of population <span class="math inline">\(i\)</span> for the <span class="math inline">\(r\)</span> replicate in which population <span class="math inline">\(i\)</span> is grown in community <span class="math inline">\(k\)</span>. The value <span class="math inline">\(x_i^{(k)}\)</span> represents the <em>true</em> mean of the distribution (i.e., the average if we were to conduct many replicates—hence it does not depend on <span class="math inline">\(r\)</span>), and <span class="math inline">\(\gamma_i^{(k)}\)</span> is a parameter (or several parameters) controlling the shape of the distribution <span class="math inline">\(Q_i\)</span>.</p>
-<p>Implicitly, we are making a very strong assumption: if we observe the community <span class="math inline">\(k\)</span>, it is always found around <span class="math inline">\(x^{(k)}\)</span>—i.e., we cannot have multistability, in which, depending on initial conditions, we end up with different outcomes in which all populations are present.</p>
+<p>Implicitly, we are making a very strong assumption: if we observe the community <span class="math inline">\(k\)</span>, it is always found around <span class="math inline">\(x^{(k)}\)</span>—i.e., we cannot have <em>true multistability</em>, in which, depending on initial conditions, we end up with different outcomes in which all populations are present (we can still have that, depending on initial condition, the system ends up at different points/attractor, as long as they have different compositions).</p>
 <p>This model requires estimating all the <span class="math inline">\(x_i^{(k)}\)</span> and <span class="math inline">\(\gamma_i^{(k)}\)</span>, and is therefore not very useful. To make the model applicable to real data, we make another strong assumption:</p>
 <p><span class="math display">\[
 x_i^{(k)} = \alpha_i - \sum_{j \in k;\, j\neq i } \beta_{ij} x_j^{(k)}
@@ -213,32 +292,141 @@ B^{(k, k)} x^{(k)} &amp;= 1_{\|k\|}
 </section>
 <section id="the-structure-of-equilibria-in-glv" class="level2">
 <h2 class="anchored" data-anchor-id="the-structure-of-equilibria-in-glv">The structure of equilibria in GLV</h2>
+<p>Take the model:</p>
+<p><span class="math display">\[
+\dot{x} = D(x \circ r)(1_n - Bx)
+\]</span> with <span class="math inline">\(r &gt; 0_n\)</span>; compute all the feasible equilibria and collect them into a matrix <span class="math inline">\(E\)</span>. For example:</p>
+$$ B =
+<span class="math display">\[\begin{pmatrix}
+2 &amp; -3 &amp; 3\\
+-2 &amp; 7 &amp; -3\\
+2 &amp; -2 &amp; 2
+\end{pmatrix} \quad\]</span>
+E =
+<span class="math display">\[\begin{pmatrix}
+\frac{1}{2} &amp; 0 &amp; 0\\
+0 &amp; \frac{1}{7} &amp; 0\\
+0 &amp; 0 &amp; \frac{1}{2}\\
+\frac{5}{4} &amp;\frac{1}{2} &amp; 0\\
+0 &amp; \frac{5}{8} &amp; \frac{9}{8}\\
+\frac{1}{2} &amp; \frac{1}{2} &amp; \frac{1}{2}
+\end{pmatrix}\]</span>
+<p>$$</p>
+<p>where each row contains a feasible equilibrium (if it exists) corresponding to a given composition.</p>
+<p>Consider the matrix:</p>
+<p><span class="math display">\[
+1_m 1_n^T - E B^T = \begin{pmatrix}
+\color{red} 0 &amp; 2 &amp; 0\\
+\frac{10}{7} &amp; \color{red} 0 &amp; \frac{9}{7}\\
+-\frac{1}{2} &amp;\frac{5}{2} &amp;\color{red}0\\
+\color{red} 0 &amp; \color{red} 0 &amp; -\frac{1}{2}\\
+-\frac{1}{2} &amp; \color{red} 0 &amp; \color{red} 0\\
+\color{red} 0 &amp;\color{red} 0 &amp;\color{red} 0  
+\end{pmatrix}
+\]</span></p>
+<p>For each row, we find <span class="math inline">\(0\)</span> for the corresponding population at equilibrium (in red), and the remaining values express <span class="math inline">\((1_n - B x^{(k)})_j\)</span>, which has the same sign as the invasion growth rates for population <span class="math inline">\(j\)</span>, when <span class="math inline">\(r &gt; 0_n\)</span>. Hence, a saturated equilibrium will correspond to a row with nonpositive values (e.g., the community <span class="math inline">\(k=\{1,2\}\)</span> is saturated, because population 3 cannot invade when rare).</p>
+<p>Next, call <span class="math inline">\(E_i\)</span> the submatrix obtained selecting only rows for which <span class="math inline">\(x_i^{(k)} &gt; 0\)</span>. For example, for population 1:</p>
+<p><span class="math display">\[
+E_1 = \begin{pmatrix}
+\frac{1}{2} &amp; 0 &amp; 0\\
+\frac{5}{4} &amp;\frac{1}{2} &amp; 0\\
+\frac{1}{2} &amp; \frac{1}{2} &amp; \frac{1}{2}
+\end{pmatrix}
+\]</span> We have that:</p>
+<p><span class="math display">\[
+E_i B_i = 1_l
+\]</span></p>
+<p>Where <span class="math inline">\(B_i\)</span> is the <span class="math inline">\(i^\text{th}\)</span> row of <span class="math inline">\(B\)</span>, and <span class="math inline">\(l\)</span> is the number of experiments in which <span class="math inline">\(i\)</span> is present:</p>
+<p><span class="math display">\[
+E_1 B_1 = \begin{pmatrix}
+\frac{1}{2} &amp; 0 &amp; 0\\
+\frac{5}{4} &amp;\frac{1}{2} &amp; 0\\
+\frac{1}{2} &amp; \frac{1}{2} &amp; \frac{1}{2}
+\end{pmatrix} \begin{pmatrix}
+2\\
+-3\\
+3
+\end{pmatrix} = \begin{pmatrix}
+1\\
+1\\
+1
+\end{pmatrix}
+\]</span> Practically, this means that all the <span class="math inline">\(i^\text{th}\)</span> component of all the equilibria <span class="math inline">\(x^{(k)}\)</span> of a GLV model belong to a <em>hyperplane</em> in <span class="math inline">\(\mathbb R^n\)</span> defined by <span class="math inline">\(\sum_{j} B_{ij} x^{(k)}_j = 1\)</span>.</p>
+<p>This also means that we can recover the values of <span class="math inline">\(B_i\)</span> from the equilibria:</p>
+<p><span class="math display">\[
+B_i = E_i^{-1}1_n
+\]</span></p>
+<p>which can be computed when <span class="math inline">\(E_i\)</span> is square. Otherwise, use the Moore-Penrose pseudo-inverse. For example:</p>
+<p><span class="math display">\[
+E_2 = \begin{pmatrix}
+0 &amp; \frac{1}{7} &amp; 0\\
+\frac{5}{4} &amp;\frac{1}{2} &amp; 0\\
+0 &amp; \frac{5}{8} &amp; \frac{9}{8}\\
+\frac{1}{2} &amp; \frac{1}{2} &amp; \frac{1}{2}
+\end{pmatrix}
+\]</span></p>
+<p><span class="math display">\[
+(E_2^T E_2)^{-1}E_2^T 1_4= \begin{pmatrix}
+-2 \\
+7 \\
+-3
+\end{pmatrix} = B_2
+\]</span></p>
+<p>This also provides a naive method to get a draft of <span class="math inline">\(B\)</span> when only the equilibrium values are available.</p>
+<p>The method is going to return a unique solution provided that each matrix <span class="math inline">\(E_i\)</span> has rank <span class="math inline">\(n\)</span>. In practice, this means that, for each population <span class="math inline">\(i\)</span>, a) <span class="math inline">\(E_i\)</span> has at least <span class="math inline">\(n\)</span> rows (i.e., population <span class="math inline">\(i\)</span> is present at <span class="math inline">\(n\)</span> distinct equilibria), and b) each species <span class="math inline">\(j\)</span> is present in at least one equilibrium with <span class="math inline">\(i\)</span>, i.e., each pair of populations is found in at least one equilibrium.</p>
+<p>This might be a tall order when <span class="math inline">\(n\)</span> is large, and in the tutorial we will see how to circumvent this issue.</p>
 </section>
-<section id="ssq-wls-likelihoods" class="level2">
-<h2 class="anchored" data-anchor-id="ssq-wls-likelihoods">SSQ, WLS, likelihoods</h2>
+<section id="predicting-coexistence" class="level2">
+<h2 class="anchored" data-anchor-id="predicting-coexistence">Predicting coexistence</h2>
+<p>Suppose that we have estimated the matrix <span class="math inline">\(B\)</span>, and that we want to determine whether a certain combination of populations can or cannot coexist. This is useful when we have sufficient data to estimate <span class="math inline">\(B\)</span>, but we have not carried out all the possible experiments—we want to predict the outcome of further experiments in advance.</p>
+<p>Then, according to our statistical model, we can take <span class="math inline">\(B^{(k,k)}\)</span> for the desired community <span class="math inline">\(k\)</span>, and take the row sums of the inverse:</p>
+<p><span class="math display">\[
+x^{(k)} = \left( B^{(k,k)} \right)^{-1} 1_{\|k\|}
+\]</span></p>
+<p>If all the components of <span class="math inline">\(x^{(k)}\)</span> are positive, we assume that this will be the outcome of the experiment. If <em>any</em> of the components is negative, on the other hand, we conclude that the populations cannot coexist.</p>
 </section>
-<section id="classic-papers" class="level2">
-<h2 class="anchored" data-anchor-id="classic-papers">Classic papers</h2>
-<p>One of the first disease models, proposed by Ronald Ross, who won the Nobel prize for his discovery of malaria transmission via mosquitoes:</p>
+<section id="scoring-matrices-b" class="level2">
+<h2 class="anchored" data-anchor-id="scoring-matrices-b">Scoring matrices <span class="math inline">\(B\)</span></h2>
+<p>The paragraph above suggests a good way to score matrices in practice (i.e., when the empirically-observed matrix <span class="math inline">\(\tilde{E}\)</span> is a noisy estimate of a true matrix <span class="math inline">\(E\)</span>):</p>
 <ul>
-<li>Ronald Ross, 1915. <a href="https://www.bmj.com/content/1/2830/546"><em>Some a priori pathometric equations</em></a>. British Medical Journal 1:546</li>
+<li>Propose a matrix <span class="math inline">\(B\)</span></li>
+<li>Compute <span class="math inline">\(x^{(k)}\)</span> for each observed <span class="math inline">\(\tilde{x}^{(k,r)}\)</span></li>
+<li>Try to minimize the <em>distance</em> between the predicted and observed</li>
 </ul>
-<p>The paper introducing compartmental models (SEIR):</p>
+<p>Naturally, this algorithm relies on a notion of distance. The simplest choice would be to choose <span class="math inline">\(B\)</span> such that the sum of squared deviations is minimized:</p>
+<p><span class="math display">\[
+SSQ(B) = \sum_r \sum_k \sum_i \left(\tilde{x}^{(k,r)}_i - x^{(k)}_i \right)^2
+\]</span></p>
+<p>When the values of <span class="math inline">\(\tilde{x}^{(k)}_i\)</span> vary considerably (as expected when populations interact), minimizing the SSQ will favor matrices that match closely the rows of <span class="math inline">\(\tilde{E}\)</span> containing large values, such that a 10% error on a small value of <span class="math inline">\(\tilde{x}^{(k)}_i\)</span> “counts” less than a 1% error for a large value.</p>
+<p>If we want to put all rows on the same footing, we can implement a Weighted Least Squares scheme, in which</p>
+<p><span class="math display">\[
+WLS(B) = \sum_r \sum_k \sum_i \left(\frac{\tilde{x}^{(k,r)}_i - x^{(k)}_i}{\sigma^{(k)}_i} \right)^2
+\]</span></p>
+<p>where deviations are weighted by the respective standard deviation (for simplicity, we can take <span class="math inline">\(\sigma_i^{(k)} = \sqrt{ \mathbb E\left((\tilde{x}_i^{(k,r)})^2 \right) - \left( \mathbb E\left(\tilde{x}_i^{(k,r)} \right)\right)^2}\)</span>.</p>
+<p>Finally, we can have a likelihood-based approach in which we are trying to maximize the sum of log-likelihoods:</p>
+<p><span class="math display">\[
+\mathcal L(B) = \sum_r \sum_k \sum_i \log P\left(\tilde{x}^{(k,r)}_i|x^{(k)}_i, \gamma_i^{(k)} \right)
+\]</span></p>
+<p>where <span class="math inline">\(P(x|\mu, \gamma)\)</span> is the density of a probability distribution function whose shape is controlled by parameters <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\gamma\)</span>.</p>
+<p>In the tutorial, we are going to experiment with all three approaches, and discuss pros and cons.</p>
+</section>
+<section id="references-and-further-readings" class="level2">
+<h2 class="anchored" data-anchor-id="references-and-further-readings">References and further readings</h2>
+<p>The backbone of the statistical model can be found in numerous articles, which converged to the same solution starting from different angles:</p>
 <ul>
-<li>W. O. Kermack, A. G. McKendrick, 1927. [<em>Contribution to the mathematical theory of epidemics</em> (https://www.jstor.org/stable/94815). Proceedings of the Royal Society of London A 115.772: 700–721.</li>
+<li><p>Xiao, Y., Angulo, M. T., Friedman, J., Waldor, M. K., Weiss, S. T., &amp; Liu, Y.-Y. (2017). <a href="https://www.nature.com/articles/s41467-017-02090-2">Mapping the ecological networks of microbial communities</a>. Nature Communications, 8(1), 1–12.</p></li>
+<li><p>Fort, H. (2018). <a href="https://www.sciencedirect.com/science/article/abs/pii/S0304380018303053">On predicting species yields in multispecies communities: Quantifying the accuracy of the linear Lotka-Volterra generalized model</a>. Ecological Modelling, 387, 154–162.</p></li>
+<li><p>Maynard, D. S., Miller, Z. R., &amp; Allesina, S. (2020). <a href="https://www.nature.com/articles/s41559-019-1059-z">Predicting coexistence in experimental ecological communities</a>. Nature Ecology &amp; Evolution, 4(1), 91–100.</p></li>
+<li><p>Ansari, A. F., Reddy, Y., Raut, J., &amp; Dixit, N. M. (2021). <a href="https://www.nature.com/articles/s43588-021-00131-x">An efficient and scalable top-down method for predicting structures of microbial communities</a>. Nature Computational Science, 1(9), 619–628.</p></li>
+<li><p>Davis, J.D., Olivença, D.V., Brown, S.P. and Voit, E.O., (2022). <a href="https://www.frontiersin.org/journals/systems-biology/articles/10.3389/fsysb.2022.1021897/full">Methods of quantifying interactions among populations using Lotka-Volterra models</a>. Frontiers in Systems Biology, 2, p.1021897.</p></li>
 </ul>
-<p>The two foundational papers by Anderson and May:</p>
+<p>For the tutorial, we are going to closely follow:</p>
 <ul>
-<li><p>Roy M. Anderson and Robert M. May, 1979. <a href="https://www.nature.com/articles/280361a0"><em>Population biology of infectious diseases: Part I</em></a>. Nature 280.5721: 361–367.</p></li>
-<li><p>Robert M. May and Roy M. Anderson, 1979. <a href="https://www.nature.com/articles/280455a0"><em>Population biology of infectious diseases: Part II</em></a>. Nature 280.5722: 455–461.</p></li>
+<li>Skwara, A., Lemos‐Costa, P., Miller, Z.R. and Allesina, S., 2023. <a href="https://besjournals.onlinelibrary.wiley.com/doi/full/10.1111/2041-210X.14028">Modelling ecological communities when composition is manipulated experimentally</a>. Methods in Ecology and Evolution, 14(2), pp.696-707.</li>
 </ul>
-<p>A very interesting perspective on influence of infectious diseases on human history:</p>
+<p>The same method can be extended to provide a simple test for phylogenetic effects on competition/growth:</p>
 <ul>
-<li>Andrew P. Dobson and E. Robin Carper, 1996. <a href="https://www.jstor.org/stable/1312814"><em>Infectious diseases and human population history</em></a>. BioScience 46.2: 115–126.</li>
-</ul>
-<p>Reflections on the relationship between ecology and epidemiology:</p>
-<ul>
-<li>Roy M. Anderson, 1991. <a href="https://www.jstor.org/stable/5443"><em>Populations and Infectious Diseases: Ecology or Epidemiology?</em></a> Journal of Animal Ecology, 60:1-50</li>
+<li>Lemos‐Costa, P., Miller, Z.R. and Allesina, S., 2024. <a href="https://onlinelibrary.wiley.com/doi/full/10.1111/ele.14490">Phylogeny structures species’ interactions in experimental ecological communities</a>. Ecology Letters, 27(8), p.e14490.</li>
 </ul>
 
 
