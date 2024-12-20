@@ -1,0 +1,199 @@
+# GLV and experimental data --- Hands on tutorial
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+library(tidyverse)
+library(deSolve)
+library(simplermarkdown)
+```
+
+## Data
+
+For our explorations, we are going to use recent data from Ishizawa and colleagues, which you can find here:
+
+H. Ishizawa, Y. Tashiro, D. Inoue, M. Ike, H. Futamata.
+[*Learning beyond-pairwise interactions enables the bottom–up prediction of microbial community structure*](https://doi.org/10.1073/pnas.2312396121)
+PNAS 121 (7) e2312396121 (2024).
+
+The Authors inoculated duckweed (*lemna minor*) with synthetic bacterial communities formed by all possible combinations of seven strains. To this end, they cultured the infected duckweed in flasks for 10 days. At the end of the experiment, they plated the communities on agar plates containing antibiotics that would allow the growth only of a particular strain. In this way, they were able to measure the final density of each of the seven strains in each of the $2^7 - 1 = 127$ possible communities, and conducted each experiment in replicate. The full data set reports the outcome of 692 separate experiments! 
+
+More modestly, here we are going to focus on a smaller pool of three strains taken from the seven available. We therefore have $7$ possible communities, ranging from a single strain growing in isolation to the three strains growing together. 
+
+Here's the full table:
+```{r}
+#| warning: false
+#| echo: false
+#| message: false
+#| output: asis
+dt <- read_csv("Ishizawa_3_strains.csv", show_col_types = FALSE)
+dt <- dt %>% mutate_all(.funs = function(x) ifelse(x == 0, "", as.character(round(x, 3)))) 
+cat(md_table(dt))
+```
+We can therefore associated each measurement with a) the strain being measured, $i$; b) the community in which $i$ was grown, $k$; and c) the (biological) replicate experiment, $r$.
+
+## Loading the code
+
+We are going to use the code accompanying the paper
+
+- Skwara, A., Lemos‐Costa, P., Miller, Z.R. and Allesina, S., 2023. [Modelling ecological communities when composition is manipulated experimentally](https://besjournals.onlinelibrary.wiley.com/doi/full/10.1111/2041-210X.14028). Methods in Ecology and Evolution, 14(2), pp.696-707.
+
+which you can find here
+
+[`https://github.com/StefanoAllesina/skwara_et_al_2022/`](https://github.com/StefanoAllesina/skwara_et_al_2022/)
+
+we have slightly massaged the code for this tutorial.
+
+To load the code in `R` change to the directory where you have stored the tutorial, and source this code:
+
+```{r}
+source("skwara_et_al_2022.R")
+```
+
+## Sum of squares
+
+First, we are going to use all the data to find a matrix $B$ that best encodes the density of the populations. To this end, we try to minimize the SSQ 
+
+$$
+SSQ(B) = \sum_r \sum_k \sum_i \left(\tilde{x}^{(k,r)}_i - x^{(k)}_i \right)^2
+$$
+
+This can be accomplished by calling:
+
+```{r}
+full_SSQ <- run_model(
+  datafile = "Ishizawa_3_strains.csv", # csv file containing the data to be fit
+  model = "full", # estimate B allowing each coefficient to take the best value
+  goalf = "SSQ", # minimize Sum of Squared Deviations
+  pars = NULL, # start from Identity matrix
+  skipEM = TRUE, # go directly to numerical optimization
+  plot_results = TRUE # plot the results
+)
+```
+The values being printed are the SSQ after each round of numerical optimization (in this case, the calculation converges immediately to the solution). 
+
+The boxplots show the data (points), as well as the corresponding boxplots, with the horizontal line being the median value of $\tilde{x}_i^{(k,r)}$ across $r$, the triangle shows the location of the mean. The circle marks the fitted mean value for the combination of strain/community, obtained computing $\left(B^{(k,k)}\right)^{-1}1_{\|k\|}$. As you can see, we can find a matrix $B$ that recapitulates the observed means quite well.
+
+The variable $full_SSQ$ now contains:
+
+```{r}
+glimpse(full_SSQ)
+```
+Let's plot the predicted vs. observed values:
+
+```{r}
+plot_pred_obs(full_SSQ)
+```
+
+Where the points mark the predicted vs observed means, and the crosses the full data. The dashed line is the 1:1 line.
+
+## Weighted leas squares
+
+We can repeat the calculation, but this time trying to minimize
+
+$$
+WLS(B) = \sum_r \sum_k \sum_i \left(\frac{\tilde{x}^{(k,r)}_i - x^{(k)}_i}{\sigma^{(k)}_i} \right)^2
+$$
+
+by calling:
+
+```{r}
+full_WLS <- run_model(
+  datafile = "Ishizawa_3_strains.csv", # csv file containing the data to be fit
+  model = "full", # estimate B allowing each coefficient to take the best value
+  goalf = "WLS", 
+  pars = NULL, # start from Identity matrix
+  skipEM = TRUE, # go directly to numerical optimization
+  plot_results = TRUE # plot the results
+)
+```
+
+```{r}
+plot_pred_obs(full_WLS)
+```
+
+Notice that the points have moved slightly---this is because we are penalizing deviations differently depending on the measured variance (and thus points with a higher variance can depart more strongly from the 1:1 line).
+
+## Maximum likelihood
+
+Now we take a different approach, and take the observations to be independent samples from a log-normal distribution:
+
+$$
+\tilde{x}_i^{(k,r)} \sim LN(x_i^{(k)}, \sigma_i)
+$$
+
+i.e., we take each variable to have a mean determined by the corresponding $x_i^{(k)}$, and a variance parameter that depends only on strain identity.
+
+```{r}
+full_LN <- run_model(
+  datafile = "Ishizawa_3_strains.csv", # csv file containing the data to be fit
+  model = "full", # estimate B allowing each coefficient to take the best value
+  goalf = "LikLN", 
+  pars = NULL, # start from Identity matrix
+  skipEM = TRUE, # go directly to numerical optimization
+  plot_results = TRUE # plot the results
+)
+```
+```{r}
+plot_pred_obs(full_LN)
+```
+
+Also in this case, we obtain a good fit.
+
+## Leave-one-out cross validation
+
+The ultimate test for this type of model is to be able to predict experimental results before running the experiment. 
+
+In our case, we can try to leave out one of the 7 communities, and see which model recover the best result:
+
+```{r}
+dt <- read_csv("Ishizawa_3_strains.csv")
+
+# the last row contains an experiment with only DW067 and DW102
+dt %>% slice(40)
+
+LOO_LN <- run_model_LOO(datafile = "Ishizawa_3_strains.csv", model = "full", goalf = "LikLN", pars = NULL, skipEM = TRUE, plot_results = TRUE, 
+                        LOO_row_num =  40 # exclude all experiments with this community
+)
+```
+
+```{r}
+LOO_WLS <- run_model_LOO(datafile = "Ishizawa_3_strains.csv", model = "full", goalf = "WLS", pars = NULL, skipEM = TRUE, plot_results = TRUE, 
+                        LOO_row_num =  40 # exclude all experiments with this community
+)
+```
+
+```{r}
+LOO_SSQ <- run_model_LOO(datafile = "Ishizawa_3_strains.csv", model = "full", goalf = "SSQ", pars = NULL, skipEM = TRUE, plot_results = TRUE, 
+                        LOO_row_num =  40 # exclude all experiments with this community
+)
+```
+All three models are quite successful at recovering the observed means for the community we left out.
+
+
+## Simplified models
+
+
+
+## References and further readings
+
+The backbone of the statistical model can be found in numerous articles, which converged to the same solution starting from different angles:
+
+- Xiao, Y., Angulo, M. T., Friedman, J., Waldor, M. K., Weiss, S. T., & Liu, Y.-Y. (2017). [Mapping the ecological networks of microbial communities](https://www.nature.com/articles/s41467-017-02090-2). Nature Communications, 8(1), 1–12.
+
+- Fort, H. (2018). [On predicting species yields in multispecies communities: Quantifying the accuracy of the linear Lotka-Volterra generalized model](https://www.sciencedirect.com/science/article/abs/pii/S0304380018303053). Ecological Modelling, 387, 154–162.
+
+- Maynard, D. S., Miller, Z. R., & Allesina, S. (2020). [Predicting coexistence in experimental ecological communities](https://www.nature.com/articles/s41559-019-1059-z). Nature Ecology & Evolution, 4(1), 91–100.
+
+- Ansari, A. F., Reddy, Y., Raut, J., & Dixit, N. M. (2021). [An efficient and scalable top-down method for predicting structures of microbial communities](https://www.nature.com/articles/s43588-021-00131-x). Nature Computational Science, 1(9), 619–628.
+
+- Davis, J.D., Olivença, D.V., Brown, S.P. and Voit, E.O., (2022). [Methods of quantifying interactions among populations using Lotka-Volterra models](https://www.frontiersin.org/journals/systems-biology/articles/10.3389/fsysb.2022.1021897/full). Frontiers in Systems Biology, 2, p.1021897.
+
+For the tutorial, we are going to closely follow:
+
+- Skwara, A., Lemos‐Costa, P., Miller, Z.R. and Allesina, S., 2023. [Modelling ecological communities when composition is manipulated experimentally](https://besjournals.onlinelibrary.wiley.com/doi/full/10.1111/2041-210X.14028). Methods in Ecology and Evolution, 14(2), pp.696-707.
+
+The same method can be extended to provide a simple test for phylogenetic effects on competition/growth:
+
+- Lemos‐Costa, P., Miller, Z.R. and Allesina, S., 2024. [Phylogeny structures species' interactions in experimental ecological communities](https://onlinelibrary.wiley.com/doi/full/10.1111/ele.14490). Ecology Letters, 27(8), p.e14490.
