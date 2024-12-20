@@ -13,6 +13,7 @@ website:
           - ch2.qmd
           - ch3.qmd
           - ch4.qmd
+          - tutorial/tutorial_GLV_data.qmd
   navbar:
     left:
       - href: index.qmd

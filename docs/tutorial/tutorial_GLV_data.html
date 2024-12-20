@@ -135,7 +135,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../tutorial/tutorial_GLV_data.html">GLV and experimental data — Hands on tutorial</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -185,6 +185,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">GLV and metatpopulation dynamics</span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../tutorial/tutorial_GLV_data.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">GLV and experimental data — Hands on tutorial</span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -200,6 +206,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">Data</a></li>
   <li><a href="#loading-the-code" id="toc-loading-the-code" class="nav-link" data-scroll-target="#loading-the-code">Loading the code</a></li>
   <li><a href="#sum-of-squares" id="toc-sum-of-squares" class="nav-link" data-scroll-target="#sum-of-squares">Sum of squares</a></li>
+  <li><a href="#weighted-leas-squares" id="toc-weighted-leas-squares" class="nav-link" data-scroll-target="#weighted-leas-squares">Weighted leas squares</a></li>
+  <li><a href="#maximum-likelihood" id="toc-maximum-likelihood" class="nav-link" data-scroll-target="#maximum-likelihood">Maximum likelihood</a></li>
+  <li><a href="#leave-one-out-cross-validation" id="toc-leave-one-out-cross-validation" class="nav-link" data-scroll-target="#leave-one-out-cross-validation">Leave-one-out cross validation</a></li>
+  <li><a href="#simplified-models" id="toc-simplified-models" class="nav-link" data-scroll-target="#simplified-models">Simplified models</a></li>
   <li><a href="#references-and-further-readings" id="toc-references-and-further-readings" class="nav-link" data-scroll-target="#references-and-further-readings">References and further readings</a></li>
   </ul></li>
   </ul>
@@ -533,6 +543,232 @@ SSQ(B) = \sum_r \sum_k \sum_i \left(\tilde{x}^{(k,r)}_i - x^{(k)}_i \right)^2
 <p><img src="tutorial_GLV_data_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
+<p>The values being printed are the SSQ after each round of numerical optimization (in this case, the calculation converges immediately to the solution).</p>
+<p>The boxplots show the data (points), as well as the corresponding boxplots, with the horizontal line being the median value of <span class="math inline">\(\tilde{x}_i^{(k,r)}\)</span> across <span class="math inline">\(r\)</span>, the triangle shows the location of the mean. The circle marks the fitted mean value for the combination of strain/community, obtained computing <span class="math inline">\(\left(B^{(k,k)}\right)^{-1}1_{\|k\|}\)</span>. As you can see, we can find a matrix <span class="math inline">\(B\)</span> that recapitulates the observed means quite well.</p>
+<p>The variable <span class="math inline">\(full_SSQ\)</span> now contains:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(full_SSQ)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>List of 8
+ $ data_name    : chr "Ishizawa_3_strains"
+ $ observed     : num [1:50, 1:3] 0 0 0 0 0 0 0 0 0 0 ...
+  ..- attr(*, "dimnames")=List of 2
+  .. ..$ : NULL
+  .. ..$ : chr [1:3] "DW067" "DW102" "DW145"
+ $ predicted    : num [1:50, 1:3] 0 0 0 0 0 0 0 0 0 0 ...
+  ..- attr(*, "dimnames")=List of 2
+  .. ..$ : NULL
+  .. ..$ : chr [1:3] "DW067" "DW102" "DW145"
+ $ variances    : num [1:50, 1:3] 0 0 0 0 0 0 0 0 0 0 ...
+  ..- attr(*, "dimnames")=List of 2
+  .. ..$ : NULL
+  .. ..$ : chr [1:3] "DW067" "DW102" "DW145"
+ $ B            : num [1:3, 1:3] 1.3 -0.479 0.875 0.246 2.143 ...
+ $ pars         : num [1:9] 1.63166 0.02719 -1.28356 -0.00694 0.43581 ...
+ $ goal_function: num 1.29
+ $ goal_type    : chr "SSQ"</code></pre>
+</div>
+</div>
+<p>Let’s plot the predicted vs.&nbsp;observed values:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_pred_obs</span>(full_SSQ)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="tutorial_GLV_data_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Where the points mark the predicted vs observed means, and the crosses the full data. The dashed line is the 1:1 line.</p>
+</section>
+<section id="weighted-leas-squares" class="level2">
+<h2 class="anchored" data-anchor-id="weighted-leas-squares">Weighted leas squares</h2>
+<p>We can repeat the calculation, but this time trying to minimize</p>
+<p><span class="math display">\[
+WLS(B) = \sum_r \sum_k \sum_i \left(\frac{\tilde{x}^{(k,r)}_i - x^{(k)}_i}{\sigma^{(k)}_i} \right)^2
+\]</span></p>
+<p>by calling:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>full_WLS <span class="ot">&lt;-</span> <span class="fu">run_model</span>(</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">datafile =</span> <span class="st">"Ishizawa_3_strains.csv"</span>, <span class="co"># csv file containing the data to be fit</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> <span class="st">"full"</span>, <span class="co"># estimate B allowing each coefficient to take the best value</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">goalf =</span> <span class="st">"WLS"</span>, </span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">pars =</span> <span class="cn">NULL</span>, <span class="co"># start from Identity matrix</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">skipEM =</span> <span class="cn">TRUE</span>, <span class="co"># go directly to numerical optimization</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">plot_results =</span> <span class="cn">TRUE</span> <span class="co"># plot the results</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`mutate_if()` ignored the following grouping variables:
+• Column `comm`</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "numerical search"
+[1] 67.07833
+[1] 67.07833
+[1] 67.07833
+[1] 67.07833
+[1] 67.07833
+[1] 67.07833
+[1] 67.07833
+[1] 67.07833
+[1] 67.07833
+[1] 67.07833</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="tutorial_GLV_data_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_pred_obs</span>(full_WLS)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="tutorial_GLV_data_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Notice that the points have moved slightly—this is because we are penalizing deviations differently depending on the measured variance (and thus points with a higher variance can depart more strongly from the 1:1 line).</p>
+</section>
+<section id="maximum-likelihood" class="level2">
+<h2 class="anchored" data-anchor-id="maximum-likelihood">Maximum likelihood</h2>
+<p>Now we take a different approach, and take the observations to be independent samples from a log-normal distribution:</p>
+<p><span class="math display">\[
+\tilde{x}_i^{(k,r)} \sim LN(x_i^{(k)}, \sigma_i)
+\]</span></p>
+<p>i.e., we take each variable to have a mean determined by the corresponding <span class="math inline">\(x_i^{(k)}\)</span>, and a variance parameter that depends only on strain identity.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>full_LN <span class="ot">&lt;-</span> <span class="fu">run_model</span>(</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">datafile =</span> <span class="st">"Ishizawa_3_strains.csv"</span>, <span class="co"># csv file containing the data to be fit</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> <span class="st">"full"</span>, <span class="co"># estimate B allowing each coefficient to take the best value</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">goalf =</span> <span class="st">"LikLN"</span>, </span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">pars =</span> <span class="cn">NULL</span>, <span class="co"># start from Identity matrix</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">skipEM =</span> <span class="cn">TRUE</span>, <span class="co"># go directly to numerical optimization</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">plot_results =</span> <span class="cn">TRUE</span> <span class="co"># plot the results</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`mutate_if()` ignored the following grouping variables:
+• Column `comm`</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "numerical search"
+[1] -49.19108
+[1] -49.19108
+[1] -49.19108
+[1] -49.19108
+[1] -49.19108
+[1] -49.19108
+[1] -49.19108
+[1] -49.19108
+[1] -49.19108
+[1] -49.19108</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="tutorial_GLV_data_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_pred_obs</span>(full_LN)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="tutorial_GLV_data_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Also in this case, we obtain a good fit.</p>
+</section>
+<section id="leave-one-out-cross-validation" class="level2">
+<h2 class="anchored" data-anchor-id="leave-one-out-cross-validation">Leave-one-out cross validation</h2>
+<p>The ultimate test for this type of model is to be able to predict experimental results before running the experiment.</p>
+<p>In our case, we can try to leave out one of the 7 communities, and see which model recover the best result:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"Ishizawa_3_strains.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 50 Columns: 3
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+dbl (3): DW067, DW102, DW145
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># the last row contains an experiment with only DW067 and DW102</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>dt <span class="sc">%&gt;%</span> <span class="fu">slice</span>(<span class="dv">40</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 3
+  DW067 DW102 DW145
+  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 0.541 0.563     0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>LOO_LN <span class="ot">&lt;-</span> <span class="fu">run_model_LOO</span>(<span class="at">datafile =</span> <span class="st">"Ishizawa_3_strains.csv"</span>, <span class="at">model =</span> <span class="st">"full"</span>, <span class="at">goalf =</span> <span class="st">"LikLN"</span>, <span class="at">pars =</span> <span class="cn">NULL</span>, <span class="at">skipEM =</span> <span class="cn">TRUE</span>, <span class="at">plot_results =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>                        <span class="at">LOO_row_num =</span>  <span class="dv">40</span> <span class="co"># exclude all experiments with this community</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`mutate_if()` ignored the following grouping variables:
+• Column `comm`</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "numerical search"
+[1] -43.08928
+[1] -43.08928
+[1] -43.08928
+[1] -43.08928
+[1] -43.08928
+[1] -43.08928
+[1] -43.08928
+[1] -43.08928
+[1] -43.08928
+[1] -43.08928</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="tutorial_GLV_data_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>LOO_WLS <span class="ot">&lt;-</span> <span class="fu">run_model_LOO</span>(<span class="at">datafile =</span> <span class="st">"Ishizawa_3_strains.csv"</span>, <span class="at">model =</span> <span class="st">"full"</span>, <span class="at">goalf =</span> <span class="st">"WLS"</span>, <span class="at">pars =</span> <span class="cn">NULL</span>, <span class="at">skipEM =</span> <span class="cn">TRUE</span>, <span class="at">plot_results =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>                        <span class="at">LOO_row_num =</span>  <span class="dv">40</span> <span class="co"># exclude all experiments with this community</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`mutate_if()` ignored the following grouping variables:
+• Column `comm`</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "numerical search"
+[1] 56.05198
+[1] 56.05198
+[1] 56.05198
+[1] 56.05198
+[1] 56.05198
+[1] 56.05198
+[1] 56.05198
+[1] 56.05198
+[1] 56.05198
+[1] 56.05198</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="tutorial_GLV_data_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>LOO_SSQ <span class="ot">&lt;-</span> <span class="fu">run_model_LOO</span>(<span class="at">datafile =</span> <span class="st">"Ishizawa_3_strains.csv"</span>, <span class="at">model =</span> <span class="st">"full"</span>, <span class="at">goalf =</span> <span class="st">"SSQ"</span>, <span class="at">pars =</span> <span class="cn">NULL</span>, <span class="at">skipEM =</span> <span class="cn">TRUE</span>, <span class="at">plot_results =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>                        <span class="at">LOO_row_num =</span>  <span class="dv">40</span> <span class="co"># exclude all experiments with this community</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`mutate_if()` ignored the following grouping variables:
+• Column `comm`</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "numerical search"
+[1] 1.042831
+[1] 1.042831
+[1] 1.042831
+[1] 1.042831
+[1] 1.042831
+[1] 1.042831
+[1] 1.042831
+[1] 1.042831
+[1] 1.042831
+[1] 1.042831</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="tutorial_GLV_data_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>All three models are quite successful at recovering the observed means for the community we left out.</p>
+</section>
+<section id="simplified-models" class="level2">
+<h2 class="anchored" data-anchor-id="simplified-models">Simplified models</h2>
 </section>
 <section id="references-and-further-readings" class="level2">
 <h2 class="anchored" data-anchor-id="references-and-further-readings">References and further readings</h2>
