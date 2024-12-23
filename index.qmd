@@ -1,10 +1,11 @@
 # ICTS QSB 2025
 
-We have four lectures, plus some tutorials. We are going to concentrate on the Generalized Lotka-Volterra model---which turns 100 years old in 2026.
+We have four lectures and a tutorial. We are going to concentrate on the Generalized Lotka-Volterra model---which turns 100 years old in 2026.
 
 - Lecture 1. The Generalized Lotka-Volterra model for $n$ interacting populations.
 - Lecture 2. GLV with random parameters.
 - Lecture 3. GLV to model experimental data.
+- Tutorial. Applications of GLV models for experimental microbial communities.
 - Lecture 4. GLV and metapopulation dynamics.
 
 ## Computing

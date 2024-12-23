@@ -133,8 +133,8 @@ The feasibility and nonivasibility condition, for a given choice of $S_i$ read:
 
 $$
 \begin{cases}
-y' = S_i^{(k)} (-\mathfrak A^{-1}\mathfrak r)\\
-S_i^{(n-k)}(\mathfrak s + \mathfrak C y') < 0_{\|n-k\|}\\
+y' &= S_i^{(k)} (-\mathfrak A^{-1}\mathfrak r) &> 0_{\|k\|}\\
+D(z)^{-1} z &=S_i^{(n-k)}(\mathfrak s + \mathfrak C y') &< 0_{\|n-k\|}\\
 \end{cases}
 $$
 
@@ -147,6 +147,8 @@ $$
 exactly as for the non-interacting case.
 
 ## Random zoo and experimental data
+
+
 
 ## Competitive GLV
 
