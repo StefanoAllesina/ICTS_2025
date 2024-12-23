@@ -16,7 +16,7 @@ $$
 \dot{x}_i = x_i (r_i - A_{ii} x_i)
 $$
 
-with $A_{ii} > 0$. We assume that $r_i \sim Q$, a distribution with mean $0$, $\mathbb E(r_i) = 0$ and symmetric about its mean: $P(r_i) = P(-r_i)$. For example, we could choose $r_i \sim \mathcal N(0, \sigma^2)$, or $r_i \sim \mathcal U[-1, 1]$. Naturally, whenever $r_i > 0$, the population will grow to $x_i^\star = r_i / A_{ii}$. If $r_i < 0$, on the other hand, the population will go extinct. Because of the symmetry around zero, each population has therefore probability $1/2$ of persisting. When we have $n$ populations, the number of coexisting populations $\|k\|$ is a random variable following the binomial distribution:
+with $A_{ii} > 0$. We assume that the growth rates are sampled independently from a distribution: $r_i \sim Q$, a distribution with mean $0$, $\mathbb E(r_i) = 0$ and symmetric about its mean, such that $P(r_i) = P(-r_i)$. For example, we could choose $r_i \sim \mathcal N(0, \sigma^2)$, or $r_i \sim \mathcal U[-1, 1]$. Naturally, whenever $r_i > 0$, the population will grow to $x_i^\star = r_i / A_{ii}$. If $r_i < 0$, on the other hand, the population will go extinct. Because of the symmetry around zero, each population has therefore probability $1/2$ of persisting. When we have $n$ populations, the number of coexisting populations $\|k\|$ is a random variable following the binomial distribution:
 
 $$
 P(\|k\| | n) = \binom{n}{\|k\|} \frac{1}{2^n}\quad \|k\| \sim \mathcal B\left(n, \frac{1}{2}\right)
@@ -69,7 +69,7 @@ S_{2^n} &= \begin{pmatrix}
 \end{aligned}
 $$
 
-These matrices, called *signature matrices* are their own inverse (a matrix with this property is called *involutory*), and therefore, we have that $S_i S_i = S_i^2 = I_n$. Geometrically, they represent a reflection in each of the axes corresponding to the negated rows or columns.
+These matrices, called *signature matrices* are their own inverse (a matrix with this property is called *involutory*), and therefore, we have that $S_i S_i = S_i^2 = I_n$. Geometrically, these matrices represent a reflection in each of the axes corresponding to the negated rows or columns.
 
 We then consider what happens when we transform the parameters by multiplying them by $S_i$. Take an arbitrary GLV system, and solve for the $x$ that makes $r + Ax = 0_n$:
 
@@ -148,7 +148,9 @@ exactly as for the non-interacting case.
 
 ## Random zoo and experimental data
 
+We have seen above that in a (stable) GLV model with random interactions, the expected number of species coexisting is proportional to the size of the initial pool: $\mathbb E(\|k\|) = n/2$. We start the system with all the populations present, and we assemble a final community from the *top-down*. Interestingly, this type of experiment is carried out with increasing frequency in microbial ecology, where a microbial community taken from a certain environment is challenged with a new synthetic environment in the laboratory. For example, Leonora Bittleston and colleagues extracted the microbial communities inhabiting 10 distinct pitcher plants, and cultured them in synthetic media in the laboratory for two months. They plot the number of microbial strains present at the beginning of the experiment (Day 3, such that the strains that cannot grow in the medium are filtered out) and after two months (Day 63), finding a striking linear relationship between the initial size $n$ and that at the end of the experiment $\|k\|$:
 
+![](images/RZ.png)
 
 ## Competitive GLV
 
@@ -171,10 +173,12 @@ The value of $\alpha > 0$ can be considered the "excess" intraspecific interacti
 ## Effect of average interaction strength on feasibility
 
 We have taken $M = \alpha I + B$; call $m$ the vector of column means of $B$. Here we show that, as long as $m > 0_n$, its actual value has no effect on feasibility. 
-We can write 
+We can write: 
 
 $$
-M = \alpha I + B = \alpha I + 1_n m^T + C
+\begin{aligned}
+M &= \alpha I + B \\&= \alpha I + 1_n m^T + C
+\end{aligned}
 $$
 
 where $C$ has columns summing to zero ($1_n^T C = 0_n^T$). For feasibility, we need the solution:
@@ -194,7 +198,7 @@ $$
 y &=(\alpha I + C)^{-1}1_n
 \end{aligned}
 $$
-and consider the solution $x$ to be the solution of a rank-1 update of the system in $y$.
+and write the solution $x$ as a rank-1 update of the solution of the system in $y$.
 
 ::: {.callout-note collapse="true"}
 ## Sherman-Morrison formula
@@ -233,7 +237,7 @@ $$
 
 This means that $y$ cannot be all negative; then given that for $y>0_n$ and $m > 0_n$ we have $1 + m^Ty > 0$, we have that $x$ is feasible if and only if $y$ is feasible. 
 
-This means that any matrix that can be written as $B = C + 1m^T$ with $m > 0_n$ belongs to the same class for feasibility---the exact value of $m$ does not matter.
+This means that any matrix that can be written as $B = C + 1m^T$ with $m > 0_n$ belongs to the same class for feasibility---the exact value of $m > 0_n$ does not matter.
 
 ## A sufficiently large $\alpha$ guarantees feasibility
 
@@ -273,9 +277,60 @@ If we choose $\alpha = \alpha_\infty$ such that $C_{ij} / \alpha_\infty < 1/n$, 
 
 ## Models with random interactions
 
+We have seen above that the system $(\alpha I + C) y = 1_n$, with $C^T1_n = 0_n$ and $\alpha > 0$ has solution $y$ with mean $\frac{1}{n}1_n^Ty = \frac{1}{\alpha}$. If the populations are *statistically equivalent*, i.e., there is no special structure making some of the populations necessarily different from the rest, we can generalize this further:
 
+$$
+\begin{aligned}
+\left( \sum_j y_j \right)^2 & = \dfrac{n^2}{\alpha^2}\\
+\sum_j (y_j)^2  + \sum_i \sum_{j \neq i} y_i y_j &= \dfrac{n^2}{\alpha^2}\\
+n \mathbb E((y_i)^2) + n (n-1)  \mathbb E( y_i y_j) &= \dfrac{n^2}{\alpha^2}\\
+ \mathbb V(y_i) + \mathbb E(y_i)^2  + (n-1)\left( \mathbb{Cov}(y_i, y_j)  + \mathbb E(y_i^\star)  \mathbb E(y_j)  \right) &= n \mathbb E(y_i)^2\\
+ \mathbb V(y_i) + \mathbb E(y_i)^2  + (n-1)\left( \mathbb{Cov}(y_i, y_j)  + \mathbb E(y_i)^2 \right) &= n \mathbb E(y_i)^2\\
+ \mathbb V(y_i) + (n-1) \mathbb{Cov}(y_i, y_j) &= 0\quad ,
+\end{aligned}
+$$
+
+where we have exploited the fact that, for a model with statistically equivalent populations, $\mathbb E(y_i)  \mathbb E(y_j) = \mathbb E(y_i)^2$, and that the covariance $\mathbb{Cov}(y_i, y_j)$ must be the same for all $i,j$. Thus, for *any* unstructured model, we have that the expected covariance is negative. Moreover, for a given variance $\mathbb V(y_i) = \sigma^2_{y}$, we have: $\sigma^2_{y} + (n-1) \sigma^2_{y} \mathbb{Cor}(y_i, y_j) = 0$ and thus $\mathbb{Cor}(y_i, y_j) = -1/(n-1)$ for all $i$ and $j$. Note that this is the maximally negative correlation one can have for equicorrelated random variables. Thus, $y$ has expectation $(1/\alpha) 1_n$, and covariance matrix $\sigma^2_{y} \left( \frac{n}{n-1} I - \frac{1}{n-1} 1_n 1_n^T \right)$. Importantly, the only difference between different unstructured models with random parameters is the value of $\sigma^2_{y}$, while the rest is unchanged. Analyzing increasingly complex models therefore reduces to the problem of determining the variance of $y$. 
 
 ## Approximating feasibility
+
+The joint distribution of $y$ is well-approximated by a multivariate normal in the limit of large $n$, because of the central limit theorem. 
+
+Therefore, $y$ is asymptotically distributed as
+
+$$
+y \sim \mathcal N \left( \frac{1}{\alpha} \mathbb 1_n, \sigma^2_y \left(\frac{n}{n-1} I - \frac{1}{n-1} \mathbb 1_n \mathbb 1_n^T \right) \right)\quad .
+$$
+
+Because the joint distribution of $y$ is well-approximated by a multivariate normal, we can calculate the probability of feasibility as a function of $\alpha$, $n$, as well as $\sigma^2_{y}$ by integrating the probability density function in the positive orthant of $\mathbb R^n$---what is called an ``orthant probability'':
+
+$$
+p_F (n, \alpha, \sigma^2_{y}) = \int_0^{\infty} \int_0^{\infty} \cdots \int_0^{\infty} \phi(y) d y_1 d y_2 \cdots d y_n \quad,
+$$
+
+\noindent where $\phi(y)$ is the probability density function of the normal distribution above. For equicorrelated random variables, the multiple integral above can be reduced to a single integral (albeit involving complex variables when the correlation is negative, such as in this case). Equivalently, one can use the theory of order statistics to write the density function of the first order statistics (i.e., the $\underset{i}{\min} (y_1, y_2, \ldots, y_n)$) and integrate this density function for all positive values of the minimum. 
+
+When $n$ is large, however, one can safely ignore the negative correlation between the random variables $y_i$, and pretend they are independent. In this case, we want to determine the probability that all $y_i > 0$. If we subtract the mean from both sides, and call $\zeta_i = y_i - 1/\alpha$, we have that the system is feasible when all $\zeta_i> -1/\alpha$. Dividing both sides by $\sigma_{y}$ and calling $\xi_i = \zeta_i / \sigma_{y}$ we have that feasibility is ensured whenever all the $\xi_i$, following the standard normal distribution, are larger than $-1/(\alpha \sigma_{y})$; because the standard normal is symmetric about zero, we can finally write:
+
+\begin{equation}\label{eq:pfeas_normal}
+p_F(n,\alpha, \sigma^2_{y}) \approx \Phi\left( \dfrac{1}{\alpha \sigma_{y}}\right)^n\quad,
+\end{equation}
+
+\noindent where $\Phi(\cdot)$ is the cumulative distribution function for a standard normal distribution. The approximation is going to be accurate when $n$ is large. Again, we have reduced the problem of computing the probability of feasibility for a system of a known size $n$ and given level of self-regulation $\alpha$ to the problem of computing $\sigma_{y}$ for the specific model and parameters. 
+
+PART HERE ON NEUMANN EXPANSION, WITH A NOTE ON NEUMANN
+
+::: {.callout-note collapse="true"}
+## Neumann series
+
+If the matrix $T$ has spectral radius $\rho (A)  < 1$ (i.e., the maximum absolute value of its eigenvalues is less than one), then we can write the inverse
+
+$$
+(I-T)^{-1} = \sum_{k = 0}^{\infty} T^k
+$$
+
+Where $T^0 = I$.
+:::
 
 ## A more accurate approximation of feasibility
 

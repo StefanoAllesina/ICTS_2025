@@ -275,9 +275,9 @@ x^\star = -A^{-1} r = -B^{-1}1_n = \begin{pmatrix}
 1
 \end{pmatrix}
 \]</span> If the matrix <span class="math inline">\(B\)</span> is rank-deficient (and thus singular) there are infinitely many equilibria; for example, if the rank of <span class="math inline">\(B\)</span> is <span class="math inline">\(n-1\)</span> there are infinitely many equilibria belonging to a line in <span class="math inline">\(\mathbb R^n\)</span>.</p>
-<p>When <span class="math inline">\(B\)</span> is nonsingular, the model admits at most one positive equilibrium in which all populations are present. However, there can be up to <span class="math inline">\(2^n-1\)</span> equilibria in which one or more populations are absent/extinct. Call <span class="math inline">\(B^{(k,k)}\)</span> the submatrix of <span class="math inline">\(B\)</span> obtained by retaining the rows and columns indexed by the set <span class="math inline">\(k\)</span>. Then by solving</p>
+<p>When <span class="math inline">\(B\)</span> is nonsingular, the model admits at most one positive equilibrium in which all populations are present. However, there can be up to <span class="math inline">\(2^n-1\)</span> equilibria in which <em>one or more populations are absent/extinct</em>. Call <span class="math inline">\(B^{(k,k)}\)</span> the submatrix of <span class="math inline">\(B\)</span> obtained by retaining the rows and columns indexed by the set <span class="math inline">\(k\)</span>. Then by solving</p>
 <p><span class="math display">\[
-B^{(k,k)} x^{(k)\star} = -1^{(k)}
+B^{(k,k)} x^{(k)\star} = -1_{\|k\|}
 \]</span></p>
 <p>we obtain an equilibrium for the subcommunity where only the populations in <span class="math inline">\(k\)</span> are present (provided that the equilibrium is feasibile).</p>
 <p>For the example above, we have:</p>
@@ -294,7 +294,7 @@ x^{(\{1,2\})\star} = -(B^{(\{1,2\},\{1,2\})})^{-1}1_2=\begin{pmatrix}
 \frac{8}{9}
 \end{pmatrix}
 \]</span></p>
-<p>Therefore, the subsystem in which only the first two populations are present has a feasible equilibrium.</p>
+<p>Therefore, the subsystem in which only the first two populations are present yields a feasible equilibrium.</p>
 <p>Similarly,</p>
 <p><span class="math display">\[
 x^{(\{1,3\})\star} = \begin{pmatrix}
@@ -308,7 +308,7 @@ x^{(\{1,3\})\star} = \begin{pmatrix}
 \frac{34}{13}\\
 \end{pmatrix}
 \]</span></p>
-<p>The subsystem in which only populations 2 and 3 are present does not have a feasible equilibrium.</p>
+<p>The subsystem in which only populations 2 and 3 are present does not yield a feasible equilibrium.</p>
 </section>
 <section id="types-of-dynamics" class="level2">
 <h2 class="anchored" data-anchor-id="types-of-dynamics">Types of dynamics</h2>
@@ -369,7 +369,7 @@ x^{(\{1,3\})\star} = \begin{pmatrix}
 \]</span></p>
 <p>showing that <em>the average density is</em> in fact <em>the equilibrium</em>. With a similar argument, one can prove that if the trajectory stays in a compact space (i.e., in case of chaotic attractors), then the long-time average is still <span class="math inline">\(x^\star\)</span>.</p>
 <p>A dynamical system is permanent if, for all <span class="math inline">\(x_i(0) &gt; 0\)</span>, the limit <span class="math inline">\(\liminf_{t \to \infty} x_i(t) &gt; \delta &gt; 0\)</span> for all <span class="math inline">\(i\)</span>. This means that each axis of <span class="math inline">\(\mathbb R^n\)</span> <em>repels</em> the dynamics when <span class="math inline">\(t\)</span> is large enough.</p>
-<p>Suppose that a GLV system is permanent, and that population dynamics converge to a limit cycle or a chaotic attractor; then, because of the calculation above, there must be a positive equilibrium in <span class="math inline">\(\mathbb R^n\)</span>. Thus, a GLV system without a feasible equilibrium cannot be permanent. That is to say, the coexistence of all populations in a GLV system requires a feasible equilibrium.</p>
+<p>Suppose that a GLV system is permanent, and that population dynamics converge to a limit cycle or a chaotic attractor; then, because of the calculation above, there must be a positive equilibrium in <span class="math inline">\(\mathbb R^n\)</span>. Thus, a GLV system without a feasible equilibrium cannot be permanent. That is to say, the coexistence of all populations in a GLV system <em>requires</em> a feasible equilibrium.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
@@ -459,7 +459,7 @@ f_i(x^\star + \Delta x) \approx \sum_k \left. J_{ik} \right|_{x^\star} \Delta x_
 <p><span class="math display">\[
 J_{ij} = \dfrac{\partial f_i(x)}{\partial x_j}
 \]</span></p>
-<p>For each equilibrium in the system, we can obtain a different <em>community matrix</em> (the name is due to Levins) <span class="math inline">\(M\)</span>:</p>
+<p>For each equilibrium in the system, we can obtain a different <em>community matrix</em> (the name is due to Richard Levins) <span class="math inline">\(M\)</span>:</p>
 <p><span class="math display">\[
 M = \left. J \right|_{x^\star}
 \]</span></p>
@@ -707,7 +707,7 @@ V(x(t)) = \sum_i \left(x_i - x_i^\star - x_i^\star \log \frac{x_i}{x_i^\star} \r
 <p><span class="math display">\[
 z_i = x_i / w_i \quad x_i = w_i z_i
 \]</span></p>
-<p>with <span class="math inline">\(w_i&gt;0\)</span>. This change of variables cannot impact the existence or stability of equilibria (we are simply changing the unit of measure we Then,</p>
+<p>with <span class="math inline">\(w_i&gt;0\)</span>. This change of variables cannot impact the existence or stability of equilibria (we are simply changing the units of measure we are using to measure the density of each population). Then,</p>
 <p><span class="math display">\[
 \dot{z_i} = \frac{\dot{x}_i}{w_i} = \frac{x_i}{w_i}(r_i + (Ax)_i) = z_i(r_i + (AD(w)z)_i)=z_i(r_i + (\tilde{A}z)_i)
 \]</span></p>
@@ -774,6 +774,7 @@ z
 \end{aligned}
 \]</span></p>
 <p>Whenever <span class="math inline">\(H(A) = \frac{1}{2}(A + A^T)\)</span> is negative definite, then the first term is negative for any choice of <span class="math inline">\(y\)</span> and <span class="math inline">\(z\)</span>. Examining the second term, we see that <span class="math inline">\(\mathfrak s + \mathfrak C y^\star\)</span> measures the invasion growth rate of the populations in the set <span class="math inline">\(n-k\)</span> when they are attempting to invade the community that is resting at <span class="math inline">\(y^\star\)</span>. Thus, if we can find a saturated equilibrium, it is globally stable and will be reached for any <span class="math inline">\(x(0) &gt; 0_n\)</span>.</p>
+<p>This derivation can be extended by considering a diagonal matrix <span class="math inline">\(D(w)\)</span> with <span class="math inline">\(w &gt;0_n\)</span>, as done above.</p>
 </section>
 <section id="classic-papers-references-and-further-readings" class="level2">
 <h2 class="anchored" data-anchor-id="classic-papers-references-and-further-readings">Classic papers, references and further readings</h2>

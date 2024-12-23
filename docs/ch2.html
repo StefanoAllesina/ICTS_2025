@@ -197,7 +197,7 @@ ul.task-list li input[type="checkbox"] {
 <p><span class="math display">\[
 \dot{x}_i = x_i (r_i - A_{ii} x_i)
 \]</span></p>
-<p>with <span class="math inline">\(A_{ii} &gt; 0\)</span>. We assume that <span class="math inline">\(r_i \sim Q\)</span>, a distribution with mean <span class="math inline">\(0\)</span>, <span class="math inline">\(\mathbb E(r_i) = 0\)</span> and symmetric about its mean: <span class="math inline">\(P(r_i) = P(-r_i)\)</span>. For example, we could choose <span class="math inline">\(r_i \sim \mathcal N(0, \sigma^2)\)</span>, or <span class="math inline">\(r_i \sim \mathcal U[-1, 1]\)</span>. Naturally, whenever <span class="math inline">\(r_i &gt; 0\)</span>, the population will grow to <span class="math inline">\(x_i^\star = r_i / A_{ii}\)</span>. If <span class="math inline">\(r_i &lt; 0\)</span>, on the other hand, the population will go extinct. Because of the symmetry around zero, each population has therefore probability <span class="math inline">\(1/2\)</span> of persisting. When we have <span class="math inline">\(n\)</span> populations, the number of coexisting populations <span class="math inline">\(\|k\|\)</span> is a random variable following the binomial distribution:</p>
+<p>with <span class="math inline">\(A_{ii} &gt; 0\)</span>. We assume that the growth rates are sampled independently from a distribution: <span class="math inline">\(r_i \sim Q\)</span>, a distribution with mean <span class="math inline">\(0\)</span>, <span class="math inline">\(\mathbb E(r_i) = 0\)</span> and symmetric about its mean, such that <span class="math inline">\(P(r_i) = P(-r_i)\)</span>. For example, we could choose <span class="math inline">\(r_i \sim \mathcal N(0, \sigma^2)\)</span>, or <span class="math inline">\(r_i \sim \mathcal U[-1, 1]\)</span>. Naturally, whenever <span class="math inline">\(r_i &gt; 0\)</span>, the population will grow to <span class="math inline">\(x_i^\star = r_i / A_{ii}\)</span>. If <span class="math inline">\(r_i &lt; 0\)</span>, on the other hand, the population will go extinct. Because of the symmetry around zero, each population has therefore probability <span class="math inline">\(1/2\)</span> of persisting. When we have <span class="math inline">\(n\)</span> populations, the number of coexisting populations <span class="math inline">\(\|k\|\)</span> is a random variable following the binomial distribution:</p>
 <p><span class="math display">\[
 P(\|k\| | n) = \binom{n}{\|k\|} \frac{1}{2^n}\quad \|k\| \sim \mathcal B\left(n, \frac{1}{2}\right)
 \]</span></p>
@@ -246,7 +246,7 @@ S_{2^n} &amp;= \begin{pmatrix}
 \end{pmatrix} = -I_n\\
 \end{aligned}
 \]</span></p>
-<p>These matrices, called <em>signature matrices</em> are their own inverse (a matrix with this property is called <em>involutory</em>), and therefore, we have that <span class="math inline">\(S_i S_i = S_i^2 = I_n\)</span>. Geometrically, they represent a reflection in each of the axes corresponding to the negated rows or columns.</p>
+<p>These matrices, called <em>signature matrices</em> are their own inverse (a matrix with this property is called <em>involutory</em>), and therefore, we have that <span class="math inline">\(S_i S_i = S_i^2 = I_n\)</span>. Geometrically, these matrices represent a reflection in each of the axes corresponding to the negated rows or columns.</p>
 <p>We then consider what happens when we transform the parameters by multiplying them by <span class="math inline">\(S_i\)</span>. Take an arbitrary GLV system, and solve for the <span class="math inline">\(x\)</span> that makes <span class="math inline">\(r + Ax = 0_n\)</span>:</p>
 <p><span class="math display">\[
 x = -A^{-1} r
@@ -294,8 +294,8 @@ S_{i}^{(k)} &amp; 0_{\|k\|, \|n-k\|}\\
 \]</span> The feasibility and nonivasibility condition, for a given choice of <span class="math inline">\(S_i\)</span> read:</p>
 <p><span class="math display">\[
 \begin{cases}
-y' = S_i^{(k)} (-\mathfrak A^{-1}\mathfrak r)\\
-S_i^{(n-k)}(\mathfrak s + \mathfrak C y') &lt; 0_{\|n-k\|}\\
+y' &amp;= S_i^{(k)} (-\mathfrak A^{-1}\mathfrak r) &amp;&gt; 0_{\|k\|}\\
+D(z)^{-1} z &amp;=S_i^{(n-k)}(\mathfrak s + \mathfrak C y') &amp;&lt; 0_{\|n-k\|}\\
 \end{cases}
 \]</span></p>
 <p>There is only one choice out of <span class="math inline">\(2^{\|k\|}\)</span> that makes <span class="math inline">\(y' &gt; 0_{\|k\|}\)</span>; moreover, there is only one choice of <span class="math inline">\(S_i^{(n-k)}\)</span> that fulfills the noninvasibility condition, out of <span class="math inline">\(2^{\|n-k\|}\)</span> equiprobable choices. Then, we have that the probability of finding exactly <span class="math inline">\(\|k\|\)</span> populations coexisting at the saturated equilibrium, with the remaining <span class="math inline">\(\|n-k\|\)</span> that cannot invade is exactly <span class="math inline">\(1/2^{\|k\|} \cdot 2^{\|n-k\|} = 1/2^n\)</span>. The number of coexisting populations at the saturated equilibrium follows the binomial distribution:</p>
@@ -306,6 +306,8 @@ P(\|k\| | n) = \binom{n}{\|k\|} \frac{1}{2^n}\quad \|k\| \sim \mathcal B\left(n,
 </section>
 <section id="random-zoo-and-experimental-data" class="level2">
 <h2 class="anchored" data-anchor-id="random-zoo-and-experimental-data">Random zoo and experimental data</h2>
+<p>We have seen above that in a (stable) GLV model with random interactions, the expected number of species coexisting is proportional to the size of the initial pool: <span class="math inline">\(\mathbb E(\|k\|) = n/2\)</span>. We start the system with all the populations present, and we assemble a final community from the <em>top-down</em>. Interestingly, this type of experiment is carried out with increasing frequency in microbial ecology, where a microbial community taken from a certain environment is challenged with a new synthetic environment in the laboratory. For example, Leonora Bittleston and colleagues extracted the microbial communities inhabiting 10 distinct pitcher plants, and cultured them in synthetic media in the laboratory for two months. They plot the number of microbial strains present at the beginning of the experiment (Day 3, such that the strains that cannot grow in the medium are filtered out) and after two months (Day 63), finding a striking linear relationship between the initial size <span class="math inline">\(n\)</span> and that at the end of the experiment <span class="math inline">\(\|k\|\)</span>:</p>
+<p><img src="images/RZ.png" class="img-fluid"></p>
 </section>
 <section id="competitive-glv" class="level2">
 <h2 class="anchored" data-anchor-id="competitive-glv">Competitive GLV</h2>
@@ -322,9 +324,11 @@ M = \alpha I + B
 </section>
 <section id="effect-of-average-interaction-strength-on-feasibility" class="level2">
 <h2 class="anchored" data-anchor-id="effect-of-average-interaction-strength-on-feasibility">Effect of average interaction strength on feasibility</h2>
-<p>We have taken <span class="math inline">\(M = \alpha I + B\)</span>; call <span class="math inline">\(m\)</span> the vector of column means of <span class="math inline">\(B\)</span>. Here we show that, as long as <span class="math inline">\(m &gt; 0_n\)</span>, its actual value has no effect on feasibility. We can write</p>
+<p>We have taken <span class="math inline">\(M = \alpha I + B\)</span>; call <span class="math inline">\(m\)</span> the vector of column means of <span class="math inline">\(B\)</span>. Here we show that, as long as <span class="math inline">\(m &gt; 0_n\)</span>, its actual value has no effect on feasibility. We can write:</p>
 <p><span class="math display">\[
-M = \alpha I + B = \alpha I + 1_n m^T + C
+\begin{aligned}
+M &amp;= \alpha I + B \\&amp;= \alpha I + 1_n m^T + C
+\end{aligned}
 \]</span></p>
 <p>where <span class="math inline">\(C\)</span> has columns summing to zero (<span class="math inline">\(1_n^T C = 0_n^T\)</span>). For feasibility, we need the solution:</p>
 <p><span class="math display">\[
@@ -339,7 +343,7 @@ x &amp;= M^{-1}1_n &gt; 0
 (\alpha I + C)y &amp;= 1_n\\
 y &amp;=(\alpha I + C)^{-1}1_n
 \end{aligned}
-\]</span> and consider the solution <span class="math inline">\(x\)</span> to be the solution of a rank-1 update of the system in <span class="math inline">\(y\)</span>.</p>
+\]</span> and write the solution <span class="math inline">\(x\)</span> as a rank-1 update of the solution of the system in <span class="math inline">\(y\)</span>.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -379,7 +383,7 @@ x &amp;= ((\alpha I + C) + 1_n m^T)^{-1}1_n\\
 \end{aligned}
 \]</span></p>
 <p>This means that <span class="math inline">\(y\)</span> cannot be all negative; then given that for <span class="math inline">\(y&gt;0_n\)</span> and <span class="math inline">\(m &gt; 0_n\)</span> we have <span class="math inline">\(1 + m^Ty &gt; 0\)</span>, we have that <span class="math inline">\(x\)</span> is feasible if and only if <span class="math inline">\(y\)</span> is feasible.</p>
-<p>This means that any matrix that can be written as <span class="math inline">\(B = C + 1m^T\)</span> with <span class="math inline">\(m &gt; 0_n\)</span> belongs to the same class for feasibility—the exact value of <span class="math inline">\(m\)</span> does not matter.</p>
+<p>This means that any matrix that can be written as <span class="math inline">\(B = C + 1m^T\)</span> with <span class="math inline">\(m &gt; 0_n\)</span> belongs to the same class for feasibility—the exact value of <span class="math inline">\(m &gt; 0_n\)</span> does not matter.</p>
 </section>
 <section id="a-sufficiently-large-alpha-guarantees-feasibility" class="level2">
 <h2 class="anchored" data-anchor-id="a-sufficiently-large-alpha-guarantees-feasibility">A sufficiently large <span class="math inline">\(\alpha\)</span> guarantees feasibility</h2>
@@ -421,9 +425,57 @@ Perron-Frobenius theorem
 </section>
 <section id="models-with-random-interactions" class="level2">
 <h2 class="anchored" data-anchor-id="models-with-random-interactions">Models with random interactions</h2>
+<p>We have seen above that the system <span class="math inline">\((\alpha I + C) y = 1_n\)</span>, with <span class="math inline">\(C^T1_n = 0_n\)</span> and <span class="math inline">\(\alpha &gt; 0\)</span> has solution <span class="math inline">\(y\)</span> with mean <span class="math inline">\(\frac{1}{n}1_n^Ty = \frac{1}{\alpha}\)</span>. If the populations are <em>statistically equivalent</em>, i.e., there is no special structure making some of the populations necessarily different from the rest, we can generalize this further:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\left( \sum_j y_j \right)^2 &amp; = \dfrac{n^2}{\alpha^2}\\
+\sum_j (y_j)^2  + \sum_i \sum_{j \neq i} y_i y_j &amp;= \dfrac{n^2}{\alpha^2}\\
+n \mathbb E((y_i)^2) + n (n-1)  \mathbb E( y_i y_j) &amp;= \dfrac{n^2}{\alpha^2}\\
+\mathbb V(y_i) + \mathbb E(y_i)^2  + (n-1)\left( \mathbb{Cov}(y_i, y_j)  + \mathbb E(y_i^\star)  \mathbb E(y_j)  \right) &amp;= n \mathbb E(y_i)^2\\
+\mathbb V(y_i) + \mathbb E(y_i)^2  + (n-1)\left( \mathbb{Cov}(y_i, y_j)  + \mathbb E(y_i)^2 \right) &amp;= n \mathbb E(y_i)^2\\
+\mathbb V(y_i) + (n-1) \mathbb{Cov}(y_i, y_j) &amp;= 0\quad ,
+\end{aligned}
+\]</span></p>
+<p>where we have exploited the fact that, for a model with statistically equivalent populations, <span class="math inline">\(\mathbb E(y_i) \mathbb E(y_j) = \mathbb E(y_i)^2\)</span>, and that the covariance <span class="math inline">\(\mathbb{Cov}(y_i, y_j)\)</span> must be the same for all <span class="math inline">\(i,j\)</span>. Thus, for <em>any</em> unstructured model, we have that the expected covariance is negative. Moreover, for a given variance <span class="math inline">\(\mathbb V(y_i) = \sigma^2_{y}\)</span>, we have: <span class="math inline">\(\sigma^2_{y} + (n-1) \sigma^2_{y} \mathbb{Cor}(y_i, y_j) = 0\)</span> and thus <span class="math inline">\(\mathbb{Cor}(y_i, y_j) = -1/(n-1)\)</span> for all <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span>. Note that this is the maximally negative correlation one can have for equicorrelated random variables. Thus, <span class="math inline">\(y\)</span> has expectation <span class="math inline">\((1/\alpha) 1_n\)</span>, and covariance matrix <span class="math inline">\(\sigma^2_{y} \left( \frac{n}{n-1} I - \frac{1}{n-1} 1_n 1_n^T \right)\)</span>. Importantly, the only difference between different unstructured models with random parameters is the value of <span class="math inline">\(\sigma^2_{y}\)</span>, while the rest is unchanged. Analyzing increasingly complex models therefore reduces to the problem of determining the variance of <span class="math inline">\(y\)</span>.</p>
 </section>
 <section id="approximating-feasibility" class="level2">
 <h2 class="anchored" data-anchor-id="approximating-feasibility">Approximating feasibility</h2>
+<p>The joint distribution of <span class="math inline">\(y\)</span> is well-approximated by a multivariate normal in the limit of large <span class="math inline">\(n\)</span>, because of the central limit theorem.</p>
+<p>Therefore, <span class="math inline">\(y\)</span> is asymptotically distributed as</p>
+<p><span class="math display">\[
+y \sim \mathcal N \left( \frac{1}{\alpha} \mathbb 1_n, \sigma^2_y \left(\frac{n}{n-1} I - \frac{1}{n-1} \mathbb 1_n \mathbb 1_n^T \right) \right)\quad .
+\]</span></p>
+<p>Because the joint distribution of <span class="math inline">\(y\)</span> is well-approximated by a multivariate normal, we can calculate the probability of feasibility as a function of <span class="math inline">\(\alpha\)</span>, <span class="math inline">\(n\)</span>, as well as <span class="math inline">\(\sigma^2_{y}\)</span> by integrating the probability density function in the positive orthant of <span class="math inline">\(\mathbb R^n\)</span>—what is called an ``orthant probability’’:</p>
+<p><span class="math display">\[
+p_F (n, \alpha, \sigma^2_{y}) = \int_0^{\infty} \int_0^{\infty} \cdots \int_0^{\infty} \phi(y) d y_1 d y_2 \cdots d y_n \quad,
+\]</span></p>
+<p>where <span class="math inline">\(\phi(y)\)</span> is the probability density function of the normal distribution above. For equicorrelated random variables, the multiple integral above can be reduced to a single integral (albeit involving complex variables when the correlation is negative, such as in this case). Equivalently, one can use the theory of order statistics to write the density function of the first order statistics (i.e., the <span class="math inline">\(\underset{i}{\min} (y_1, y_2, \ldots, y_n)\)</span>) and integrate this density function for all positive values of the minimum.</p>
+<p>When <span class="math inline">\(n\)</span> is large, however, one can safely ignore the negative correlation between the random variables <span class="math inline">\(y_i\)</span>, and pretend they are independent. In this case, we want to determine the probability that all <span class="math inline">\(y_i &gt; 0\)</span>. If we subtract the mean from both sides, and call <span class="math inline">\(\zeta_i = y_i - 1/\alpha\)</span>, we have that the system is feasible when all <span class="math inline">\(\zeta_i&gt; -1/\alpha\)</span>. Dividing both sides by <span class="math inline">\(\sigma_{y}\)</span> and calling <span class="math inline">\(\xi_i = \zeta_i / \sigma_{y}\)</span> we have that feasibility is ensured whenever all the <span class="math inline">\(\xi_i\)</span>, following the standard normal distribution, are larger than <span class="math inline">\(-1/(\alpha \sigma_{y})\)</span>; because the standard normal is symmetric about zero, we can finally write:</p>
+<p><span class="math display">\[\begin{equation}\label{eq:pfeas_normal}
+p_F(n,\alpha, \sigma^2_{y}) \approx \Phi\left( \dfrac{1}{\alpha \sigma_{y}}\right)^n\quad,
+\end{equation}\]</span></p>
+<p>where <span class="math inline">\(\Phi(\cdot)\)</span> is the cumulative distribution function for a standard normal distribution. The approximation is going to be accurate when <span class="math inline">\(n\)</span> is large. Again, we have reduced the problem of computing the probability of feasibility for a system of a known size <span class="math inline">\(n\)</span> and given level of self-regulation <span class="math inline">\(\alpha\)</span> to the problem of computing <span class="math inline">\(\sigma_{y}\)</span> for the specific model and parameters.</p>
+<p>PART HERE ON NEUMANN EXPANSION, WITH A NOTE ON NEUMANN</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Neumann series
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>If the matrix <span class="math inline">\(T\)</span> has spectral radius <span class="math inline">\(\rho (A) &lt; 1\)</span> (i.e., the maximum absolute value of its eigenvalues is less than one), then we can write the inverse</p>
+<p><span class="math display">\[
+(I-T)^{-1} = \sum_{k = 0}^{\infty} T^k
+\]</span></p>
+<p>Where <span class="math inline">\(T^0 = I\)</span>.</p>
+</div>
+</div>
+</div>
 </section>
 <section id="a-more-accurate-approximation-of-feasibility" class="level2">
 <h2 class="anchored" data-anchor-id="a-more-accurate-approximation-of-feasibility">A more accurate approximation of feasibility</h2>

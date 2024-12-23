@@ -129,10 +129,10 @@ x^\star = -A^{-1} r = -B^{-1}1_n = \begin{pmatrix}
 $$
 If the matrix $B$ is rank-deficient (and thus singular) there are infinitely many equilibria; for example, if the rank of $B$ is $n-1$ there are infinitely many equilibria belonging to a line in $\mathbb R^n$.
 
-When $B$ is nonsingular, the model admits at most one positive equilibrium in which all populations are present. However, there can be up to $2^n-1$ equilibria in which one or more populations are absent/extinct. Call $B^{(k,k)}$ the submatrix of $B$ obtained by retaining the rows and columns indexed by the set $k$. Then by solving
+When $B$ is nonsingular, the model admits at most one positive equilibrium in which all populations are present. However, there can be up to $2^n-1$ equilibria in which *one or more populations are absent/extinct*. Call $B^{(k,k)}$ the submatrix of $B$ obtained by retaining the rows and columns indexed by the set $k$. Then by solving
 
 $$
-B^{(k,k)} x^{(k)\star} = -1^{(k)}
+B^{(k,k)} x^{(k)\star} = -1_{\|k\|}
 $$
 
 we obtain an equilibrium for the subcommunity where only the populations in $k$ are present (provided that the equilibrium is feasibile).
@@ -155,7 +155,7 @@ x^{(\{1,2\})\star} = -(B^{(\{1,2\},\{1,2\})})^{-1}1_2=\begin{pmatrix}
 \end{pmatrix}
 $$
 
-Therefore, the subsystem in which only the first two populations are present has a feasible equilibrium.
+Therefore, the subsystem in which only the first two populations are present yields a feasible equilibrium.
 
 Similarly,
 
@@ -172,7 +172,7 @@ x^{(\{1,3\})\star} = \begin{pmatrix}
 \end{pmatrix}
 $$
 
-The subsystem in which only populations 2 and 3 are present does not have a feasible equilibrium.
+The subsystem in which only populations 2 and 3 are present does not yield a feasible equilibrium.
 
 ## Types of dynamics
 
@@ -275,7 +275,7 @@ showing that *the average density is* in fact *the equilibrium*. With a similar 
 
 A dynamical system is permanent if, for all $x_i(0) > 0$, the limit $\liminf_{t \to \infty} x_i(t) > \delta > 0$ for all $i$. This means that each axis of $\mathbb R^n$ *repels* the dynamics when $t$ is large enough.
 
-Suppose that a GLV system is permanent, and that population dynamics converge to a limit cycle or a chaotic attractor; then, because of the calculation above, there must be a positive equilibrium in $\mathbb R^n$. Thus, a GLV system without a feasible equilibrium cannot be permanent. That is to say, the coexistence of all populations in a GLV system requires a feasible equilibrium.
+Suppose that a GLV system is permanent, and that population dynamics converge to a limit cycle or a chaotic attractor; then, because of the calculation above, there must be a positive equilibrium in $\mathbb R^n$. Thus, a GLV system without a feasible equilibrium cannot be permanent. That is to say, the coexistence of all populations in a GLV system *requires* a feasible equilibrium.
 
 ```{r}
 #| warning: false
@@ -405,7 +405,7 @@ J_{ij} = \dfrac{\partial f_i(x)}{\partial x_j}
 $$
 
 For each equilibrium in the system, we can obtain a different *community
-matrix* (the name is due to Levins) $M$:
+matrix* (the name is due to Richard Levins) $M$:
 
 $$
 M = \left. J \right|_{x^\star}
@@ -786,8 +786,8 @@ z_i = x_i / w_i \quad x_i = w_i z_i
 $$
 
 with $w_i>0$. This change of variables cannot impact the existence or
-stability of equilibria (we are simply changing the unit of measure we
-Then,
+stability of equilibria (we are simply changing the units of measure we are using
+to measure the density of each population). Then,
 
 $$
 \dot{z_i} = \frac{\dot{x}_i}{w_i} = \frac{x_i}{w_i}(r_i + (Ax)_i) = z_i(r_i + (AD(w)z)_i)=z_i(r_i + (\tilde{A}z)_i)
@@ -875,6 +875,8 @@ z
 $$
 
 Whenever $H(A) = \frac{1}{2}(A + A^T)$ is negative definite, then the first term is negative for any choice of $y$ and $z$. Examining the second term, we see that $\mathfrak s + \mathfrak C y^\star$ measures the invasion growth rate of the populations in the set $n-k$ when they are attempting to invade the community that is resting at $y^\star$. Thus, if we can find a saturated equilibrium, it is globally stable and will be reached for any $x(0) > 0_n$.
+
+This derivation can be extended by considering a diagonal matrix $D(w)$ with $w >0_n$, as done above. 
 
 ## Classic papers, references and further readings
 
