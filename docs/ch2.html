@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -451,11 +485,10 @@ p_F (n, \alpha, \sigma^2_{y}) = \int_0^{\infty} \int_0^{\infty} \cdots \int_0^{\
 \]</span></p>
 <p>where <span class="math inline">\(\phi(y)\)</span> is the probability density function of the normal distribution above. For equicorrelated random variables, the multiple integral above can be reduced to a single integral (albeit involving complex variables when the correlation is negative, such as in this case). Equivalently, one can use the theory of order statistics to write the density function of the first order statistics (i.e., the <span class="math inline">\(\underset{i}{\min} (y_1, y_2, \ldots, y_n)\)</span>) and integrate this density function for all positive values of the minimum.</p>
 <p>When <span class="math inline">\(n\)</span> is large, however, one can safely ignore the negative correlation between the random variables <span class="math inline">\(y_i\)</span>, and pretend they are independent. In this case, we want to determine the probability that all <span class="math inline">\(y_i &gt; 0\)</span>. If we subtract the mean from both sides, and call <span class="math inline">\(\zeta_i = y_i - 1/\alpha\)</span>, we have that the system is feasible when all <span class="math inline">\(\zeta_i&gt; -1/\alpha\)</span>. Dividing both sides by <span class="math inline">\(\sigma_{y}\)</span> and calling <span class="math inline">\(\xi_i = \zeta_i / \sigma_{y}\)</span> we have that feasibility is ensured whenever all the <span class="math inline">\(\xi_i\)</span>, following the standard normal distribution, are larger than <span class="math inline">\(-1/(\alpha \sigma_{y})\)</span>; because the standard normal is symmetric about zero, we can finally write:</p>
-<p><span class="math display">\[\begin{equation}\label{eq:pfeas_normal}
+<p><span class="math display">\[
 p_F(n,\alpha, \sigma^2_{y}) \approx \Phi\left( \dfrac{1}{\alpha \sigma_{y}}\right)^n\quad,
-\end{equation}\]</span></p>
+\]</span></p>
 <p>where <span class="math inline">\(\Phi(\cdot)\)</span> is the cumulative distribution function for a standard normal distribution. The approximation is going to be accurate when <span class="math inline">\(n\)</span> is large. Again, we have reduced the problem of computing the probability of feasibility for a system of a known size <span class="math inline">\(n\)</span> and given level of self-regulation <span class="math inline">\(\alpha\)</span> to the problem of computing <span class="math inline">\(\sigma_{y}\)</span> for the specific model and parameters.</p>
-<p>PART HERE ON NEUMANN EXPANSION, WITH A NOTE ON NEUMANN</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -476,9 +509,90 @@ Neumann series
 </div>
 </div>
 </div>
+<p>We have</p>
+<p><span class="math display">\[
+\begin{aligned}
+(\alpha I + C) y &amp;= 1_n\\
+\left(I + \frac{1}{\alpha}C\right) y &amp;= \frac{1}{\alpha} 1_n\\
+y &amp;= \frac{1}{\alpha}\left(I + \frac{1}{\alpha}C\right)^{-1} 1_n\\
+y &amp;= \frac{1}{\alpha} \sum_l\left(-\frac{1}{\alpha} C\right)^l 1_n\\
+y &amp;\approx \frac{1}{\alpha} \left(1_n - \frac{1}{\alpha} C 1_n +  \frac{1}{\alpha^2} C^2 1_n + \cdots\right)
+\end{aligned}
+\]</span></p>
+<p>Taking only the first two terms, and computing the variance, we obtain:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\sigma^2_y &amp;= E(y^2) - E(y)^2\\
+&amp;= \frac{1}{n} y^Ty - \frac{1}{\alpha^2}\\
+&amp;\approx \frac{1}{n \alpha^2} (1_n - \frac{1}{\alpha} C 1_n)^T (1_n - \frac{1}{\alpha} C 1_n) - \frac{1}{\alpha^2}\\
+&amp;\approx \frac{1}{n\alpha^2} (1_n^T 1_n - \frac{1}{\alpha} 1_n^T C^T 1_n - \frac{1}{\alpha}1_n^T C 1_n + \frac{1}{\alpha^2} 1_n^T C^T C 1_n)- \frac{1}{\alpha^2}\\
+&amp;\approx \frac{1}{n\alpha^2} (n - 0 - 0 + \frac{1}{\alpha^2} 1_n^T C^T C 1_n)- \frac{1}{\alpha^2}\\
+&amp;\approx \frac{1}{n\alpha^4} 1^T_n C^T C 1_n
+\end{aligned}
+\]</span> Suppose that <span class="math inline">\(B_{ij} \sim \mathcal N(0,1)\)</span> then, plugging in <span class="math inline">\(C = B - 1_nm^T\)</span>, with <span class="math inline">\(B^T 1_n= n m\)</span> we obtain:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\sigma_y^2 &amp;\approx \frac{1}{n \alpha^4} 1_n^T (B^T - m 1_n^T) (B - 1_nm^T)1_n\\
+&amp;\approx \frac{1}{n \alpha^4} 1_n^T \left( B^T B - m 1_n^T B - B^T1_nm^T + m 1_n^T 1_n m^T\right) 1_n\\
+&amp;\approx \frac{1}{n \alpha^4} 1_n^T \left( B^T B - n m m^T - n m m^T + n m m^T \right) 1_n\\
+&amp;\approx \frac{1}{n \alpha^4} \left( 1_n^T B^T B 1_n - n 1_n^T m m^T 1_n\right)\\
+\end{aligned}
+\]</span></p>
+<p>Finally, we take expectations of both terms:</p>
+<p><span class="math display">\[
+\mathbb E(1_n^TB^T B 1_n) = \mathbb E\left( \sum_i \left(\sum_{j} B_{ij} \right)^2 \right) = n^2
+\]</span></p>
+<p><span class="math display">\[
+\mathbb E((m^T1_n)^2)= \mathbb E\left(\left(\frac{1}{n}\sum_{ij} B_{ij} \right)^2\right)= \frac{1}{n^2} \mathbb E\left(\left(\sum_{ij} B_{ij} \right)^2\right) = 1
+\]</span></p>
+<p>Putting them together, we obtain:</p>
+<p><span class="math display">\[
+\mathbb E(\sigma_y^2) \approx \frac{1}{n \alpha^4} (n^2 - n) = \frac{n-1}{\alpha^4}
+\]</span></p>
+<p>Which gives us a reasonable approximation for the probability of feasibility. For example, we compute numerically the probability that a system of size <span class="math inline">\(n = 250\)</span> is feasible for different values of <span class="math inline">\(\alpha\)</span>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"code/simulations_feasibility_normal_iid.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 2500 Columns: 2
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+dbl (2): n, alpha_F
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">250</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>sd_a <span class="ot">&lt;-</span> <span class="cf">function</span>(a) <span class="fu">sqrt</span>(n<span class="dv">-1</span>)<span class="sc">/</span>a<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>dt <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> alpha_F)) <span class="sc">+</span> <span class="fu">stat_ecdf</span>() <span class="sc">+</span> <span class="fu">geom_function</span>(<span class="at">fun =</span> <span class="cf">function</span>(x) <span class="fu">pnorm</span>(x <span class="sc">/</span> <span class="fu">sqrt</span>(n<span class="dv">-1</span>))<span class="sc">^</span>n, <span class="at">colour =</span> <span class="st">"red"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="ch2_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
 </section>
 <section id="a-more-accurate-approximation-of-feasibility" class="level2">
 <h2 class="anchored" data-anchor-id="a-more-accurate-approximation-of-feasibility">A more accurate approximation of feasibility</h2>
+<p>Expanding the Neumann series even further, or using a different technique based on resolvents, we find a better approximation for the <span class="math inline">\(\sigma_y^2\)</span>:</p>
+<p><span class="math display">\[
+\mathbb E(\sigma_y^2) \approx \frac{n-1}{\alpha^4 - (n-1)\alpha^2}
+\]</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"code/simulations_feasibility_normal_iid.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 2500 Columns: 2
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+dbl (2): n, alpha_F
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">250</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>sd_a <span class="ot">&lt;-</span> <span class="cf">function</span>(a) <span class="fu">sqrt</span>(n<span class="dv">-1</span>)<span class="sc">/</span>a<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>dt <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> alpha_F)) <span class="sc">+</span> <span class="fu">stat_ecdf</span>() <span class="sc">+</span> <span class="fu">geom_function</span>(<span class="at">fun =</span> <span class="cf">function</span>(x) <span class="fu">pnorm</span>(x <span class="sc">/</span> <span class="fu">sqrt</span>(n<span class="dv">-1</span>))<span class="sc">^</span>n, <span class="at">colour =</span> <span class="st">"red"</span>) <span class="sc">+</span> <span class="fu">geom_function</span>(<span class="at">fun =</span> <span class="cf">function</span>(x) <span class="fu">pnorm</span>(<span class="fu">sqrt</span>(x<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> (n<span class="dv">-1</span>)<span class="sc">-</span><span class="dv">1</span>))<span class="sc">^</span>n, <span class="at">colour =</span> <span class="st">"darkgreen"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="ch2_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
 </section>
 <section id="only-equilibria" class="level2">
 <h2 class="anchored" data-anchor-id="only-equilibria">Only equilibria</h2>

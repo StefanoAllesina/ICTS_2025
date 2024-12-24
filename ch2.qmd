@@ -312,13 +312,11 @@ $$
 
 When $n$ is large, however, one can safely ignore the negative correlation between the random variables $y_i$, and pretend they are independent. In this case, we want to determine the probability that all $y_i > 0$. If we subtract the mean from both sides, and call $\zeta_i = y_i - 1/\alpha$, we have that the system is feasible when all $\zeta_i> -1/\alpha$. Dividing both sides by $\sigma_{y}$ and calling $\xi_i = \zeta_i / \sigma_{y}$ we have that feasibility is ensured whenever all the $\xi_i$, following the standard normal distribution, are larger than $-1/(\alpha \sigma_{y})$; because the standard normal is symmetric about zero, we can finally write:
 
-\begin{equation}\label{eq:pfeas_normal}
+$$
 p_F(n,\alpha, \sigma^2_{y}) \approx \Phi\left( \dfrac{1}{\alpha \sigma_{y}}\right)^n\quad,
-\end{equation}
+$$
 
 \noindent where $\Phi(\cdot)$ is the cumulative distribution function for a standard normal distribution. The approximation is going to be accurate when $n$ is large. Again, we have reduced the problem of computing the probability of feasibility for a system of a known size $n$ and given level of self-regulation $\alpha$ to the problem of computing $\sigma_{y}$ for the specific model and parameters. 
-
-PART HERE ON NEUMANN EXPANSION, WITH A NOTE ON NEUMANN
 
 ::: {.callout-note collapse="true"}
 ## Neumann series
@@ -332,7 +330,80 @@ $$
 Where $T^0 = I$.
 :::
 
+We have 
+
+$$
+\begin{aligned}
+(\alpha I + C) y &= 1_n\\
+\left(I + \frac{1}{\alpha}C\right) y &= \frac{1}{\alpha} 1_n\\
+y &= \frac{1}{\alpha}\left(I + \frac{1}{\alpha}C\right)^{-1} 1_n\\
+y &= \frac{1}{\alpha} \sum_l\left(-\frac{1}{\alpha} C\right)^l 1_n\\
+y &\approx \frac{1}{\alpha} \left(1_n - \frac{1}{\alpha} C 1_n +  \frac{1}{\alpha^2} C^2 1_n + \cdots\right)
+\end{aligned}
+$$
+
+Taking only the first two terms, and computing the variance, we obtain:
+
+$$
+\begin{aligned}
+\sigma^2_y &= E(y^2) - E(y)^2\\
+&= \frac{1}{n} y^Ty - \frac{1}{\alpha^2}\\
+&\approx \frac{1}{n \alpha^2} (1_n - \frac{1}{\alpha} C 1_n)^T (1_n - \frac{1}{\alpha} C 1_n) - \frac{1}{\alpha^2}\\
+&\approx \frac{1}{n\alpha^2} (1_n^T 1_n - \frac{1}{\alpha} 1_n^T C^T 1_n - \frac{1}{\alpha}1_n^T C 1_n + \frac{1}{\alpha^2} 1_n^T C^T C 1_n)- \frac{1}{\alpha^2}\\
+&\approx \frac{1}{n\alpha^2} (n - 0 - 0 + \frac{1}{\alpha^2} 1_n^T C^T C 1_n)- \frac{1}{\alpha^2}\\
+&\approx \frac{1}{n\alpha^4} 1^T_n C^T C 1_n
+\end{aligned}
+$$
+Suppose that $B_{ij} \sim \mathcal N(0,1)$ then, plugging in $C = B - 1_nm^T$, with $B^T 1_n= n m$ we obtain:
+
+$$
+\begin{aligned}
+\sigma_y^2 &\approx \frac{1}{n \alpha^4} 1_n^T (B^T - m 1_n^T) (B - 1_nm^T)1_n\\
+&\approx \frac{1}{n \alpha^4} 1_n^T \left( B^T B - m 1_n^T B - B^T1_nm^T + m 1_n^T 1_n m^T\right) 1_n\\
+&\approx \frac{1}{n \alpha^4} 1_n^T \left( B^T B - n m m^T - n m m^T + n m m^T \right) 1_n\\
+&\approx \frac{1}{n \alpha^4} \left( 1_n^T B^T B 1_n - n 1_n^T m m^T 1_n\right)\\
+\end{aligned}
+$$
+
+Finally, we take expectations of both terms:
+
+$$
+\mathbb E(1_n^TB^T B 1_n) = \mathbb E\left( \sum_i \left(\sum_{j} B_{ij} \right)^2 \right) = n^2
+$$
+
+$$
+\mathbb E((m^T1_n)^2)= \mathbb E\left(\left(\frac{1}{n}\sum_{ij} B_{ij} \right)^2\right)= \frac{1}{n^2} \mathbb E\left(\left(\sum_{ij} B_{ij} \right)^2\right) = 1
+$$
+
+Putting them together, we obtain:
+
+$$
+\mathbb E(\sigma_y^2) \approx \frac{1}{n \alpha^4} (n^2 - n) = \frac{n-1}{\alpha^4}
+$$
+
+Which gives us a reasonable approximation for the probability of feasibility. For example, we compute numerically the probability that a system of size $n = 250$ is feasible for different values of $\alpha$:
+
+```{r}
+dt <- read_csv("code/simulations_feasibility_normal_iid.csv")
+n <- 250
+sd_a <- function(a) sqrt(n-1)/a^2
+dt %>% ggplot(aes(x = alpha_F)) + stat_ecdf() + geom_function(fun = function(x) pnorm(x / sqrt(n-1))^n, colour = "red") 
+```
+
 ## A more accurate approximation of feasibility
+
+Expanding the Neumann series even further, or using a different technique based on resolvents, we find a better approximation for the $\sigma_y^2$:
+
+$$
+\mathbb E(\sigma_y^2) \approx \frac{n-1}{\alpha^4 - (n-1)\alpha^2}
+$$
+
+```{r}
+dt <- read_csv("code/simulations_feasibility_normal_iid.csv")
+n <- 250
+sd_a <- function(a) sqrt(n-1)/a^2
+dt %>% ggplot(aes(x = alpha_F)) + stat_ecdf() + geom_function(fun = function(x) pnorm(x / sqrt(n-1))^n, colour = "red") + geom_function(fun = function(x) pnorm(sqrt(x^2 / (n-1)-1))^n, colour = "darkgreen")
+```
 
 ## Only equilibria
 
