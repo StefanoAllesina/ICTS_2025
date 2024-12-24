@@ -59,6 +59,8 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -165,7 +167,16 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#glv-and-metatpopulation-dynamics" id="toc-glv-and-metatpopulation-dynamics" class="nav-link active" data-scroll-target="#glv-and-metatpopulation-dynamics">GLV and metatpopulation dynamics</a></li>
+  <li><a href="#glv-and-metatpopulation-dynamics" id="toc-glv-and-metatpopulation-dynamics" class="nav-link active" data-scroll-target="#glv-and-metatpopulation-dynamics">GLV and metatpopulation dynamics</a>
+  <ul class="collapse">
+  <li><a href="#metapopulations" id="toc-metapopulations" class="nav-link" data-scroll-target="#metapopulations">Metapopulations</a></li>
+  <li><a href="#colonization-competition-tradeoff" id="toc-colonization-competition-tradeoff" class="nav-link" data-scroll-target="#colonization-competition-tradeoff">Colonization-competition tradeoff</a></li>
+  <li><a href="#the-model-is-glv" id="toc-the-model-is-glv" class="nav-link" data-scroll-target="#the-model-is-glv">The model is GLV</a></li>
+  <li><a href="#computing-equilibria" id="toc-computing-equilibria" class="nav-link" data-scroll-target="#computing-equilibria">Computing equilibria</a></li>
+  <li><a href="#random-parameters" id="toc-random-parameters" class="nav-link" data-scroll-target="#random-parameters">Random parameters</a></li>
+  <li><a href="#asymptotics" id="toc-asymptotics" class="nav-link" data-scroll-target="#asymptotics">Asymptotics</a></li>
+  <li><a href="#references-and-further-readings" id="toc-references-and-further-readings" class="nav-link" data-scroll-target="#references-and-further-readings">References and further readings</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -176,11 +187,61 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="glv-and-metatpopulation-dynamics" class="level1">
 <h1>GLV and metatpopulation dynamics</h1>
+<div class="quarto-figure quarto-figure-left">
+<figure class="figure">
+<p><img src="images/Levins.jpg" class="img-fluid figure-img" style="width:40.0%" alt="Richard Levins"></p>
+</figure>
+</div>
+<p>Richard Levins (1930-2016). Born in Brooklyn, New York, he studied agriculture and mathematics at Cornell. Early on, influenced by geneticist and polymath Haldane, he became a Marxist activist. Upon graduation, having been blacklisted as a communist (and with the Korean War raging), he moved to Puerto Rico with his wife, and set up a farm. In his spare time, he conducted experiments on fruit flies, organized anti-colonialist rallies and anti-war protests, and taught at the University of Puerto Rico. In 1964, he was invited to Cuba to help organize the biology department of the University of Havana. He received his doctorate from Columbia University in 1965. In 1967 he moved to the University of Chicago, where he joined Richard Lewontin—whith whom he established a lifelong collaboration. They both moved to Harvard in the late 1970s.</p>
+<p>It is impossible to summarize his numerous contributions to ecology, mathematics, political science, and the philosophy of science. He has inspired countless ecologists, and his approach and style are still visible in many of the research programs being carried out today. Of particular interest for this class, his theory of evolution in a changing environment (Levins (1968)), the development of the idea of limiting similarity (MacArthur and Levins (1967)), his work on metapopulation dynamics (Levins (1969)), and the development of Loop Analysis (i.e., a qualitative theory for dynamical systems, Puccia and Levins (2013)).</p>
+<section id="metapopulations" class="level2">
+<h2 class="anchored" data-anchor-id="metapopulations">Metapopulations</h2>
+<p>In 1969, Richard Levins—then a professor at U. Chicago—proposed a simple model for a “metapopulation”, i.e., a “population of populations in which local extinctions are balanced by remigration from other populations” (Levins (1969)).</p>
+<p>The model is very simple. Suppose that there are very many patches of suitable habitat, and that we track the proportion of patches occupied by a certain species, <span class="math inline">\(p(t)\)</span>. Two processes affect the proportion of occupied patches: extinction, turning an occupied patch into a vacant patch, and colonization, turning a vacant patch into an occupied patch. For the simplest case, suppose that occupied patches can send “propagules” to empty patches at a fixed rate <span class="math inline">\(\gamma &gt; 0\)</span>, and that the rate at which local populations go extinct is the same for all patches, <span class="math inline">\(\delta &gt; 0\)</span>.</p>
+<p>Call <span class="math inline">\(q(t) = 1-p(t)\)</span> the proportion of vacant patches. Then, the dynamics are described by the equations:</p>
+<p><span class="math display">\[
+\begin{cases}
+\dot{p}(t) = -\delta p(t) + \gamma p(t)q(t)\\
+\dot{q}(t) = \delta p(t) - \gamma p(t)q(t)\\
+\end{cases}
+\]</span></p>
+<p>in which we assume mass-action (like in GLV). Note that the two equations sum to zero (i.e., we’re in a zero-sum setting), and therefore we can substitute <span class="math inline">\(q(t) = 1-p(t)\)</span> to obtain:</p>
+<p><span class="math display">\[
+\dot{p} = p(-\delta + \gamma q) = p(\gamma - \delta - \gamma p)
+\]</span></p>
+<p>which is the usual equation for the logistic growth, with growth rate <span class="math inline">\(\gamma - \delta\)</span> and self-interaction <span class="math inline">\(\gamma\)</span>. As such, as long as <span class="math inline">\(\gamma &gt; \delta\)</span>, the proportion of inhabited patches will converge to <span class="math inline">\(p^\star = 1 - \delta/\gamma &gt; 0\)</span>, which is globally stable.</p>
+</section>
+<section id="colonization-competition-tradeoff" class="level2">
+<h2 class="anchored" data-anchor-id="colonization-competition-tradeoff">Colonization-competition tradeoff</h2>
+<p>Levins’ model was extended in a number of ways. One of the most interesting cases is that in which we have <span class="math inline">\(n\)</span> species, each characterized by an extinction and a colonization rate, and there is a trade-off such that better colonizers are worse competitors, and vice versa. In particular:</p>
+<ul>
+<li><span class="math inline">\(p_i\)</span> is the proportion of patches occupied by population <span class="math inline">\(i\)</span>, with <span class="math inline">\(\sum_j p_j \leq 1\)</span></li>
+<li><span class="math inline">\(m_i\)</span> is the extinction rate for population <span class="math inline">\(i\)</span></li>
+<li><span class="math inline">\(c_i\)</span> is the colonization rate for population <span class="math inline">\(i\)</span></li>
+<li>each species can colonize patches occupied by inferior competitors (i.e., these patches “look” empty to them)</li>
+<li>competitive abilities are inversely correlated with colonization rates, i.e., if <span class="math inline">\(c_j &lt; c_i\)</span>, then <span class="math inline">\(j\)</span> is a superior competitor</li>
+</ul>
+</section>
+<section id="the-model-is-glv" class="level2">
+<h2 class="anchored" data-anchor-id="the-model-is-glv">The model is GLV</h2>
+</section>
+<section id="computing-equilibria" class="level2">
+<h2 class="anchored" data-anchor-id="computing-equilibria">Computing equilibria</h2>
+</section>
+<section id="random-parameters" class="level2">
+<h2 class="anchored" data-anchor-id="random-parameters">Random parameters</h2>
+</section>
+<section id="asymptotics" class="level2">
+<h2 class="anchored" data-anchor-id="asymptotics">Asymptotics</h2>
+</section>
+<section id="references-and-further-readings" class="level2">
+<h2 class="anchored" data-anchor-id="references-and-further-readings">References and further readings</h2>
 <p>TODO</p>
 <p>May R.M. 1972. Will a large complex system be stable? Nature 238:413-414</p>
 <p>McCann, K.S. 2000. The diversity - stability debate. Nature 405:228-233</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

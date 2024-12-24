@@ -16,10 +16,10 @@ $$
 \dot{x}_i = x_i (r_i - A_{ii} x_i)
 $$
 
-with $A_{ii} > 0$. We assume that the growth rates are sampled independently from a distribution: $r_i \sim Q$, a distribution with mean $0$, $\mathbb E(r_i) = 0$ and symmetric about its mean, such that $P(r_i) = P(-r_i)$. For example, we could choose $r_i \sim \mathcal N(0, \sigma^2)$, or $r_i \sim \mathcal U[-1, 1]$. Naturally, whenever $r_i > 0$, the population will grow to $x_i^\star = r_i / A_{ii}$. If $r_i < 0$, on the other hand, the population will go extinct. Because of the symmetry around zero, each population has therefore probability $1/2$ of persisting. When we have $n$ populations, the number of coexisting populations $\|k\|$ is a random variable following the binomial distribution:
+with $A_{ii} > 0$. We assume that the growth rates are sampled independently from a distribution: $r_i \sim Q$, a distribution with mean $0$, $\mathbb E(r_i) = 0$ and symmetric about its mean, such that $\phi(r_i) = \phi(-r_i)$, where $\phi(\cdot)$ is the p.d.f. of distribution $Q$. For example, we could choose $r_i \sim \mathcal N(0, \sigma^2)$, or $r_i \sim \mathcal U[-1, 1]$. Naturally, whenever $r_i > 0$, the population will grow to $x_i^\star = r_i / A_{ii}$. If $r_i < 0$, on the other hand, the population will go extinct. Because of the symmetry around zero, each population has therefore probability $1/2$ of persisting. When we have $n$ populations, the number of coexisting populations $\|k\|$ is a random variable following the binomial distribution:
 
 $$
-P(\|k\| | n) = \binom{n}{\|k\|} \frac{1}{2^n}\quad \|k\| \sim \mathcal B\left(n, \frac{1}{2}\right)
+p(\|k\| | n) = \binom{n}{\|k\|} \frac{1}{2^n}\quad \|k\| \sim \mathcal B\left(n, \frac{1}{2}\right)
 $$
 
 ## The random zoo
@@ -83,7 +83,7 @@ $$
 r' = S_i r \quad A' = S_iAS_i
 $$
 
-Note that $A'$ is similar to $A$, and therefore has the same eigenvalues; moreover, $P(r') = P(r)$ and $P(A') = P(A)$, because of symmetry. Now compute the new solution
+Note that $A'$ is similar to $A$, and therefore has the same eigenvalues; moreover, $\phi(r') = \phi(r)$ and $\phi(A') = \phi(A)$, because of symmetry. Now compute the new solution
 
 $$
 \begin{aligned}
@@ -129,6 +129,7 @@ When we use the signature matrix, the vector $\mathfrak s$ and the matrix $\math
 $$
 \mathfrak s' = S_i^{(n-k)} \mathfrak s\quad \mathfrak C' = S_i^{(n-k)} \mathfrak C S_i^{(k)}
 $$
+
 The feasibility and nonivasibility condition, for a given choice of $S_i$ read:
 
 $$
@@ -141,7 +142,7 @@ $$
 There is only one choice out of $2^{\|k\|}$ that makes $y' > 0_{\|k\|}$; moreover, there is only one choice of $S_i^{(n-k)}$ that fulfills the noninvasibility condition, out of $2^{\|n-k\|}$ equiprobable choices. Then, we have that the probability of finding exactly $\|k\|$ populations coexisting at the saturated equilibrium, with the remaining $\|n-k\|$ that cannot invade is exactly $1/2^{\|k\|} \cdot 2^{\|n-k\|} = 1/2^n$. The number of coexisting populations at the saturated equilibrium follows the binomial distribution:
 
 $$
-P(\|k\| | n) = \binom{n}{\|k\|} \frac{1}{2^n}\quad \|k\| \sim \mathcal B\left(n, \frac{1}{2}\right)
+p(\|k\| | n) = \binom{n}{\|k\|} \frac{1}{2^n}\quad \|k\| \sim \mathcal B\left(n, \frac{1}{2}\right)
 $$
 
 exactly as for the non-interacting case.
@@ -284,7 +285,7 @@ $$
 \left( \sum_j y_j \right)^2 & = \dfrac{n^2}{\alpha^2}\\
 \sum_j (y_j)^2  + \sum_i \sum_{j \neq i} y_i y_j &= \dfrac{n^2}{\alpha^2}\\
 n \mathbb E((y_i)^2) + n (n-1)  \mathbb E( y_i y_j) &= \dfrac{n^2}{\alpha^2}\\
- \mathbb V(y_i) + \mathbb E(y_i)^2  + (n-1)\left( \mathbb{Cov}(y_i, y_j)  + \mathbb E(y_i^\star)  \mathbb E(y_j)  \right) &= n \mathbb E(y_i)^2\\
+ \mathbb V(y_i) + \mathbb E(y_i)^2  + (n-1)\left( \mathbb{Cov}(y_i, y_j)  + \mathbb E(y_i)  \mathbb E(y_j)  \right) &= n \mathbb E(y_i)^2\\
  \mathbb V(y_i) + \mathbb E(y_i)^2  + (n-1)\left( \mathbb{Cov}(y_i, y_j)  + \mathbb E(y_i)^2 \right) &= n \mathbb E(y_i)^2\\
  \mathbb V(y_i) + (n-1) \mathbb{Cov}(y_i, y_j) &= 0\quad ,
 \end{aligned}
@@ -384,10 +385,13 @@ $$
 Which gives us a reasonable approximation for the probability of feasibility. For example, we compute numerically the probability that a system of size $n = 250$ is feasible for different values of $\alpha$:
 
 ```{r}
+#| echo: false
+#| message: false
+#| warning: false
 dt <- read_csv("code/simulations_feasibility_normal_iid.csv")
 n <- 250
 sd_a <- function(a) sqrt(n-1)/a^2
-dt %>% ggplot(aes(x = alpha_F)) + stat_ecdf() + geom_function(fun = function(x) pnorm(x / sqrt(n-1))^n, colour = "red") 
+dt %>% ggplot(aes(x = alpha_F)) + stat_ecdf(linetype = 2) + geom_function(fun = function(x) pnorm(x / sqrt(n-1))^n, colour = "red")  + theme_bw() + xlab(expression(alpha)) + ylab("probability feasibility")
 ```
 
 ## A more accurate approximation of feasibility
@@ -399,58 +403,79 @@ $$
 $$
 
 ```{r}
+#| echo: false
+#| message: false
+#| warning: false
 dt <- read_csv("code/simulations_feasibility_normal_iid.csv")
 n <- 250
 sd_a <- function(a) sqrt(n-1)/a^2
-dt %>% ggplot(aes(x = alpha_F)) + stat_ecdf() + geom_function(fun = function(x) pnorm(x / sqrt(n-1))^n, colour = "red") + geom_function(fun = function(x) pnorm(sqrt(x^2 / (n-1)-1))^n, colour = "darkgreen")
+dt %>% ggplot(aes(x = alpha_F)) + stat_ecdf(linetype = 2) + geom_function(fun = function(x) pnorm(x / sqrt(n-1))^n, colour = "red")  + geom_function(fun = function(x) pnorm(sqrt(x^2 / (n-1)-1))^n, colour = "darkgreen") + theme_bw() + xlab(expression(alpha)) + ylab("probability feasibility")
 ```
+
+The analysis can also be extended to more complicated cases in which the entries in $B$ are correlated.
 
 ## Only equilibria
 
+For matrices with random entries, it is easy to calculate the value of $\alpha$ that would be needed to have $H(\alpha I + B)$ positive definite (such that any feasible equilibrium would be globally stable). In particular, if $B_{ij} \sim \mathcal N(\mu, \sigma^2)$, the eigenvalues of $B$ are contained in a circle in the complex plane (circular law), with radius $\sqrt{n \sigma^2}$, plus a single, real outlier at approximately $n \mu$. If we add the matrix $\alpha I$, all the eigenvalues are shifted of $\alpha$. 
 
-## Classic papers
+The eigenvalues of $H(\alpha I + B) = \alpha I + \frac{1}{2} (B + B^T)$ are all real (because the matrix is symmetric). The entries of $(B_{ij} + B_{ji})/2$ are normally distributed, with mean $\mu$ and variance $\sigma^2 / 2$ (because the variances add up, and dividing all the entries by 2 divides the variance by 4). 
 
-The Lotka-Volterra predator-prey model was discovered independently by Alfred J. Lotka and Vito Volterra:
+The bulk of the eigenvalues are approximately distributed according to Wigner's semicircle law:
 
-- Alfred J. Lotka, 1920. [*Analytical Note on Certain Rhythmic Relations in Organic Systems*](https://www.pnas.org/doi/10.1073/pnas.6.7.410). PNAS 6 (7) 410-415
+$$
+\phi(\lambda) = \frac{2}{\pi R^2} \sqrt{R^2 - \lambda^2}
+$$
 
-- Vito Volterra, 1926. [*Fluctuations in the Abundance of a Species Considered Mathematically*](https://www.nature.com/articles/118558a0). Nature 118:558-60
+where in this case $R = \sqrt{2 n \sigma^2}$
 
-You can read their exchange [here](https://www.nature.com/articles/119012b0).
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+mu <- 1
+n <- 1000
+B <- matrix(rnorm(n*n, mean = mu, sd = 1), n, n)
+H <- 0.5 * (B + t(B))
+eH <- tibble(eigenvalues = eigen(H, symmetric = TRUE, only.values = TRUE)$values[-1])
+ggplot(eH) + aes(x = eigenvalues) + geom_histogram(aes(y = after_stat(density)), binwidth = 2.5) + geom_function(fun = function(x) 2 / (pi * (2 * n)) * sqrt(2 * n - x^2), col = "red") + theme_bw()
+```
 
-The constant of motion was derived by Lotka in 1920:
+and with an eigenvalue at $n \mu$. For stability, we need therefore to have $\alpha > \sqrt{2 n}$. What is the probability of feasibility at this value of $\alpha$?
 
-- Alfred J. Lotka, 1920. [*Undamped oscillations derived from the law of mass action*](https://pubs.acs.org/doi/pdf/10.1021/ja01453a010). Journal of the American Chemical Society 42:1595-1599
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+dt <- read_csv("code/simulations_feasibility_normal_iid.csv")
+n <- 250
+sd_a <- function(a) sqrt(n-1)/a^2
+dt %>% ggplot(aes(x = alpha_F)) + stat_ecdf(linetype = 2) + geom_function(fun = function(x) pnorm(x / sqrt(n-1))^n, colour = "red")  + geom_function(fun = function(x) pnorm(sqrt(x^2 / (n-1)-1))^n, colour = "darkgreen") + theme_bw() + xlab(expression(alpha)) + ylab("probability feasibility") + geom_vline(xintercept = sqrt(2 * n), col = "blue", linetype = 2)
+```
 
-Volterra considered many variations, including the competition between species. His results caught the eye of an experimentalist, who validated the principle of competitive exclusion using protozoans:
+Thus, for large competitive systems of this type, feasibility typically implies stability. But given that coexistence requires a feasible equilibrium, this means that in these systems dynamics will always converge to a globally stable saturated equilibrium, and we will never observe cycles or chaos.
 
-- G.F. Gause, 1934. [Experimental Analysis of Vito Volterra's Mathematical Theory of the Struggle for Existence](https://www.science.org/doi/10.1126/science.79.2036.16.b). Science 79:16-17
+## References and further readings
 
-The analysis of two-species competitive Lotka-Volterra inspired the so-called Modern Coexistence Theory:
+Coexistence in GLV with random parameters and stable interaction matrix
 
-- Chesson, P. 2000. [Mechanisms of Maintenance of Species Diversity](https://www.annualreviews.org/doi/abs/10.1146/annurev.ecolsys.31.1.343). Annual Review of Ecology and Systematics 31:343-366
+- Serván, C.A., Capitán, J.A., Grilli, J., Morrison, K.E. and Allesina, S., 2018. [Coexistence of many species in random ecosystems](https://www.nature.com/articles/s41559-018-0603-6). Nature ecology & evolution, 2(8), pp.1237-1242.
 
-On functional responses:
+Experiment on pitcher plant microbial communities
 
-- Crawford S. Holling, 1959. [Some Characteristics of Simple Types of Predation and Parasitism](https://www.cambridge.org/core/journals/canadian-entomologist/article/abs/some-characteristics-of-simple-types-of-predation-and-parasitism1/9E1E7D2CCC314766A424680444F4EA9F). 
-The Canadian Entomologist 91:385-398
+- Bittleston, L.S., Gralka, M., Leventhal, G.E., Mizrahi, I. and Cordero, O.X., 2020. [Context-dependent dynamics lead to the assembly of functionally distinct microbial communities](https://www.nature.com/articles/s41467-020-15169-0). Nature communications, 11(1), p.1440.
 
-The paper proposing the paradox of enrichment:
+On the existence of chaos in competitive GLV
 
-- Rosenzweig, Michael, 1971. [The Paradox of Enrichment](https://www.jstor.org/stable/1731139?origin=ads&seq=3). Science 171: 385–387
+- Smale, S., 1976. [On the differential equations of species in competition](https://link.springer.com/article/10.1007/BF00307854). Journal of Mathematical Biology, 3(1), pp.5-7.
 
-More on limit cycles in predator-prey systems:
+- Vano, J.A., Wildenberg, J.C., Anderson, M.B., Noel, J.K. and Sprott, J.C., 2006. [Chaos in low-dimensional Lotka–Volterra models of competition](https://iopscience.iop.org/article/10.1088/0951-7715/19/10/006/meta). Nonlinearity, 19(10), p.2391.
 
-- Robert M. May, 1972. [Limit Cycles in Predator-Prey Communities](https://www.jstor.org/stable/1734806?seq=3) Science 177:900-902
+Computing the probability of feasibility in random GLV
 
-- Michael E. Gilpin, 1972. [Enriched Predator-Prey Systems: Theoretical Stability](https://www.science.org/doi/10.1126/science.177.4052.902) Science 177:902-904
+- Stone, L., 2016. [The Google matrix controls the stability of structured ecological and biological networks](https://www.nature.com/articles/ncomms12857). Nature communications, 7(1), p.12857.
 
-The Nicholson-Bailey model:
+- Bizeul, P. and Najim, J., 2021. [Positive solutions for large random linear systems](https://www.ams.org/journals/proc/2021-149-06/S0002-9939-2021-15383-5/home.html). Proceedings of the American Mathematical Society, 149(6), pp.2333-2348.
 
-- A.J. Nicholson, V.A. Bailey, 1935. [The Balance of Animal Populations. Part I](https://zslpublications.onlinelibrary.wiley.com/doi/10.1111/j.1096-3642.1935.tb01680.x). Proceedings of the Zoological Society of London. 105: 551–598
+Coexistence in random GLV competitive communities
 
-and its spatial version:
-
-- H.N. Comins, M.P. Hassell, R.M. May, 1992. [The Spatial Dynamics of Host--Parasitoid Systems](https://www.jstor.org/stable/5627?seq=4). Journal of Animal Ecology 61:735-748 
-
-
+- Lechón-Alonso, P., Kundu, S., Lemos-Costa, P., Capitán, J.A. and Allesina, S., 2024. [Robust coexistence in ecological competitive communities](https://www.biorxiv.org/content/10.1101/2024.07.10.602979v2.abstract). bioRxiv, pp.2024-07.

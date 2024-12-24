@@ -20,40 +20,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
@@ -213,7 +179,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#approximating-feasibility" id="toc-approximating-feasibility" class="nav-link" data-scroll-target="#approximating-feasibility">Approximating feasibility</a></li>
   <li><a href="#a-more-accurate-approximation-of-feasibility" id="toc-a-more-accurate-approximation-of-feasibility" class="nav-link" data-scroll-target="#a-more-accurate-approximation-of-feasibility">A more accurate approximation of feasibility</a></li>
   <li><a href="#only-equilibria" id="toc-only-equilibria" class="nav-link" data-scroll-target="#only-equilibria">Only equilibria</a></li>
-  <li><a href="#classic-papers" id="toc-classic-papers" class="nav-link" data-scroll-target="#classic-papers">Classic papers</a></li>
+  <li><a href="#references-and-further-readings" id="toc-references-and-further-readings" class="nav-link" data-scroll-target="#references-and-further-readings">References and further readings</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -231,9 +197,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><span class="math display">\[
 \dot{x}_i = x_i (r_i - A_{ii} x_i)
 \]</span></p>
-<p>with <span class="math inline">\(A_{ii} &gt; 0\)</span>. We assume that the growth rates are sampled independently from a distribution: <span class="math inline">\(r_i \sim Q\)</span>, a distribution with mean <span class="math inline">\(0\)</span>, <span class="math inline">\(\mathbb E(r_i) = 0\)</span> and symmetric about its mean, such that <span class="math inline">\(P(r_i) = P(-r_i)\)</span>. For example, we could choose <span class="math inline">\(r_i \sim \mathcal N(0, \sigma^2)\)</span>, or <span class="math inline">\(r_i \sim \mathcal U[-1, 1]\)</span>. Naturally, whenever <span class="math inline">\(r_i &gt; 0\)</span>, the population will grow to <span class="math inline">\(x_i^\star = r_i / A_{ii}\)</span>. If <span class="math inline">\(r_i &lt; 0\)</span>, on the other hand, the population will go extinct. Because of the symmetry around zero, each population has therefore probability <span class="math inline">\(1/2\)</span> of persisting. When we have <span class="math inline">\(n\)</span> populations, the number of coexisting populations <span class="math inline">\(\|k\|\)</span> is a random variable following the binomial distribution:</p>
+<p>with <span class="math inline">\(A_{ii} &gt; 0\)</span>. We assume that the growth rates are sampled independently from a distribution: <span class="math inline">\(r_i \sim Q\)</span>, a distribution with mean <span class="math inline">\(0\)</span>, <span class="math inline">\(\mathbb E(r_i) = 0\)</span> and symmetric about its mean, such that <span class="math inline">\(\phi(r_i) = \phi(-r_i)\)</span>, where <span class="math inline">\(\phi(\cdot)\)</span> is the p.d.f. of distribution <span class="math inline">\(Q\)</span>. For example, we could choose <span class="math inline">\(r_i \sim \mathcal N(0, \sigma^2)\)</span>, or <span class="math inline">\(r_i \sim \mathcal U[-1, 1]\)</span>. Naturally, whenever <span class="math inline">\(r_i &gt; 0\)</span>, the population will grow to <span class="math inline">\(x_i^\star = r_i / A_{ii}\)</span>. If <span class="math inline">\(r_i &lt; 0\)</span>, on the other hand, the population will go extinct. Because of the symmetry around zero, each population has therefore probability <span class="math inline">\(1/2\)</span> of persisting. When we have <span class="math inline">\(n\)</span> populations, the number of coexisting populations <span class="math inline">\(\|k\|\)</span> is a random variable following the binomial distribution:</p>
 <p><span class="math display">\[
-P(\|k\| | n) = \binom{n}{\|k\|} \frac{1}{2^n}\quad \|k\| \sim \mathcal B\left(n, \frac{1}{2}\right)
+p(\|k\| | n) = \binom{n}{\|k\|} \frac{1}{2^n}\quad \|k\| \sim \mathcal B\left(n, \frac{1}{2}\right)
 \]</span></p>
 </section>
 <section id="the-random-zoo" class="level2">
@@ -289,7 +255,7 @@ x = -A^{-1} r
 <p><span class="math display">\[
 r' = S_i r \quad A' = S_iAS_i
 \]</span></p>
-<p>Note that <span class="math inline">\(A'\)</span> is similar to <span class="math inline">\(A\)</span>, and therefore has the same eigenvalues; moreover, <span class="math inline">\(P(r') = P(r)\)</span> and <span class="math inline">\(P(A') = P(A)\)</span>, because of symmetry. Now compute the new solution</p>
+<p>Note that <span class="math inline">\(A'\)</span> is similar to <span class="math inline">\(A\)</span>, and therefore has the same eigenvalues; moreover, <span class="math inline">\(\phi(r') = \phi(r)\)</span> and <span class="math inline">\(\phi(A') = \phi(A)\)</span>, because of symmetry. Now compute the new solution</p>
 <p><span class="math display">\[
 \begin{aligned}
 x' &amp;= -(S_iAS_i)^{-1} S_i r\\ &amp;=-S_iA^{-1}S_i S_i r\\
@@ -325,7 +291,8 @@ S_{i}^{(k)} &amp; 0_{\|k\|, \|n-k\|}\\
 <p>When we use the signature matrix, the vector <span class="math inline">\(\mathfrak s\)</span> and the matrix <span class="math inline">\(\mathfrak C\)</span> become:</p>
 <p><span class="math display">\[
 \mathfrak s' = S_i^{(n-k)} \mathfrak s\quad \mathfrak C' = S_i^{(n-k)} \mathfrak C S_i^{(k)}
-\]</span> The feasibility and nonivasibility condition, for a given choice of <span class="math inline">\(S_i\)</span> read:</p>
+\]</span></p>
+<p>The feasibility and nonivasibility condition, for a given choice of <span class="math inline">\(S_i\)</span> read:</p>
 <p><span class="math display">\[
 \begin{cases}
 y' &amp;= S_i^{(k)} (-\mathfrak A^{-1}\mathfrak r) &amp;&gt; 0_{\|k\|}\\
@@ -334,7 +301,7 @@ D(z)^{-1} z &amp;=S_i^{(n-k)}(\mathfrak s + \mathfrak C y') &amp;&lt; 0_{\|n-k\|
 \]</span></p>
 <p>There is only one choice out of <span class="math inline">\(2^{\|k\|}\)</span> that makes <span class="math inline">\(y' &gt; 0_{\|k\|}\)</span>; moreover, there is only one choice of <span class="math inline">\(S_i^{(n-k)}\)</span> that fulfills the noninvasibility condition, out of <span class="math inline">\(2^{\|n-k\|}\)</span> equiprobable choices. Then, we have that the probability of finding exactly <span class="math inline">\(\|k\|\)</span> populations coexisting at the saturated equilibrium, with the remaining <span class="math inline">\(\|n-k\|\)</span> that cannot invade is exactly <span class="math inline">\(1/2^{\|k\|} \cdot 2^{\|n-k\|} = 1/2^n\)</span>. The number of coexisting populations at the saturated equilibrium follows the binomial distribution:</p>
 <p><span class="math display">\[
-P(\|k\| | n) = \binom{n}{\|k\|} \frac{1}{2^n}\quad \|k\| \sim \mathcal B\left(n, \frac{1}{2}\right)
+p(\|k\| | n) = \binom{n}{\|k\|} \frac{1}{2^n}\quad \|k\| \sim \mathcal B\left(n, \frac{1}{2}\right)
 \]</span></p>
 <p>exactly as for the non-interacting case.</p>
 </section>
@@ -465,7 +432,7 @@ Perron-Frobenius theorem
 \left( \sum_j y_j \right)^2 &amp; = \dfrac{n^2}{\alpha^2}\\
 \sum_j (y_j)^2  + \sum_i \sum_{j \neq i} y_i y_j &amp;= \dfrac{n^2}{\alpha^2}\\
 n \mathbb E((y_i)^2) + n (n-1)  \mathbb E( y_i y_j) &amp;= \dfrac{n^2}{\alpha^2}\\
-\mathbb V(y_i) + \mathbb E(y_i)^2  + (n-1)\left( \mathbb{Cov}(y_i, y_j)  + \mathbb E(y_i^\star)  \mathbb E(y_j)  \right) &amp;= n \mathbb E(y_i)^2\\
+\mathbb V(y_i) + \mathbb E(y_i)^2  + (n-1)\left( \mathbb{Cov}(y_i, y_j)  + \mathbb E(y_i)  \mathbb E(y_j)  \right) &amp;= n \mathbb E(y_i)^2\\
 \mathbb V(y_i) + \mathbb E(y_i)^2  + (n-1)\left( \mathbb{Cov}(y_i, y_j)  + \mathbb E(y_i)^2 \right) &amp;= n \mathbb E(y_i)^2\\
 \mathbb V(y_i) + (n-1) \mathbb{Cov}(y_i, y_j) &amp;= 0\quad ,
 \end{aligned}
@@ -551,19 +518,6 @@ y &amp;\approx \frac{1}{\alpha} \left(1_n - \frac{1}{\alpha} C 1_n +  \frac{1}{\
 \]</span></p>
 <p>Which gives us a reasonable approximation for the probability of feasibility. For example, we compute numerically the probability that a system of size <span class="math inline">\(n = 250\)</span> is feasible for different values of <span class="math inline">\(\alpha\)</span>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"code/simulations_feasibility_normal_iid.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 2500 Columns: 2
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-dbl (2): n, alpha_F
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">250</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>sd_a <span class="ot">&lt;-</span> <span class="cf">function</span>(a) <span class="fu">sqrt</span>(n<span class="dv">-1</span>)<span class="sc">/</span>a<span class="sc">^</span><span class="dv">2</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>dt <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> alpha_F)) <span class="sc">+</span> <span class="fu">stat_ecdf</span>() <span class="sc">+</span> <span class="fu">geom_function</span>(<span class="at">fun =</span> <span class="cf">function</span>(x) <span class="fu">pnorm</span>(x <span class="sc">/</span> <span class="fu">sqrt</span>(n<span class="dv">-1</span>))<span class="sc">^</span>n, <span class="at">colour =</span> <span class="st">"red"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="ch2_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -576,67 +530,57 @@ dbl (2): n, alpha_F
 \mathbb E(\sigma_y^2) \approx \frac{n-1}{\alpha^4 - (n-1)\alpha^2}
 \]</span></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"code/simulations_feasibility_normal_iid.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 2500 Columns: 2
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-dbl (2): n, alpha_F
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">250</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>sd_a <span class="ot">&lt;-</span> <span class="cf">function</span>(a) <span class="fu">sqrt</span>(n<span class="dv">-1</span>)<span class="sc">/</span>a<span class="sc">^</span><span class="dv">2</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>dt <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> alpha_F)) <span class="sc">+</span> <span class="fu">stat_ecdf</span>() <span class="sc">+</span> <span class="fu">geom_function</span>(<span class="at">fun =</span> <span class="cf">function</span>(x) <span class="fu">pnorm</span>(x <span class="sc">/</span> <span class="fu">sqrt</span>(n<span class="dv">-1</span>))<span class="sc">^</span>n, <span class="at">colour =</span> <span class="st">"red"</span>) <span class="sc">+</span> <span class="fu">geom_function</span>(<span class="at">fun =</span> <span class="cf">function</span>(x) <span class="fu">pnorm</span>(<span class="fu">sqrt</span>(x<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> (n<span class="dv">-1</span>)<span class="sc">-</span><span class="dv">1</span>))<span class="sc">^</span>n, <span class="at">colour =</span> <span class="st">"darkgreen"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="ch2_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
+<p>The analysis can also be extended to more complicated cases in which the entries in <span class="math inline">\(B\)</span> are correlated.</p>
 </section>
 <section id="only-equilibria" class="level2">
 <h2 class="anchored" data-anchor-id="only-equilibria">Only equilibria</h2>
+<p>For matrices with random entries, it is easy to calculate the value of <span class="math inline">\(\alpha\)</span> that would be needed to have <span class="math inline">\(H(\alpha I + B)\)</span> positive definite (such that any feasible equilibrium would be globally stable). In particular, if <span class="math inline">\(B_{ij} \sim \mathcal N(\mu, \sigma^2)\)</span>, the eigenvalues of <span class="math inline">\(B\)</span> are contained in a circle in the complex plane (circular law), with radius <span class="math inline">\(\sqrt{n \sigma^2}\)</span>, plus a single, real outlier at approximately <span class="math inline">\(n \mu\)</span>. If we add the matrix <span class="math inline">\(\alpha I\)</span>, all the eigenvalues are shifted of <span class="math inline">\(\alpha\)</span>.</p>
+<p>The eigenvalues of <span class="math inline">\(H(\alpha I + B) = \alpha I + \frac{1}{2} (B + B^T)\)</span> are all real (because the matrix is symmetric). The entries of <span class="math inline">\((B_{ij} + B_{ji})/2\)</span> are normally distributed, with mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^2 / 2\)</span> (because the variances add up, and dividing all the entries by 2 divides the variance by 4).</p>
+<p>The bulk of the eigenvalues are approximately distributed according to Wigner’s semicircle law:</p>
+<p><span class="math display">\[
+\phi(\lambda) = \frac{2}{\pi R^2} \sqrt{R^2 - \lambda^2}
+\]</span></p>
+<p>where in this case <span class="math inline">\(R = \sqrt{2 n \sigma^2}\)</span></p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ch2_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>and with an eigenvalue at <span class="math inline">\(n \mu\)</span>. For stability, we need therefore to have <span class="math inline">\(\alpha &gt; \sqrt{2 n}\)</span>. What is the probability of feasibility at this value of <span class="math inline">\(\alpha\)</span>?</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ch2_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Thus, for large competitive systems of this type, feasibility typically implies stability. But given that coexistence requires a feasible equilibrium, this means that in these systems dynamics will always converge to a globally stable saturated equilibrium, and we will never observe cycles or chaos.</p>
 </section>
-<section id="classic-papers" class="level2">
-<h2 class="anchored" data-anchor-id="classic-papers">Classic papers</h2>
-<p>The Lotka-Volterra predator-prey model was discovered independently by Alfred J. Lotka and Vito Volterra:</p>
+<section id="references-and-further-readings" class="level2">
+<h2 class="anchored" data-anchor-id="references-and-further-readings">References and further readings</h2>
+<p>Coexistence in GLV with random parameters and stable interaction matrix</p>
 <ul>
-<li><p>Alfred J. Lotka, 1920. <a href="https://www.pnas.org/doi/10.1073/pnas.6.7.410"><em>Analytical Note on Certain Rhythmic Relations in Organic Systems</em></a>. PNAS 6 (7) 410-415</p></li>
-<li><p>Vito Volterra, 1926. <a href="https://www.nature.com/articles/118558a0"><em>Fluctuations in the Abundance of a Species Considered Mathematically</em></a>. Nature 118:558-60</p></li>
+<li>Serván, C.A., Capitán, J.A., Grilli, J., Morrison, K.E. and Allesina, S., 2018. <a href="https://www.nature.com/articles/s41559-018-0603-6">Coexistence of many species in random ecosystems</a>. Nature ecology &amp; evolution, 2(8), pp.1237-1242.</li>
 </ul>
-<p>You can read their exchange <a href="https://www.nature.com/articles/119012b0">here</a>.</p>
-<p>The constant of motion was derived by Lotka in 1920:</p>
+<p>Experiment on pitcher plant microbial communities</p>
 <ul>
-<li>Alfred J. Lotka, 1920. <a href="https://pubs.acs.org/doi/pdf/10.1021/ja01453a010"><em>Undamped oscillations derived from the law of mass action</em></a>. Journal of the American Chemical Society 42:1595-1599</li>
+<li>Bittleston, L.S., Gralka, M., Leventhal, G.E., Mizrahi, I. and Cordero, O.X., 2020. <a href="https://www.nature.com/articles/s41467-020-15169-0">Context-dependent dynamics lead to the assembly of functionally distinct microbial communities</a>. Nature communications, 11(1), p.1440.</li>
 </ul>
-<p>Volterra considered many variations, including the competition between species. His results caught the eye of an experimentalist, who validated the principle of competitive exclusion using protozoans:</p>
+<p>On the existence of chaos in competitive GLV</p>
 <ul>
-<li>G.F. Gause, 1934. <a href="https://www.science.org/doi/10.1126/science.79.2036.16.b">Experimental Analysis of Vito Volterra’s Mathematical Theory of the Struggle for Existence</a>. Science 79:16-17</li>
+<li><p>Smale, S., 1976. <a href="https://link.springer.com/article/10.1007/BF00307854">On the differential equations of species in competition</a>. Journal of Mathematical Biology, 3(1), pp.5-7.</p></li>
+<li><p>Vano, J.A., Wildenberg, J.C., Anderson, M.B., Noel, J.K. and Sprott, J.C., 2006. <a href="https://iopscience.iop.org/article/10.1088/0951-7715/19/10/006/meta">Chaos in low-dimensional Lotka–Volterra models of competition</a>. Nonlinearity, 19(10), p.2391.</p></li>
 </ul>
-<p>The analysis of two-species competitive Lotka-Volterra inspired the so-called Modern Coexistence Theory:</p>
+<p>Computing the probability of feasibility in random GLV</p>
 <ul>
-<li>Chesson, P. 2000. <a href="https://www.annualreviews.org/doi/abs/10.1146/annurev.ecolsys.31.1.343">Mechanisms of Maintenance of Species Diversity</a>. Annual Review of Ecology and Systematics 31:343-366</li>
+<li><p>Stone, L., 2016. <a href="https://www.nature.com/articles/ncomms12857">The Google matrix controls the stability of structured ecological and biological networks</a>. Nature communications, 7(1), p.12857.</p></li>
+<li><p>Bizeul, P. and Najim, J., 2021. <a href="https://www.ams.org/journals/proc/2021-149-06/S0002-9939-2021-15383-5/home.html">Positive solutions for large random linear systems</a>. Proceedings of the American Mathematical Society, 149(6), pp.2333-2348.</p></li>
 </ul>
-<p>On functional responses:</p>
+<p>Coexistence in random GLV competitive communities</p>
 <ul>
-<li>Crawford S. Holling, 1959. <a href="https://www.cambridge.org/core/journals/canadian-entomologist/article/abs/some-characteristics-of-simple-types-of-predation-and-parasitism1/9E1E7D2CCC314766A424680444F4EA9F">Some Characteristics of Simple Types of Predation and Parasitism</a>. The Canadian Entomologist 91:385-398</li>
-</ul>
-<p>The paper proposing the paradox of enrichment:</p>
-<ul>
-<li>Rosenzweig, Michael, 1971. <a href="https://www.jstor.org/stable/1731139?origin=ads&amp;seq=3">The Paradox of Enrichment</a>. Science 171: 385–387</li>
-</ul>
-<p>More on limit cycles in predator-prey systems:</p>
-<ul>
-<li><p>Robert M. May, 1972. <a href="https://www.jstor.org/stable/1734806?seq=3">Limit Cycles in Predator-Prey Communities</a> Science 177:900-902</p></li>
-<li><p>Michael E. Gilpin, 1972. <a href="https://www.science.org/doi/10.1126/science.177.4052.902">Enriched Predator-Prey Systems: Theoretical Stability</a> Science 177:902-904</p></li>
-</ul>
-<p>The Nicholson-Bailey model:</p>
-<ul>
-<li>A.J. Nicholson, V.A. Bailey, 1935. <a href="https://zslpublications.onlinelibrary.wiley.com/doi/10.1111/j.1096-3642.1935.tb01680.x">The Balance of Animal Populations. Part I</a>. Proceedings of the Zoological Society of London. 105: 551–598</li>
-</ul>
-<p>and its spatial version:</p>
-<ul>
-<li>H.N. Comins, M.P. Hassell, R.M. May, 1992. <a href="https://www.jstor.org/stable/5627?seq=4">The Spatial Dynamics of Host–Parasitoid Systems</a>. Journal of Animal Ecology 61:735-748</li>
+<li>Lechón-Alonso, P., Kundu, S., Lemos-Costa, P., Capitán, J.A. and Allesina, S., 2024. <a href="https://www.biorxiv.org/content/10.1101/2024.07.10.602979v2.abstract">Robust coexistence in ecological competitive communities</a>. bioRxiv, pp.2024-07.</li>
 </ul>
 
 
