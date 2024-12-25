@@ -221,12 +221,76 @@ ul.task-list li input[type="checkbox"] {
 <li>each species can colonize patches occupied by inferior competitors (i.e., these patches “look” empty to them)</li>
 <li>competitive abilities are inversely correlated with colonization rates, i.e., if <span class="math inline">\(c_j &lt; c_i\)</span>, then <span class="math inline">\(j\)</span> is a superior competitor</li>
 </ul>
+<p>The model is a system of <span class="math inline">\(n\)</span> coupled differential equations:</p>
+<p><span class="math display">\[
+\dot{p}_i = -m_i p_i - \sum_{j=1}^{i-1} c_j p_j p_i + c_i p_i \left(1-\sum_{j=1}^{i} p_j\right)
+\]</span></p>
+<p>There are three processes at play:</p>
+<ul>
+<li><span class="math inline">\(-m_i p_i\)</span> the rate at which patches occupied by <span class="math inline">\(i\)</span> become empty</li>
+<li><span class="math inline">\(c_j p_j p_i\)</span> propagules from superior competitors <span class="math inline">\(j\)</span> (produced at rate <span class="math inline">\(c_j p_j\)</span>) reach patches occupied by <span class="math inline">\(i\)</span> and turn them over</li>
+<li>propagules of <span class="math inline">\(i\)</span>, produced at rate <span class="math inline">\(c_i p_i\)</span>, reach patches that are either empty or occupied by inferior competitors (written as the difference between <span class="math inline">\(1\)</span> and the sum of the proportion of patches occupied by species with equal or better competitive abilities, <span class="math inline">\(1-\sum_{j=1}^{i} p_j\)</span>) and colonize them</li>
+</ul>
 </section>
 <section id="the-model-is-glv" class="level2">
 <h2 class="anchored" data-anchor-id="the-model-is-glv">The model is GLV</h2>
+<p>With some rearranging, we can write this model as GLV:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\dot{p}_i &amp;= p_i\left(-m_i - \sum_{j=1}^{i-1} c_j p_j + c_i \left(1-\sum_{j=1}^{i} p_j\right)\right)\\
+&amp;= p_i\left(-m_i - \sum_{j=1}^{i-1} c_j p_j + c_i - c_i p_i -\sum_{j=1}^{i-1} c_i p_j \right)\\
+&amp;= p_i\left(c_i -m_i - c_i p_i -\sum_{j=1}^{i-1} (c_i + c_j) p_j \right)\\
+&amp;= p_i\left(r_i - \sum_{j}A_{ij} p_j\right)
+\end{aligned}
+\]</span> Where we have defined the matrix <span class="math inline">\(A\)</span>:</p>
+<p><span class="math display">\[
+A = \begin{pmatrix}
+c_1 &amp; 0 &amp; 0 &amp;\cdots &amp;0\\
+c_1 + c_2 &amp; c_2 &amp; 0 &amp; \cdots &amp; 0\\
+c_1 + c_3 &amp; c_2 + c_3 &amp; c_3 &amp; \cdots &amp; 0\\
+\vdots &amp; \vdots &amp; \vdots &amp; \ddots &amp; \vdots\\
+c_1 + c_n &amp; c_2 + c_n &amp; c_3 + c_n &amp; \cdots &amp; c_n
+\end{pmatrix}
+\]</span></p>
+<p>and <span class="math inline">\(r_i = c_i - m_i\)</span>.</p>
+<p>Note that <span class="math inline">\(A + A^T = 1 c^T + c 1^T\)</span> is positive definite. To prove this, just consider XXXX</p>
 </section>
 <section id="computing-equilibria" class="level2">
 <h2 class="anchored" data-anchor-id="computing-equilibria">Computing equilibria</h2>
+<p>For simplicity, we are going to consider the case in which <span class="math inline">\(m_i = m\)</span> for all <span class="math inline">\(i\)</span>. Because the matrix is lower-triangular, computing the equlibria is especially simple, because each equilibrium depends only on those of the preceding species. The equilibrium of the first species is given by:</p>
+<p><span class="math display">\[
+c_1 p_1 = c_1 -m
+\]</span></p>
+<p>and thus</p>
+<p><span class="math display">\[
+p_1^\star = \frac{c_1 - m}{c_1} = 1 - \frac{m}{c_1}
+\]</span></p>
+<p>Thus, the first species follows the Levins’ model, and persists as long as <span class="math inline">\(c_1 &gt; m\)</span>.</p>
+<p>We compute the equilibrium for the second species, assuming that the first one is present:</p>
+<p><span class="math display">\[
+\begin{aligned}
+(c_1 + c_2) p_1^\star + c_2 p_2^\star = c_2 - m\\
+(c_1 + c_2)\left(1 - \frac{m}{c_1}\right) + c_2 p_2^\star &amp;=  c_2 - m\\
+c_1 + c_2 - m - m \frac{c_2}{c_1} +  c_2 p_2^\star &amp;=  c_2 - m\\
+p_2^\star = \frac{m}{c_1} - \frac{c_1}{c_2}
+\end{aligned}
+\]</span></p>
+<p>Thus, species 2 can establish if:</p>
+<p><span class="math display">\[
+c_2 &gt; \frac{c_1^2}{m}
+\]</span></p>
+<p>Computing the equilibrium of the third species we find that it is positive if:</p>
+<p><span class="math display">\[
+c_3 &gt; \frac{c_2^2}{\frac{c_1^2}{m}}
+\]</span></p>
+<p>Thus, we can compute the conditions for persistence recursively. We define <span class="math inline">\(l_0 = m\)</span>, and then</p>
+<p><span class="math display">\[
+l_i = \frac{c_i^2}{l_{i-1}}
+\]</span></p>
+<p>This value represents the “shadow” each species that establishes casts on the colonization axis. A worse competitor <span class="math inline">\(i + 1\)</span> can establish if and only if:</p>
+<p><span class="math display">\[
+c_{i+1} &gt; l_i
+\]</span> Thus, if the species has a sufficiently large colonization rate, it will establish; if not, it will go extinct. In this way, we can compute the set of coexisting species in <em>linear time</em> (i.e., without the need to invert the matrix).</p>
 </section>
 <section id="random-parameters" class="level2">
 <h2 class="anchored" data-anchor-id="random-parameters">Random parameters</h2>

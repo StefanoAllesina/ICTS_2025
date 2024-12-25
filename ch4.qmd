@@ -39,11 +39,97 @@ Levins' model was extended in a number of ways. One of the most interesting case
 - each species can colonize patches occupied by inferior competitors (i.e., these patches "look" empty to them)
 - competitive abilities are inversely correlated with colonization rates, i.e., if $c_j < c_i$, then $j$ is a superior competitor
 
+The model is a system of $n$ coupled differential equations:
 
+$$
+\dot{p}_i = -m_i p_i - \sum_{j=1}^{i-1} c_j p_j p_i + c_i p_i \left(1-\sum_{j=1}^{i} p_j\right)
+$$
+
+There are three processes at play:
+
+- $-m_i p_i$ the rate at which patches occupied by $i$ become empty
+- $c_j p_j p_i$ propagules from superior competitors $j$ (produced at rate $c_j p_j$) reach patches occupied by $i$ and turn them over
+- propagules of $i$, produced at rate $c_i p_i$, reach patches that are either empty or occupied by inferior competitors (written as the difference between $1$ and the sum of the proportion of patches occupied by species with equal or better competitive abilities, $1-\sum_{j=1}^{i} p_j$) and colonize them
 
 ## The model is GLV
 
+With some rearranging, we can write this model as GLV:
+
+$$
+\begin{aligned}
+\dot{p}_i &= p_i\left(-m_i - \sum_{j=1}^{i-1} c_j p_j + c_i \left(1-\sum_{j=1}^{i} p_j\right)\right)\\
+&= p_i\left(-m_i - \sum_{j=1}^{i-1} c_j p_j + c_i - c_i p_i -\sum_{j=1}^{i-1} c_i p_j \right)\\
+&= p_i\left(c_i -m_i - c_i p_i -\sum_{j=1}^{i-1} (c_i + c_j) p_j \right)\\
+&= p_i\left(r_i - \sum_{j}A_{ij} p_j\right)
+\end{aligned}
+$$
+Where we have defined the matrix $A$:
+
+$$
+A = \begin{pmatrix}
+c_1 & 0 & 0 &\cdots &0\\
+c_1 + c_2 & c_2 & 0 & \cdots & 0\\
+c_1 + c_3 & c_2 + c_3 & c_3 & \cdots & 0\\
+\vdots & \vdots & \vdots & \ddots & \vdots\\
+c_1 + c_n & c_2 + c_n & c_3 + c_n & \cdots & c_n
+\end{pmatrix}
+$$
+
+and $r_i = c_i - m_i$.
+
+Note that $A + A^T = 1 c^T + c 1^T$ is positive definite. To prove this, just consider XXXX
+
 ## Computing equilibria
+
+For simplicity, we are going to consider the case in which $m_i = m$ for all $i$. Because the matrix is lower-triangular, computing the equlibria is especially simple, because each equilibrium depends only on those of the preceding species. The equilibrium of the first species is given by:
+
+$$
+c_1 p_1 = c_1 -m
+$$
+
+and thus 
+
+$$
+p_1^\star = \frac{c_1 - m}{c_1} = 1 - \frac{m}{c_1}
+$$
+
+Thus, the first species follows the Levins' model, and persists as long as $c_1 > m$.
+
+We compute the equilibrium for the second species, assuming that the first one is present:
+
+$$
+\begin{aligned}
+(c_1 + c_2) p_1^\star + c_2 p_2^\star = c_2 - m\\
+(c_1 + c_2)\left(1 - \frac{m}{c_1}\right) + c_2 p_2^\star &=  c_2 - m\\
+c_1 + c_2 - m - m \frac{c_2}{c_1} +  c_2 p_2^\star &=  c_2 - m\\
+p_2^\star = \frac{m}{c_1} - \frac{c_1}{c_2}
+\end{aligned}
+$$
+
+Thus, species 2 can establish if:
+
+$$
+c_2 > \frac{c_1^2}{m}
+$$
+
+Computing the equilibrium of the third species we find that it is positive if:
+
+$$
+c_3 > \frac{c_2^2}{\frac{c_1^2}{m}}
+$$
+
+Thus, we can compute the conditions for persistence recursively. We define $l_0 = m$, and then
+
+$$
+l_i = \frac{c_i^2}{l_{i-1}}
+$$
+
+This value represents the "shadow" each species that establishes casts on the colonization axis. A worse competitor $i + 1$ can establish if and only if:
+
+$$
+c_{i+1} > l_i
+$$
+Thus, if the species has a sufficiently large colonization rate, it will establish; if not, it will go extinct. In this way, we can compute the set of coexisting species in *linear time* (i.e., without the need to invert the matrix). 
 
 ## Random parameters
 
