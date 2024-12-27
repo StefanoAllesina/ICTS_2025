@@ -77,11 +77,39 @@ $$
 
 and $r_i = c_i - m_i$.
 
-Note that $A + A^T = 1 c^T + c 1^T$ is positive definite. To prove this, just consider XXXX
+Note that $A + A^T = 1 c^T + c 1^T$ is positive definite. The matrix has rank $\leq 2$ (because it is the sum of two rank-one matrices). 
+
+
+::: {.callout-note collapse="true"}
+## Eigenvalues using traces
+
+The trace of a matrix is the sum of its diagonal values:
+
+$$
+\text{Tr} A = \sum_i A_{ii}
+$$
+
+The trace of a matrix is also the sum of its eigenvalues:
+
+$$
+\text{Tr} A = \sum_i A_{ii} = \sum_i \lambda(A)_i
+$$
+
+The trace of the square of the matrix is the sum of the squared eigenvalues:
+
+$$
+\text{Tr} A^2 = \sum_i (A^2)_{ii} = \sum_i (\lambda(A)_i)^2
+$$
+
+This is true for all other powers.
+:::
+
+The sum of the two eigenvalues is $\lambda(A + A^T)_1 + \lambda(A + A^T)_2 = 2 \sum_i c_i$; call $s = \sum_i c_i$. The trace of the matrix squared $\text{Tr} (A + A^T)^2 = \sum_i \sum_j (c_i + c_j)^2 = $
+
 
 ## Computing equilibria
 
-For simplicity, we are going to consider the case in which $m_i = m$ for all $i$. Because the matrix is lower-triangular, computing the equlibria is especially simple, because each equilibrium depends only on those of the preceding species. The equilibrium of the first species is given by:
+For simplicity, we are going to consider the case in which $m_i = m$ for all $i$. Because the matrix is lower-triangular, computing the equilibrium is especially simple, because each the value of each species depends only on those of the preceding species. The equilibrium of the first species is given by:
 
 $$
 c_1 p_1 = c_1 -m
@@ -93,9 +121,7 @@ $$
 p_1^\star = \frac{c_1 - m}{c_1} = 1 - \frac{m}{c_1}
 $$
 
-Thus, the first species follows the Levins' model, and persists as long as $c_1 > m$.
-
-We compute the equilibrium for the second species, assuming that the first one is present:
+The first species follows the Levins' model, and persists as long as $c_1 > m$. We compute the equilibrium for the second species, assuming that the first species is present:
 
 $$
 \begin{aligned}
@@ -118,7 +144,7 @@ $$
 c_3 > \frac{c_2^2}{\frac{c_1^2}{m}}
 $$
 
-Thus, we can compute the conditions for persistence recursively. We define $l_0 = m$, and then
+You can see that there is a simple pattern. Call $l_0 = m$, then the condition for the first species to persist is that $c_1 > l_0$; second species to persist whenever $c_2 > c_1^2 / l_0 = l_1$; the third species persists whenever $c_3 > c_2^2 / l_1$, and so forth:
 
 $$
 l_i = \frac{c_i^2}{l_{i-1}}
@@ -129,9 +155,14 @@ This value represents the "shadow" each species that establishes casts on the co
 $$
 c_{i+1} > l_i
 $$
+
 Thus, if the species has a sufficiently large colonization rate, it will establish; if not, it will go extinct. In this way, we can compute the set of coexisting species in *linear time* (i.e., without the need to invert the matrix). 
 
 ## Random parameters
+
+Sample the colonization rate values from a distribution (with positive support); for example $\gamma_i \sim \mathcal U[0,1]$. Then sort them and assign the smallest value to species 1, the second smallest value to species 2, etc. These are called the *order statistics* of the distribution.
+
+How many species will coexist? 
 
 ## Asymptotics
 
