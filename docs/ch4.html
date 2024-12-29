@@ -253,11 +253,66 @@ c_1 + c_n &amp; c_2 + c_n &amp; c_3 + c_n &amp; \cdots &amp; c_n
 \end{pmatrix}
 \]</span></p>
 <p>and <span class="math inline">\(r_i = c_i - m_i\)</span>.</p>
-<p>Note that <span class="math inline">\(A + A^T = 1 c^T + c 1^T\)</span> is positive definite. To prove this, just consider XXXX</p>
+<p>We want to show that for each initial set of species in the system, dynamics will converge to a unique saturated equilibrium.</p>
+<p>To prove this, it is sufficient to find a positive diagonal matrix, <span class="math inline">\(D(w)\)</span> such that</p>
+<p><span class="math display">\[
+M = D(w) A + A^T D(w)
+\]</span></p>
+<p>is positive definite. Take <span class="math inline">\(w = c^{-1}\)</span> (i.e., the reciprocals of the colonization rates). Then we have that</p>
+<p><span class="math display">\[
+M = 1_n 1_n^T + Q
+\]</span></p>
+<p>Where</p>
+<p><span class="math display">\[
+Q_{ij} = \begin{cases}
+1 \quad \text{if}\; j = i\\
+\frac{c_i}{c_j} \quad \text{if}\; j &gt; i\\
+\frac{c_j}{c_i} \quad \text{if}\; j &lt; i\\
+\end{cases}
+\]</span></p>
+<p>To show that <span class="math inline">\(M\)</span> is positive definite, we write the Cholesky decomposition of <span class="math inline">\(Q\)</span></p>
+<p><span class="math display">\[
+Q = R^T R
+\]</span></p>
+<p>With</p>
+<p><span class="math display">\[
+R_{ij} =
+\begin{cases}
+\frac{\sqrt{c_i^2 - c_{i-1}^2}}{c_j}  \quad \text{if}\; j \geq i\\
+0 \quad \text{if}\; j &lt; i\\
+\end{cases}
+\]</span></p>
+<p>(defining <span class="math inline">\(c_0 = 0\)</span>). Note that all the elements of <span class="math inline">\(R_{ij} \geq 0\)</span>. As such, <span class="math inline">\(Q\)</span> is positive (semi-)definite, and <span class="math inline">\(M\)</span> is the sum of two positive (semi-)definite matrices, and is thus positive (semi-)definite.</p>
+<p>An example. Suppose <span class="math inline">\(n = 3\)</span>, then:</p>
+<p><span class="math display">\[
+A = \begin{pmatrix}
+c_1 &amp; 0 &amp; 0\\
+c_1 + c_2 &amp; c_2 &amp; 0\\
+c_1 + c_3 &amp; c_2 + c_3 &amp; c_3
+\end{pmatrix}
+\]</span> <span class="math display">\[
+M = D(c)^{-1} A + A^T D(c)^{-1}=\begin{pmatrix}
+2 &amp; 1 + \frac{c_1}{c_2} &amp; 1 + \frac{c_1}{c_3}\\
+1 + \frac{c_1}{c_2} &amp;2 &amp; 1 + \frac{c_2}{c_3}\\
+1 + \frac{c_1}{c_3} &amp; 1 + \frac{c_2}{c_3} &amp; 2\\
+\end{pmatrix}
+\]</span> <span class="math display">\[
+Q = \begin{pmatrix}
+1 &amp; \frac{c_1}{c_2} &amp; \frac{c_1}{c_3}\\
+\frac{c_1}{c_2} &amp; 1 &amp; \frac{c_2}{c_3}\\
+\frac{c_1}{c_3} &amp; \frac{c_2}{c_3} &amp; 1\\
+\end{pmatrix}
+\]</span> <span class="math display">\[
+R = \begin{pmatrix}
+1 &amp; \frac{c_1}{c_2} &amp; \frac{c_1}{c_3}\\
+0 &amp; \frac{c_2^2 - c_1^2}{c_2} &amp; \frac{c_2^2 - c_1^2}{c_3}\\
+0 &amp; 0 &amp; \frac{c_3^2 - c_2^2}{c_3}
+\end{pmatrix} \quad Q = R^T R
+\]</span></p>
 </section>
 <section id="computing-equilibria" class="level2">
 <h2 class="anchored" data-anchor-id="computing-equilibria">Computing equilibria</h2>
-<p>For simplicity, we are going to consider the case in which <span class="math inline">\(m_i = m\)</span> for all <span class="math inline">\(i\)</span>. Because the matrix is lower-triangular, computing the equlibria is especially simple, because each equilibrium depends only on those of the preceding species. The equilibrium of the first species is given by:</p>
+<p>For simplicity, we are going to consider the case in which <span class="math inline">\(m_i = m\)</span> for all <span class="math inline">\(i\)</span>. Because the matrix is lower-triangular, computing the equilibrium is especially simple, because each the value of each species depends only on those of the preceding species. The equilibrium of the first species is given by:</p>
 <p><span class="math display">\[
 c_1 p_1 = c_1 -m
 \]</span></p>
@@ -265,8 +320,7 @@ c_1 p_1 = c_1 -m
 <p><span class="math display">\[
 p_1^\star = \frac{c_1 - m}{c_1} = 1 - \frac{m}{c_1}
 \]</span></p>
-<p>Thus, the first species follows the Levins’ model, and persists as long as <span class="math inline">\(c_1 &gt; m\)</span>.</p>
-<p>We compute the equilibrium for the second species, assuming that the first one is present:</p>
+<p>The first species follows the Levins’ model, and persists as long as <span class="math inline">\(c_1 &gt; m\)</span>. We compute the equilibrium for the second species, assuming that the first species is present:</p>
 <p><span class="math display">\[
 \begin{aligned}
 (c_1 + c_2) p_1^\star + c_2 p_2^\star = c_2 - m\\
@@ -283,17 +337,20 @@ c_2 &gt; \frac{c_1^2}{m}
 <p><span class="math display">\[
 c_3 &gt; \frac{c_2^2}{\frac{c_1^2}{m}}
 \]</span></p>
-<p>Thus, we can compute the conditions for persistence recursively. We define <span class="math inline">\(l_0 = m\)</span>, and then</p>
+<p>You can see that there is a simple pattern. Call <span class="math inline">\(l_0 = m\)</span>, then the condition for the first species to persist is that <span class="math inline">\(c_1 &gt; l_0\)</span>; second species to persist whenever <span class="math inline">\(c_2 &gt; c_1^2 / l_0 = l_1\)</span>; the third species persists whenever <span class="math inline">\(c_3 &gt; c_2^2 / l_1\)</span>, and so forth:</p>
 <p><span class="math display">\[
 l_i = \frac{c_i^2}{l_{i-1}}
 \]</span></p>
 <p>This value represents the “shadow” each species that establishes casts on the colonization axis. A worse competitor <span class="math inline">\(i + 1\)</span> can establish if and only if:</p>
 <p><span class="math display">\[
 c_{i+1} &gt; l_i
-\]</span> Thus, if the species has a sufficiently large colonization rate, it will establish; if not, it will go extinct. In this way, we can compute the set of coexisting species in <em>linear time</em> (i.e., without the need to invert the matrix).</p>
+\]</span></p>
+<p>Thus, if the species has a sufficiently large colonization rate, it will establish; if not, it will go extinct. In this way, we can compute the set of coexisting species in <em>linear time</em> (i.e., without the need to invert the matrix).</p>
 </section>
 <section id="random-parameters" class="level2">
 <h2 class="anchored" data-anchor-id="random-parameters">Random parameters</h2>
+<p>Sample the colonization rate values from a distribution (with positive support); for example <span class="math inline">\(\gamma_i \sim \mathcal U[0,1]\)</span>. Then sort them and assign the smallest value to species 1, the second smallest value to species 2, etc. These are called the <em>order statistics</em> of the distribution.</p>
+<p>How many species will coexist?</p>
 </section>
 <section id="asymptotics" class="level2">
 <h2 class="anchored" data-anchor-id="asymptotics">Asymptotics</h2>

@@ -77,35 +77,78 @@ $$
 
 and $r_i = c_i - m_i$.
 
-Note that $A + A^T = 1 c^T + c 1^T$ is positive definite. The matrix has rank $\leq 2$ (because it is the sum of two rank-one matrices). 
+We want to show that for each initial set of species in the system, dynamics will converge to a unique saturated equilibrium.
 
-
-::: {.callout-note collapse="true"}
-## Eigenvalues using traces
-
-The trace of a matrix is the sum of its diagonal values:
+To prove this, it is sufficient to find a positive diagonal matrix, $D(w)$ such that
 
 $$
-\text{Tr} A = \sum_i A_{ii}
+M = D(w) A + A^T D(w)
 $$
 
-The trace of a matrix is also the sum of its eigenvalues:
+is positive definite. Take $w = c^{-1}$ (i.e., the reciprocals of the colonization rates). Then we have that 
 
 $$
-\text{Tr} A = \sum_i A_{ii} = \sum_i \lambda(A)_i
+M = 1_n 1_n^T + Q
 $$
 
-The trace of the square of the matrix is the sum of the squared eigenvalues:
+Where 
 
 $$
-\text{Tr} A^2 = \sum_i (A^2)_{ii} = \sum_i (\lambda(A)_i)^2
+Q_{ij} = \begin{cases}
+1 \quad \text{if}\; j = i\\
+\frac{c_i}{c_j} \quad \text{if}\; j > i\\
+\frac{c_j}{c_i} \quad \text{if}\; j < i\\
+\end{cases}
 $$
 
-This is true for all other powers.
-:::
+To show that $M$ is positive definite, we write the Cholesky decomposition of $Q$
 
-The sum of the two eigenvalues is $\lambda(A + A^T)_1 + \lambda(A + A^T)_2 = 2 \sum_i c_i$; call $s = \sum_i c_i$. The trace of the matrix squared $\text{Tr} (A + A^T)^2 = \sum_i \sum_j (c_i + c_j)^2 = $
+$$
+Q = R^T R
+$$
 
+With
+
+$$
+R_{ij} = 
+\begin{cases}
+\frac{\sqrt{c_i^2 - c_{i-1}^2}}{c_j}  \quad \text{if}\; j \geq i\\
+0 \quad \text{if}\; j < i\\
+\end{cases}
+$$
+
+(defining $c_0 = 0$). Note that all the elements of $R_{ij} \geq 0$. As such, $Q$ is positive (semi-)definite, and $M$ is the sum of two positive (semi-)definite matrices, and is thus positive (semi-)definite. 
+
+An example. Suppose $n = 3$, then:
+
+$$
+A = \begin{pmatrix}
+c_1 & 0 & 0\\
+c_1 + c_2 & c_2 & 0\\
+c_1 + c_3 & c_2 + c_3 & c_3
+\end{pmatrix}
+$$
+$$
+M = D(c)^{-1} A + A^T D(c)^{-1}=\begin{pmatrix}
+2 & 1 + \frac{c_1}{c_2} & 1 + \frac{c_1}{c_3}\\
+1 + \frac{c_1}{c_2} &2 & 1 + \frac{c_2}{c_3}\\
+1 + \frac{c_1}{c_3} & 1 + \frac{c_2}{c_3} & 2\\
+\end{pmatrix}
+$$
+$$
+Q = \begin{pmatrix}
+1 & \frac{c_1}{c_2} & \frac{c_1}{c_3}\\
+\frac{c_1}{c_2} & 1 & \frac{c_2}{c_3}\\
+\frac{c_1}{c_3} & \frac{c_2}{c_3} & 1\\
+\end{pmatrix}
+$$
+$$
+R = \begin{pmatrix}
+1 & \frac{c_1}{c_2} & \frac{c_1}{c_3}\\
+0 & \frac{c_2^2 - c_1^2}{c_2} & \frac{c_2^2 - c_1^2}{c_3}\\
+0 & 0 & \frac{c_3^2 - c_2^2}{c_3}
+\end{pmatrix} \quad Q = R^T R
+$$
 
 ## Computing equilibria
 
