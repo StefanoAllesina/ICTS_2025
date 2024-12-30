@@ -174,7 +174,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#the-model-is-glv" id="toc-the-model-is-glv" class="nav-link" data-scroll-target="#the-model-is-glv">The model is GLV</a></li>
   <li><a href="#computing-equilibria" id="toc-computing-equilibria" class="nav-link" data-scroll-target="#computing-equilibria">Computing equilibria</a></li>
   <li><a href="#random-parameters" id="toc-random-parameters" class="nav-link" data-scroll-target="#random-parameters">Random parameters</a></li>
-  <li><a href="#asymptotics" id="toc-asymptotics" class="nav-link" data-scroll-target="#asymptotics">Asymptotics</a></li>
+  <li><a href="#sketch-of-the-proof" id="toc-sketch-of-the-proof" class="nav-link" data-scroll-target="#sketch-of-the-proof">Sketch of the proof</a></li>
   <li><a href="#references-and-further-readings" id="toc-references-and-further-readings" class="nav-link" data-scroll-target="#references-and-further-readings">References and further readings</a></li>
   </ul></li>
   </ul>
@@ -192,7 +192,7 @@ ul.task-list li input[type="checkbox"] {
 <p><img src="images/Levins.jpg" class="img-fluid figure-img" style="width:40.0%" alt="Richard Levins"></p>
 </figure>
 </div>
-<p>Richard Levins (1930-2016). Born in Brooklyn, New York, he studied agriculture and mathematics at Cornell. Early on, influenced by geneticist and polymath Haldane, he became a Marxist activist. Upon graduation, having been blacklisted as a communist (and with the Korean War raging), he moved to Puerto Rico with his wife, and set up a farm. In his spare time, he conducted experiments on fruit flies, organized anti-colonialist rallies and anti-war protests, and taught at the University of Puerto Rico. In 1964, he was invited to Cuba to help organize the biology department of the University of Havana. He received his doctorate from Columbia University in 1965. In 1967 he moved to the University of Chicago, where he joined Richard Lewontin—whith whom he established a lifelong collaboration. They both moved to Harvard in the late 1970s.</p>
+<p>Richard Levins (1930-2016). Born in Brooklyn, New York, he studied agriculture and mathematics at Cornell. Early on, influenced by geneticist and polymath JBS Haldane, he became a Marxist activist. Upon graduation, having been blacklisted as a communist (and with the Korean War raging), he moved to Puerto Rico with his wife, and set up a farm. In his spare time, he conducted experiments on fruit flies, organized anti-colonialist rallies and anti-war protests, and taught at the University of Puerto Rico. In 1964, he was invited to Cuba to help organize the biology department of the University of Havana. He received his doctorate from Columbia University in 1965. In 1967 he moved to the University of Chicago, where he joined Richard Lewontin—with whom he established a lifelong collaboration. They both moved to Harvard in the late 1970s.</p>
 <p>It is impossible to summarize his numerous contributions to ecology, mathematics, political science, and the philosophy of science. He has inspired countless ecologists, and his approach and style are still visible in many of the research programs being carried out today. Of particular interest for this class, his theory of evolution in a changing environment (Levins (1968)), the development of the idea of limiting similarity (MacArthur and Levins (1967)), his work on metapopulation dynamics (Levins (1969)), and the development of Loop Analysis (i.e., a qualitative theory for dynamical systems, Puccia and Levins (2013)).</p>
 <section id="metapopulations" class="level2">
 <h2 class="anchored" data-anchor-id="metapopulations">Metapopulations</h2>
@@ -219,7 +219,7 @@ ul.task-list li input[type="checkbox"] {
 <li><span class="math inline">\(m_i\)</span> is the extinction rate for population <span class="math inline">\(i\)</span></li>
 <li><span class="math inline">\(c_i\)</span> is the colonization rate for population <span class="math inline">\(i\)</span></li>
 <li>each species can colonize patches occupied by inferior competitors (i.e., these patches “look” empty to them)</li>
-<li>competitive abilities are inversely correlated with colonization rates, i.e., if <span class="math inline">\(c_j &lt; c_i\)</span>, then <span class="math inline">\(j\)</span> is a superior competitor</li>
+<li>competitive abilities are inversely correlated with colonization rates, i.e., if <span class="math inline">\(c_j &lt; c_i\)</span>, then <span class="math inline">\(j\)</span> is a better competitor than <span class="math inline">\(i\)</span></li>
 </ul>
 <p>The model is a system of <span class="math inline">\(n\)</span> coupled differential equations:</p>
 <p><span class="math display">\[
@@ -227,8 +227,8 @@ ul.task-list li input[type="checkbox"] {
 \]</span></p>
 <p>There are three processes at play:</p>
 <ul>
-<li><span class="math inline">\(-m_i p_i\)</span> the rate at which patches occupied by <span class="math inline">\(i\)</span> become empty</li>
-<li><span class="math inline">\(c_j p_j p_i\)</span> propagules from superior competitors <span class="math inline">\(j\)</span> (produced at rate <span class="math inline">\(c_j p_j\)</span>) reach patches occupied by <span class="math inline">\(i\)</span> and turn them over</li>
+<li><span class="math inline">\(m_i p_i\)</span> the rate at which patches occupied by <span class="math inline">\(i\)</span> become empty</li>
+<li><span class="math inline">\(c_j p_j p_i\)</span> propagules from superior competitors <span class="math inline">\(j\)</span> (produced at rate <span class="math inline">\(c_j p_j\)</span>) reach patches occupied by <span class="math inline">\(i &lt; j\)</span> and turn them over</li>
 <li>propagules of <span class="math inline">\(i\)</span>, produced at rate <span class="math inline">\(c_i p_i\)</span>, reach patches that are either empty or occupied by inferior competitors (written as the difference between <span class="math inline">\(1\)</span> and the sum of the proportion of patches occupied by species with equal or better competitive abilities, <span class="math inline">\(1-\sum_{j=1}^{i} p_j\)</span>) and colonize them</li>
 </ul>
 </section>
@@ -253,8 +253,7 @@ c_1 + c_n &amp; c_2 + c_n &amp; c_3 + c_n &amp; \cdots &amp; c_n
 \end{pmatrix}
 \]</span></p>
 <p>and <span class="math inline">\(r_i = c_i - m_i\)</span>.</p>
-<p>We want to show that for each initial set of species in the system, dynamics will converge to a unique saturated equilibrium.</p>
-<p>To prove this, it is sufficient to find a positive diagonal matrix, <span class="math inline">\(D(w)\)</span> such that</p>
+<p>We want to show that for each initial set of species in the system, dynamics will converge to a unique saturated equilibrium. To prove this, it is sufficient to find a positive diagonal matrix, <span class="math inline">\(D(w)\)</span> such that</p>
 <p><span class="math display">\[
 M = D(w) A + A^T D(w)
 \]</span></p>
@@ -312,7 +311,7 @@ R = \begin{pmatrix}
 </section>
 <section id="computing-equilibria" class="level2">
 <h2 class="anchored" data-anchor-id="computing-equilibria">Computing equilibria</h2>
-<p>For simplicity, we are going to consider the case in which <span class="math inline">\(m_i = m\)</span> for all <span class="math inline">\(i\)</span>. Because the matrix is lower-triangular, computing the equilibrium is especially simple, because each the value of each species depends only on those of the preceding species. The equilibrium of the first species is given by:</p>
+<p>For simplicity, we are going to consider the case in which <span class="math inline">\(m_i = m\)</span> for all <span class="math inline">\(i\)</span>. Because the matrix is lower-triangular, computing the equilibrium is especially simple, given that the equilibrium value for each species depends only on those of the preceding species. The equilibrium of the first species is given by:</p>
 <p><span class="math display">\[
 c_1 p_1 = c_1 -m
 \]</span></p>
@@ -349,17 +348,70 @@ c_{i+1} &gt; l_i
 </section>
 <section id="random-parameters" class="level2">
 <h2 class="anchored" data-anchor-id="random-parameters">Random parameters</h2>
-<p>Sample the colonization rate values from a distribution (with positive support); for example <span class="math inline">\(\gamma_i \sim \mathcal U[0,1]\)</span>. Then sort them and assign the smallest value to species 1, the second smallest value to species 2, etc. These are called the <em>order statistics</em> of the distribution.</p>
-<p>How many species will coexist?</p>
+<p>Sample the colonization rate values indipendently from a distribution (with positive support); for example <span class="math inline">\(\gamma_i \sim \mathcal U[m,1+m]\)</span>, or from the exponential distribution <span class="math inline">\(\gamma_i \sim \mathcal{Exp(\lambda) + m}\)</span> (we sample values above the mortality rate—any lower value for the colonization rate would lead to extinction). Then sort them and assign the smallest value to species 1 (<span class="math inline">\(c_1 = \min_i \gamma_i\)</span>), the second smallest value to species 2, etc. These are called the <em>order statistics</em> of the distribution.</p>
+<p>How many species will coexist? Given that the final set of coexisting species can be found in linear time, we can run large experiments in which we compute the number of coexisting species <span class="math inline">\(\|k\|\)</span> when starting with <span class="math inline">\(n\)</span> for different sizes <span class="math inline">\(n\)</span> and choice of distribution from which to sample the colonization rates.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ch4_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>We can see that as <span class="math inline">\(n\)</span> increases, the distribution of <span class="math inline">\(\|k\|\)</span> approaches the binomial distribution (plotted in red)—to be precise, given that the first species persists by definition (because <span class="math inline">\(c_1 &gt; m\)</span> by design), we have that asymptotically <span class="math inline">\(\|k\|-1 \sim \mathcal B(n-1, \frac{1}{2})\)</span>, irrespective of the distribution used to sample the colonization rates. Therefore, as <span class="math inline">\(n \to \infty\)</span>, the distribution of surviving species is <em>universal</em>.</p>
 </section>
-<section id="asymptotics" class="level2">
-<h2 class="anchored" data-anchor-id="asymptotics">Asymptotics</h2>
+<section id="sketch-of-the-proof" class="level2">
+<h2 class="anchored" data-anchor-id="sketch-of-the-proof">Sketch of the proof</h2>
+<p>We can approximate the “niche shadow” value when <span class="math inline">\(n\)</span> is large, as follows. We know that species <span class="math inline">\(j\)</span> is excluded if <span class="math inline">\(c_i &lt; c_j &lt; l_i\)</span>, where <span class="math inline">\(l_i\)</span> is the niche shadow cast by species <span class="math inline">\(i\)</span>:</p>
+<p><span class="math display">\[
+l_i = \frac{c_i^2}{l_{i-1}}
+\]</span> Thus, to be included in the set of coexisting species, we need <span class="math inline">\(c_j &gt; l_i\)</span>. We introduce <span class="math inline">\(X_i\)</span>, the amount by which <span class="math inline">\(c_j\)</span> exceeds <span class="math inline">\(l_{i-1}\)</span>:</p>
+<p><span class="math display">\[
+X_i = c_i - l_{i-1}
+\]</span></p>
+<p>Then, we have</p>
+<p><span class="math display">\[
+l_i = \frac{(l_{i-1} + X_i)^2}{l_{i-1}} = l_{i-1} + 2 X_i +\frac{X_i^2}{l_{i-1}} \approx l_{i-1} + 2 X_i = 2 c_i - l_{i-1}
+\]</span></p>
+<p>where we have neglected the term <span class="math inline">\(X_i^2 / l_{i-1}\)</span>, which is small when <span class="math inline">\(n\)</span> is large (because the colonization values are closer together).</p>
+<p>We now can compute the probability that species <span class="math inline">\(i\)</span> excludes a given number of other species <span class="math inline">\(\kappa\)</span>; that is, the probability that all the values <span class="math inline">\(c_j &gt; c_i\)</span> fall in the range <span class="math inline">\([c_i,l_i] \approx [c_i,2 c_i - l_{i-1}]\)</span> for <span class="math inline">\(\kappa\)</span> species, while for the remaining <span class="math inline">\(n-\kappa-1\)</span> we have <span class="math inline">\(c_j &gt; 2 c_i - l_{i-1}\)</span>. For example, the probability that species 1 excludes the following <span class="math inline">\(\kappa &lt; n-1\)</span> species can be computed as:</p>
+<p><span class="math display">\[
+\binom{n-1}{\kappa} (F(2 x -m) - F(x))^\kappa (1 - F(2 x - m))^{(n - 1 - \kappa)}
+\]</span></p>
+<p>when <span class="math inline">\(c_1 \in (x, x + dx)\)</span>, and <span class="math inline">\(F(\cdot)\)</span> is the cumulative distribution function for the colonization rates.</p>
+<p>Integrating over the distribution, and adding a factor <span class="math inline">\(n\)</span> because each species could be the one with the minimum colonization rate, we obtain:</p>
+<p><span class="math display">\[
+n\binom{n-1}{\kappa} \int_{m}^{U}(F(2 x -m) - F(x))^\kappa (1 - F(2 x - m))^{(n - 1 - \kappa)} f(x) dx
+\]</span> where <span class="math inline">\(U\)</span> is the upper bound for the niche shadow (either <span class="math inline">\((m + b)/2\)</span> when the support is finite <span class="math inline">\([m,b]\)</span>, or <span class="math inline">\(\infty\)</span>), and <span class="math inline">\(f(\cdot)\)</span> is the pdf. For example, when colonization rates are the order statistics of <span class="math inline">\(\mathcal U[m, m + 1]\)</span>, we have <span class="math inline">\(F(x) = x-m\)</span>, <span class="math inline">\(f(x) = 1\)</span>, <span class="math inline">\(U = m + 1/2\)</span> and therefore:</p>
+<p><span class="math display">\[
+n \binom{n-1}{\kappa} \int_m^{m+\frac{1}{2}} (x-m)^\kappa (1 + 2 m - 2 x)^{(n-1-\kappa)} dx = \frac{1}{2^{\kappa+1}}
+\]</span> showing that, for example, the probability that the first species does not exclude any other (<span class="math inline">\(\kappa = 0\)</span>) is <span class="math inline">\(1/2\)</span>.</p>
+<p>This argument can be extended to compute the probability of each configuration with <span class="math inline">\(\|k\|\)</span> species surviving and <span class="math inline">\(n - \|k\|\)</span> going extinct, thereby obtaining the binomial distribution.</p>
 </section>
 <section id="references-and-further-readings" class="level2">
 <h2 class="anchored" data-anchor-id="references-and-further-readings">References and further readings</h2>
-<p>TODO</p>
-<p>May R.M. 1972. Will a large complex system be stable? Nature 238:413-414</p>
-<p>McCann, K.S. 2000. The diversity - stability debate. Nature 405:228-233</p>
+<p>The original metapopulation model:</p>
+<ul>
+<li>Levins, R., 1969. <a href="https://academic.oup.com/ae/article-abstract/15/3/237/255899">Some demographic and genetic consequences of environmental heterogeneity for biological control</a>. Bulletin of the ESA, 15(3), pp.237-240.</li>
+</ul>
+<p>Many authors contributed to the study of the model with competition-colonization tradeoff:</p>
+<ul>
+<li>Hastings, A., 1980. <a href="https://www.sciencedirect.com/science/article/pii/0040580980900593">Disturbance, coexistence, history, and competition for space</a>. Theoretical population biology, 18(3), pp.363-373.</li>
+</ul>
+<p>derived the model by extending Levins’ model to <span class="math inline">\(n\)</span> populations. Noted that better competitors need to be poor colonizers to yield coexistence.</p>
+<ul>
+<li>Tilman, D., 1994. <a href="https://esajournals.onlinelibrary.wiley.com/doi/abs/10.2307/1939377">Competition and biodiversity in spatially structured habitats</a>. Ecology, 75(1), pp.2-16.</li>
+</ul>
+<p>performed a thorough analysis of the model, inspired by data on grasslands as well as life-history theory. Noted that infinitely many species could coexist, and derived conditions for limiting similarity.</p>
+<ul>
+<li>Nowak, M.A.&nbsp;and May, R.M., 1994. <a href="https://royalsocietypublishing.org/doi/abs/10.1098/rspb.1994.0012">Superinfection and the evolution of parasite virulence</a>. Proceedings of the Royal Society of London. Series B: Biological Sciences, 255(1342), pp.81-89.</li>
+</ul>
+<p>derived the model in the context of superinfection (better pathogens displace others in infected individuals). Showed that this would lead to the coexistence of pathogens of different virulence, rather than convergence to an optimum.</p>
+<ul>
+<li>Kinzig, A.P., Levin, S.A., Dushoff, J. and Pacala, S., 1999. <a href="https://www.journals.uchicago.edu/doi/full/10.1086/303182">Limiting similarity, species packing, and system stability for hierarchical competition-colonization models</a>. The American Naturalist, 153(4), pp.371-383.</li>
+</ul>
+<p>studied the model in the high-diversity limit. Highlighted pathological behaviors of the model. Provided a construction to pack infinitely many species in a finite interval of colonization rates (requires fine-tuning).</p>
+<ul>
+<li>Miller, Z.R., Clenet, M., Della Libera, K., Massol, F. and Allesina, S., 2024. <a href="https://www.pnas.org/doi/abs/10.1073/pnas.2314215121">Coexistence of many species under a random competition–colonization trade-off</a>. Proceedings of the National Academy of Sciences, 121(5), p.e2314215121.</li>
+</ul>
+<p>contains the derivations presented here, and much more.</p>
 
 
 </section>

@@ -1,8 +1,24 @@
-n <- 50
+n <- 5
 k <- sort(runif(n), decreasing = TRUE)
 A <- (outer(rep(1, n), k) + outer(k, rep(1, n)))
 A[upper.tri(A)] <- 0
 diag(A) <- k
+
+
+one <- outer(rep(1, n), k)
+two <- outer(k, rep(1,n))
+three <- outer(k, k)
+four <- outer(k, 1/k)
+five <- outer(1/k, k)
+six <- outer(rep(1, n), 1/k)
+seven <- outer(rep(1, n), 1/k)
+
+findmatch <- function(tmp){
+  Z <- A + one * tmp[1] + two * tmp[2] + three * tmp[3] + four * tmp[4]
+  return(sum(Z^2))
+}
+
+optim(runif(4), findmatch, method = "BFGS")
 
 tominimize <- function(pars){
   pars <- abs(pars)
