@@ -29,7 +29,7 @@ H. Ishizawa, Y. Tashiro, D. Inoue, M. Ike, H. Futamata.
 [*Learning beyond-pairwise interactions enables the bottom–up prediction of microbial community structure*](https://doi.org/10.1073/pnas.2312396121)
 PNAS 121 (7) e2312396121 (2024).
 
-The Authors inoculated duckweed (*lemna minor*) with synthetic bacterial communities formed by all possible combinations of seven strains. To this end, they cultured the infected duckweed in flasks for 10 days. At the end of the experiment, they plated the communities on agar plates containing antibiotics that would allow the growth only of a particular strain. In this way, they were able to measure the final density of each of the seven strains in each of the $2^7 - 1 = 127$ possible communities, and conducted each experiment in replicate. The full data set reports the outcome of 692 separate experiments! 
+The Authors inoculated duckweed (*Lemna minor*) with synthetic bacterial communities formed by all possible combinations of seven strains. To this end, they cultured the infected duckweed in flasks for 10 days. At the end of the experiment, they plated the communities on agar plates containing antibiotics that would allow the growth only of a particular strain. In this way, they were able to measure the final density of each of the seven strains in each of the $2^7 - 1 = 127$ possible communities, and conducted each experiment in replicate. The full data set reports the outcome of 692 separate experiments! 
 
 More modestly, here we are going to focus on a smaller pool of three strains taken from the seven available. We therefore have $7$ possible communities, ranging from a single strain growing in isolation to the three strains growing together. For example, a few of the measurements are:
 
@@ -94,7 +94,6 @@ B = \begin{pmatrix}
 -2 & 7 & -3\\
 2 & -2 & 2
 \end{pmatrix} \quad 
-
 E = \begin{pmatrix} 
 \frac{1}{2} & 0 & 0\\
 0 & \frac{1}{7} & 0\\

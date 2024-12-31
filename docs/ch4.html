@@ -219,7 +219,7 @@ ul.task-list li input[type="checkbox"] {
 <li><span class="math inline">\(m_i\)</span> is the extinction rate for population <span class="math inline">\(i\)</span></li>
 <li><span class="math inline">\(c_i\)</span> is the colonization rate for population <span class="math inline">\(i\)</span></li>
 <li>each species can colonize patches occupied by inferior competitors (i.e., these patches “look” empty to them)</li>
-<li>competitive abilities are inversely correlated with colonization rates, i.e., if <span class="math inline">\(c_j &lt; c_i\)</span>, then <span class="math inline">\(j\)</span> is a better competitor than <span class="math inline">\(i\)</span></li>
+<li>competitive abilities are inversely related to the colonization rates, i.e., if <span class="math inline">\(c_j &lt; c_i\)</span>, then <span class="math inline">\(j\)</span> is a better competitor than <span class="math inline">\(i\)</span></li>
 </ul>
 <p>The model is a system of <span class="math inline">\(n\)</span> coupled differential equations:</p>
 <p><span class="math display">\[
@@ -304,8 +304,8 @@ Q = \begin{pmatrix}
 \]</span> <span class="math display">\[
 R = \begin{pmatrix}
 1 &amp; \frac{c_1}{c_2} &amp; \frac{c_1}{c_3}\\
-0 &amp; \frac{c_2^2 - c_1^2}{c_2} &amp; \frac{c_2^2 - c_1^2}{c_3}\\
-0 &amp; 0 &amp; \frac{c_3^2 - c_2^2}{c_3}
+0 &amp; \frac{\sqrt{c_2^2 - c_1^2}}{c_2} &amp; \frac{\sqrt{c_2^2 - c_1^2}}{c_3}\\
+0 &amp; 0 &amp; \frac{\sqrt{c_3^2 - c_2^2}}{c_3}
 \end{pmatrix} \quad Q = R^T R
 \]</span></p>
 </section>

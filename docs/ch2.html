@@ -260,7 +260,7 @@ r' = S_i r \quad A' = S_iAS_i
 \begin{aligned}
 x' &amp;= -(S_iAS_i)^{-1} S_i r\\ &amp;=-S_iA^{-1}S_i S_i r\\
 &amp;=-S_iA^{-1}r\\
-&amp;=-S_i x
+&amp;= S_i x
 \end{aligned}
 \]</span></p>
 <p>That is, the transformation changes the sign of the components of <span class="math inline">\(x\)</span> corresponding to the negative coefficients in <span class="math inline">\(S_i\)</span>. Hence, for any possible choice of <span class="math inline">\(r\)</span> and <span class="math inline">\(A\)</span>, there is only one possible choice of <span class="math inline">\(S_i\)</span> that makes the equilibrium feasible. Because all matrices <span class="math inline">\(A'\)</span> and all vectors <span class="math inline">\(r'\)</span> have the same probability/density, then the probability of having a positive <span class="math inline">\(x\)</span> is exactly <span class="math inline">\(1/2^n\)</span>. Thus, a system with random parameters and a strongly stable matrix of interactions has the same probability of feasibility as that of a system in which populations are not interacting!</p>
@@ -295,11 +295,11 @@ S_{i}^{(k)} &amp; 0_{\|k\|, \|n-k\|}\\
 <p>The feasibility and nonivasibility condition, for a given choice of <span class="math inline">\(S_i\)</span> read:</p>
 <p><span class="math display">\[
 \begin{cases}
-y' &amp;= S_i^{(k)} (-\mathfrak A^{-1}\mathfrak r) &amp;&gt; 0_{\|k\|}\\
-D(z)^{-1} z &amp;=S_i^{(n-k)}(\mathfrak s + \mathfrak C y') &amp;&lt; 0_{\|n-k\|}\\
+y' = S_i^{(k)} (-\mathfrak A^{-1}\mathfrak r) &gt; 0_{\|k\|}\\
+D(z)^{-1} z =S_i^{(n-k)}(\mathfrak s + \mathfrak C y') &lt; 0_{\|n-k\|}\\
 \end{cases}
 \]</span></p>
-<p>There is only one choice out of <span class="math inline">\(2^{\|k\|}\)</span> that makes <span class="math inline">\(y' &gt; 0_{\|k\|}\)</span>; moreover, there is only one choice of <span class="math inline">\(S_i^{(n-k)}\)</span> that fulfills the noninvasibility condition, out of <span class="math inline">\(2^{\|n-k\|}\)</span> equiprobable choices. Then, we have that the probability of finding exactly <span class="math inline">\(\|k\|\)</span> populations coexisting at the saturated equilibrium, with the remaining <span class="math inline">\(\|n-k\|\)</span> that cannot invade is exactly <span class="math inline">\(1/2^{\|k\|} \cdot 2^{\|n-k\|} = 1/2^n\)</span>. The number of coexisting populations at the saturated equilibrium follows the binomial distribution:</p>
+<p>There is only one choice out of <span class="math inline">\(2^{\|k\|}\)</span> that makes <span class="math inline">\(y' &gt; 0_{\|k\|}\)</span>; moreover, there is only one choice of <span class="math inline">\(S_i^{(n-k)}\)</span> that fulfills the noninvasibility condition, out of <span class="math inline">\(2^{\|n-k\|}\)</span> equiprobable choices. Then, we have that the probability of finding exactly <span class="math inline">\(\|k\|\)</span> populations coexisting at the saturated equilibrium, with the remaining <span class="math inline">\(\|n-k\|\)</span> that cannot invade is exactly <span class="math inline">\(1/(2^{\|k\|} \cdot 2^{\|n-k\|}) = 1/2^n\)</span>. The number of coexisting populations at the saturated equilibrium follows the binomial distribution:</p>
 <p><span class="math display">\[
 p(\|k\| | n) = \binom{n}{\|k\|} \frac{1}{2^n}\quad \|k\| \sim \mathcal B\left(n, \frac{1}{2}\right)
 \]</span></p>
@@ -335,7 +335,7 @@ M &amp;= \alpha I + B \\&amp;= \alpha I + 1_n m^T + C
 <p><span class="math display">\[
 \begin{aligned}
 Mx &amp;= 1_n\\
-x &amp;= M^{-1}1_n &gt; 0
+x &amp;= M^{-1}1_n &gt; 0_n
 \end{aligned}
 \]</span></p>
 <p>We consider the simpler system:</p>
@@ -446,7 +446,7 @@ n \mathbb E((y_i)^2) + n (n-1)  \mathbb E( y_i y_j) &amp;= \dfrac{n^2}{\alpha^2}
 <p><span class="math display">\[
 y \sim \mathcal N \left( \frac{1}{\alpha} \mathbb 1_n, \sigma^2_y \left(\frac{n}{n-1} I - \frac{1}{n-1} \mathbb 1_n \mathbb 1_n^T \right) \right)\quad .
 \]</span></p>
-<p>Because the joint distribution of <span class="math inline">\(y\)</span> is well-approximated by a multivariate normal, we can calculate the probability of feasibility as a function of <span class="math inline">\(\alpha\)</span>, <span class="math inline">\(n\)</span>, as well as <span class="math inline">\(\sigma^2_{y}\)</span> by integrating the probability density function in the positive orthant of <span class="math inline">\(\mathbb R^n\)</span>—what is called an ``orthant probability’’:</p>
+<p>Because the joint distribution of <span class="math inline">\(y\)</span> is well-approximated by a multivariate normal, we can calculate the probability of feasibility as a function of <span class="math inline">\(\alpha\)</span>, <span class="math inline">\(n\)</span>, as well as <span class="math inline">\(\sigma^2_{y}\)</span> by integrating the probability density function in the positive orthant of <span class="math inline">\(\mathbb R^n\)</span>—what is called an “orthant probability”:</p>
 <p><span class="math display">\[
 p_F (n, \alpha, \sigma^2_{y}) = \int_0^{\infty} \int_0^{\infty} \cdots \int_0^{\infty} \phi(y) d y_1 d y_2 \cdots d y_n \quad,
 \]</span></p>

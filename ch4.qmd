@@ -37,7 +37,7 @@ Levins' model was extended in a number of ways. One of the most interesting case
 - $m_i$ is the extinction rate for population $i$
 - $c_i$ is the colonization rate for population $i$ 
 - each species can colonize patches occupied by inferior competitors (i.e., these patches "look" empty to them)
-- competitive abilities are inversely correlated with colonization rates, i.e., if $c_j < c_i$, then $j$ is a better competitor than $i$
+- competitive abilities are inversely related to the colonization rates, i.e., if $c_j < c_i$, then $j$ is a better competitor than $i$
 
 The model is a system of $n$ coupled differential equations:
 
@@ -143,8 +143,8 @@ $$
 $$
 R = \begin{pmatrix}
 1 & \frac{c_1}{c_2} & \frac{c_1}{c_3}\\
-0 & \frac{c_2^2 - c_1^2}{c_2} & \frac{c_2^2 - c_1^2}{c_3}\\
-0 & 0 & \frac{c_3^2 - c_2^2}{c_3}
+0 & \frac{\sqrt{c_2^2 - c_1^2}}{c_2} & \frac{\sqrt{c_2^2 - c_1^2}}{c_3}\\
+0 & 0 & \frac{\sqrt{c_3^2 - c_2^2}}{c_3}
 \end{pmatrix} \quad Q = R^T R
 $$
 

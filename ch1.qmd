@@ -22,13 +22,13 @@ Alfred J. Lotka (1880-1949) was born to French-speaking American parents in Lemb
 
 Starting in 1910, he investigated coupled differential equations relating to chemical as well as ecological dynamics. In 1920 he studied a system of two ODEs that gave rise to perpetual oscillations: *"It was, therefore, with considerable surprise that the writer, on applying his method to certain special cases, found these to lead to undamped, and hence indefinitely continued, oscillations."* He went on to describe *"1. A species of organism $S_1$, a plant species, say, deriving its nourishment from a source presented in such large excess that the mass of the source may be considered constant during the period of time with which we are concerned. 2. A species $S_2$, for example a herbivorous animal species, feeding on $S_1$."* 
 
-The equations he had derived (and then studied later in more detail) are now termed Lotka-Volterra equations.
+The equations he had derived (and then studied in more detail) are now called Lotka-Volterra equations.
 
 ![](images/Volterra.jpg){fig-alt="Vito Volterra" fig-align="left" width=20%}
 
 Vito Volterra (1860-1940) was born in Ancona (then part of the Papal State) in a poor Jewish family. The financial situation precipitated with the death of his father, when Vito was two. Vito and his mother went to live with relatives in Turin and then Florence. Volterra showed amazing mathematical talent at a very young age. Antonio Roiti, professor of physics in Florence, noticed the budding mathematician and hired him as his assistant, so that he could continue his studies. He went on to enroll at the Scuola Normale in Pisa, receiving a degree in Physics in 1882. At age 23 he was made full professor of Rational Mechanics in Pisa, and then in 1900 of Mathematical Physics in Rome. For thirty years, he contributed important studies in mathematics, and enriched academic life in Italy (for example, he was the first director of the National Center for Research). In 1931 he refused to take an oath of loyalty to the fascist regime (only 12 professors out of 1250 refused), and was therefore forced to resign (his take on the fascist enterprise: *"Empires die, but Euclid's theorems keep their youth forever"*). 
 
-His interest in mathematical ecology is due to Umberto D'Ancona (his son-in-law), who had studied the trends in fisheries in the Adriatic sea before and immediately after WWI. In 1914-1918 fisheries in the Adriatic had stopped completely because of the conflict. D'Ancona had noticed that, while herbivorous fish had remained about constant, the piscivorous fish had increased dramatically in numbers. The problem piqued Volterra who immediately published a sophisticated study, proposing the same equations studied by Lotka. In a short letter to Nature 1926, he stated the so-called "Volterra's Effect" (which he termed "Law III"): *"a complete closure of the fishery was a form of 'protection' under which the voracious fishes were much the better and prospered accordingly, but the ordinary food-fishes, on which these are accustomed to prey, were worse off than before."* This brief paper was a summary of a much more extensive study published in Italian.
+His interest in mathematical ecology is due to Umberto D'Ancona (his son-in-law), who had studied the trends in fisheries in the Adriatic sea before and immediately after WWI. In 1914-1918 fisheries in the Adriatic had stopped completely because of the conflict. D'Ancona had noticed that, while herbivorous fish had remained about constant, the piscivorous fish had increased dramatically in number. The problem piqued Volterra, who immediately published a sophisticated study, proposing the same equations studied by Lotka. In a short letter to Nature 1926, he stated the so-called "Volterra's Effect" (which he termed "Law III"): *"a complete closure of the fishery was a form of 'protection' under which the voracious fishes were much the better and prospered accordingly, but the ordinary food-fishes, on which these are accustomed to prey, were worse off than before."* This brief paper was a summary of a much more extensive study published in Italian.
 
 ### Lotka-Volterra interactions
 
@@ -228,7 +228,7 @@ pl4
 Suppose that $x(t)$ has a periodic orbit, of period $T$ (i.e., we assume
 $x(0) = x(T)$). Further, assume that the GLV has a feasible, interior
 equilibrium $x^\star$. We want to calculate the average density for each
-species:
+population:
 
 $$
 \frac{1}{T} \int_0^T x(t) dt
@@ -404,7 +404,7 @@ $$
 J_{ij} = \dfrac{\partial f_i(x)}{\partial x_j}
 $$
 
-For each equilibrium in the system, we can obtain a different *community
+For each equilibrium of the system, we can obtain a different *community
 matrix* (the name is due to Richard Levins) $M$:
 
 $$
@@ -466,7 +466,7 @@ $$
 y(t) = e^{\Lambda t} y(0)
 $$
 
-where $e^\Lambda t$ is a diagonal matrix:
+where $e^{\Lambda t}$ is a diagonal matrix:
 
 $$
 e^{\Lambda t}= \begin{pmatrix}
@@ -541,7 +541,7 @@ the determinant is in this case sufficient to determine the type of
 dynamics around equilibrium:
 
 ![Characterizing dynamics using trace and
-determinant](https://upload.wikimedia.org/wikipedia/commons/3/3b/Stability_Diagram.png){width="600"}
+determinant](images/Stability_Diagram.png){width="600"}
 :::
 
 To probe the local asymptotic stability of the equilibria, we can:
@@ -646,7 +646,7 @@ $$
 
 Thus, the equilibrium is not locally asymptotically stable.
 
-## Global Asymptotic Stability
+## Global asymptotic stability
 
 In certain models, we can show that whenever all the populations start at a
 positive value, they will always reach a certain equilibrium $x^\star$.

@@ -89,7 +89,7 @@ $$
 \begin{aligned}
 x' &= -(S_iAS_i)^{-1} S_i r\\ &=-S_iA^{-1}S_i S_i r\\
 &=-S_iA^{-1}r\\
-&=-S_i x
+&= S_i x
 \end{aligned}
 $$
 
@@ -134,12 +134,12 @@ The feasibility and nonivasibility condition, for a given choice of $S_i$ read:
 
 $$
 \begin{cases}
-y' &= S_i^{(k)} (-\mathfrak A^{-1}\mathfrak r) &> 0_{\|k\|}\\
-D(z)^{-1} z &=S_i^{(n-k)}(\mathfrak s + \mathfrak C y') &< 0_{\|n-k\|}\\
+y' = S_i^{(k)} (-\mathfrak A^{-1}\mathfrak r) > 0_{\|k\|}\\
+D(z)^{-1} z =S_i^{(n-k)}(\mathfrak s + \mathfrak C y') < 0_{\|n-k\|}\\
 \end{cases}
 $$
 
-There is only one choice out of $2^{\|k\|}$ that makes $y' > 0_{\|k\|}$; moreover, there is only one choice of $S_i^{(n-k)}$ that fulfills the noninvasibility condition, out of $2^{\|n-k\|}$ equiprobable choices. Then, we have that the probability of finding exactly $\|k\|$ populations coexisting at the saturated equilibrium, with the remaining $\|n-k\|$ that cannot invade is exactly $1/2^{\|k\|} \cdot 2^{\|n-k\|} = 1/2^n$. The number of coexisting populations at the saturated equilibrium follows the binomial distribution:
+There is only one choice out of $2^{\|k\|}$ that makes $y' > 0_{\|k\|}$; moreover, there is only one choice of $S_i^{(n-k)}$ that fulfills the noninvasibility condition, out of $2^{\|n-k\|}$ equiprobable choices. Then, we have that the probability of finding exactly $\|k\|$ populations coexisting at the saturated equilibrium, with the remaining $\|n-k\|$ that cannot invade is exactly $1/(2^{\|k\|} \cdot 2^{\|n-k\|}) = 1/2^n$. The number of coexisting populations at the saturated equilibrium follows the binomial distribution:
 
 $$
 p(\|k\| | n) = \binom{n}{\|k\|} \frac{1}{2^n}\quad \|k\| \sim \mathcal B\left(n, \frac{1}{2}\right)
@@ -187,7 +187,7 @@ where $C$ has columns summing to zero ($1_n^T C = 0_n^T$). For feasibility, we n
 $$
 \begin{aligned}
 Mx &= 1_n\\
-x &= M^{-1}1_n > 0
+x &= M^{-1}1_n > 0_n
 \end{aligned}
 $$
 
@@ -303,7 +303,7 @@ $$
 y \sim \mathcal N \left( \frac{1}{\alpha} \mathbb 1_n, \sigma^2_y \left(\frac{n}{n-1} I - \frac{1}{n-1} \mathbb 1_n \mathbb 1_n^T \right) \right)\quad .
 $$
 
-Because the joint distribution of $y$ is well-approximated by a multivariate normal, we can calculate the probability of feasibility as a function of $\alpha$, $n$, as well as $\sigma^2_{y}$ by integrating the probability density function in the positive orthant of $\mathbb R^n$---what is called an ``orthant probability'':
+Because the joint distribution of $y$ is well-approximated by a multivariate normal, we can calculate the probability of feasibility as a function of $\alpha$, $n$, as well as $\sigma^2_{y}$ by integrating the probability density function in the positive orthant of $\mathbb R^n$---what is called an "orthant probability":
 
 $$
 p_F (n, \alpha, \sigma^2_{y}) = \int_0^{\infty} \int_0^{\infty} \cdots \int_0^{\infty} \phi(y) d y_1 d y_2 \cdots d y_n \quad,
@@ -479,3 +479,4 @@ Computing the probability of feasibility in random GLV
 Coexistence in random GLV competitive communities
 
 - Lechón-Alonso, P., Kundu, S., Lemos-Costa, P., Capitán, J.A. and Allesina, S., 2024. [Robust coexistence in ecological competitive communities](https://www.biorxiv.org/content/10.1101/2024.07.10.602979v2.abstract). bioRxiv, pp.2024-07.
+

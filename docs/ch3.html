@@ -199,7 +199,7 @@ ul.task-list li input[type="checkbox"] {
 <h2 class="anchored" data-anchor-id="example-data">Example data</h2>
 <p>For our explorations, we are going to use recent data from Ishizawa and colleagues, which you can find here:</p>
 <p>H. Ishizawa, Y. Tashiro, D. Inoue, M. Ike, H. Futamata. <a href="https://doi.org/10.1073/pnas.2312396121"><em>Learning beyond-pairwise interactions enables the bottom–up prediction of microbial community structure</em></a> PNAS 121 (7) e2312396121 (2024).</p>
-<p>The Authors inoculated duckweed (<em>lemna minor</em>) with synthetic bacterial communities formed by all possible combinations of seven strains. To this end, they cultured the infected duckweed in flasks for 10 days. At the end of the experiment, they plated the communities on agar plates containing antibiotics that would allow the growth only of a particular strain. In this way, they were able to measure the final density of each of the seven strains in each of the <span class="math inline">\(2^7 - 1 = 127\)</span> possible communities, and conducted each experiment in replicate. The full data set reports the outcome of 692 separate experiments!</p>
+<p>The Authors inoculated duckweed (<em>Lemna minor</em>) with synthetic bacterial communities formed by all possible combinations of seven strains. To this end, they cultured the infected duckweed in flasks for 10 days. At the end of the experiment, they plated the communities on agar plates containing antibiotics that would allow the growth only of a particular strain. In this way, they were able to measure the final density of each of the seven strains in each of the <span class="math inline">\(2^7 - 1 = 127\)</span> possible communities, and conducted each experiment in replicate. The full data set reports the outcome of 692 separate experiments!</p>
 <p>More modestly, here we are going to focus on a smaller pool of three strains taken from the seven available. We therefore have <span class="math inline">\(7\)</span> possible communities, ranging from a single strain growing in isolation to the three strains growing together. For example, a few of the measurements are:</p>
 <table class="table">
 <thead>
@@ -302,22 +302,21 @@ B^{(k, k)} x^{(k)} &amp;= 1_{\|k\|}
 <p><span class="math display">\[
 \dot{x} = D(x \circ r)(1_n - Bx)
 \]</span> with <span class="math inline">\(r &gt; 0_n\)</span>; compute all the feasible equilibria and collect them into a matrix <span class="math inline">\(E\)</span>. For example:</p>
-$$ B =
-<span class="math display">\[\begin{pmatrix}
+<p><span class="math display">\[
+B = \begin{pmatrix}
 2 &amp; -3 &amp; 3\\
 -2 &amp; 7 &amp; -3\\
 2 &amp; -2 &amp; 2
-\end{pmatrix} \quad\]</span>
-E =
-<span class="math display">\[\begin{pmatrix}
+\end{pmatrix} \quad
+E = \begin{pmatrix}
 \frac{1}{2} &amp; 0 &amp; 0\\
 0 &amp; \frac{1}{7} &amp; 0\\
 0 &amp; 0 &amp; \frac{1}{2}\\
 \frac{5}{4} &amp;\frac{1}{2} &amp; 0\\
 0 &amp; \frac{5}{8} &amp; \frac{9}{8}\\
 \frac{1}{2} &amp; \frac{1}{2} &amp; \frac{1}{2}
-\end{pmatrix}\]</span>
-<p>$$</p>
+\end{pmatrix}
+\]</span></p>
 <p>where each row contains a feasible equilibrium (if it exists) corresponding to a given composition.</p>
 <p>Consider the matrix:</p>
 <p><span class="math display">\[
