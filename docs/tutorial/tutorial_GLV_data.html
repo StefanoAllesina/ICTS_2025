@@ -210,7 +210,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#maximum-likelihood" id="toc-maximum-likelihood" class="nav-link" data-scroll-target="#maximum-likelihood">Maximum likelihood</a></li>
   <li><a href="#leave-one-out-cross-validation" id="toc-leave-one-out-cross-validation" class="nav-link" data-scroll-target="#leave-one-out-cross-validation">Leave-one-out cross validation</a></li>
   <li><a href="#simplified-models" id="toc-simplified-models" class="nav-link" data-scroll-target="#simplified-models">Simplified models</a></li>
-  <li><a href="#references-and-further-readings" id="toc-references-and-further-readings" class="nav-link" data-scroll-target="#references-and-further-readings">References and further readings</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -226,7 +225,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="data">Data</h2>
 <p>For our explorations, we are going to use recent data from Ishizawa and colleagues, which you can find here:</p>
 <p>H. Ishizawa, Y. Tashiro, D. Inoue, M. Ike, H. Futamata. <a href="https://doi.org/10.1073/pnas.2312396121"><em>Learning beyond-pairwise interactions enables the bottom–up prediction of microbial community structure</em></a> PNAS 121 (7) e2312396121 (2024).</p>
-<p>The Authors inoculated duckweed (<em>lemna minor</em>) with synthetic bacterial communities formed by all possible combinations of seven strains. To this end, they cultured the infected duckweed in flasks for 10 days. At the end of the experiment, they plated the communities on agar plates containing antibiotics that would allow the growth only of a particular strain. In this way, they were able to measure the final density of each of the seven strains in each of the <span class="math inline">\(2^7 - 1 = 127\)</span> possible communities, and conducted each experiment in replicate. The full data set reports the outcome of 692 separate experiments!</p>
+<p>The Authors inoculated duckweed (<em>Lemna minor</em>) with synthetic bacterial communities formed by all possible combinations of seven strains. To this end, they cultured the infected duckweed in flasks for 10 days. At the end of the experiment, they plated the communities on agar plates containing antibiotics that would allow the growth only of a particular strain. In this way, they were able to measure the final density of each of the seven strains in each of the <span class="math inline">\(2^7 - 1 = 127\)</span> possible communities, and conducted each experiment in replicate. The full data set reports the outcome of 692 separate experiments!</p>
 <p>More modestly, here we are going to focus on a smaller pool of three strains taken from the seven available. We therefore have <span class="math inline">\(7\)</span> possible communities, ranging from a single strain growing in isolation to the three strains growing together.</p>
 <p>Here’s the full table:</p>
 <table class="table">
@@ -544,7 +543,7 @@ SSQ(B) = \sum_r \sum_k \sum_i \left(\tilde{x}^{(k,r)}_i - x^{(k)}_i \right)^2
 </div>
 </div>
 <p>The values being printed are the SSQ after each round of numerical optimization (in this case, the calculation converges immediately to the solution).</p>
-<p>The boxplots show the data (points), as well as the corresponding boxplots, with the horizontal line being the median value of <span class="math inline">\(\tilde{x}_i^{(k,r)}\)</span> across <span class="math inline">\(r\)</span>, the triangle shows the location of the mean. The circle marks the fitted mean value for the combination of strain/community, obtained computing <span class="math inline">\(\left(B^{(k,k)}\right)^{-1}1_{\|k\|}\)</span>. As you can see, we can find a matrix <span class="math inline">\(B\)</span> that recapitulates the observed means quite well.</p>
+<p>The boxplots show the data (points), as well as the corresponding boxplots, with the horizontal line being the median value of <span class="math inline">\(\tilde{x}_i^{(k,r)}\)</span> across <span class="math inline">\(r\)</span>, the triangle shows the location of the empirical mean. The circle marks the fitted mean value for the combination of strain/community, obtained computing <span class="math inline">\(\left(B^{(k,k)}\right)^{-1}1_{\|k\|}\)</span>. As you can see, we can find a matrix <span class="math inline">\(B\)</span> that recapitulates the observed means quite well.</p>
 <p>The variable <span class="math inline">\(full_SSQ\)</span> now contains:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(full_SSQ)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -769,25 +768,136 @@ dbl (3): DW067, DW102, DW145
 </section>
 <section id="simplified-models" class="level2">
 <h2 class="anchored" data-anchor-id="simplified-models">Simplified models</h2>
-</section>
-<section id="references-and-further-readings" class="level2">
-<h2 class="anchored" data-anchor-id="references-and-further-readings">References and further readings</h2>
-<p>The backbone of the statistical model can be found in numerous articles, which converged to the same solution starting from different angles:</p>
-<ul>
-<li><p>Xiao, Y., Angulo, M. T., Friedman, J., Waldor, M. K., Weiss, S. T., &amp; Liu, Y.-Y. (2017). <a href="https://www.nature.com/articles/s41467-017-02090-2">Mapping the ecological networks of microbial communities</a>. Nature Communications, 8(1), 1–12.</p></li>
-<li><p>Fort, H. (2018). <a href="https://www.sciencedirect.com/science/article/abs/pii/S0304380018303053">On predicting species yields in multispecies communities: Quantifying the accuracy of the linear Lotka-Volterra generalized model</a>. Ecological Modelling, 387, 154–162.</p></li>
-<li><p>Maynard, D. S., Miller, Z. R., &amp; Allesina, S. (2020). <a href="https://www.nature.com/articles/s41559-019-1059-z">Predicting coexistence in experimental ecological communities</a>. Nature Ecology &amp; Evolution, 4(1), 91–100.</p></li>
-<li><p>Ansari, A. F., Reddy, Y., Raut, J., &amp; Dixit, N. M. (2021). <a href="https://www.nature.com/articles/s43588-021-00131-x">An efficient and scalable top-down method for predicting structures of microbial communities</a>. Nature Computational Science, 1(9), 619–628.</p></li>
-<li><p>Davis, J.D., Olivença, D.V., Brown, S.P. and Voit, E.O., (2022). <a href="https://www.frontiersin.org/journals/systems-biology/articles/10.3389/fsysb.2022.1021897/full">Methods of quantifying interactions among populations using Lotka-Volterra models</a>. Frontiers in Systems Biology, 2, p.1021897.</p></li>
-</ul>
-<p>For the tutorial, we are going to closely follow:</p>
-<ul>
-<li>Skwara, A., Lemos‐Costa, P., Miller, Z.R. and Allesina, S., 2023. <a href="https://besjournals.onlinelibrary.wiley.com/doi/full/10.1111/2041-210X.14028">Modelling ecological communities when composition is manipulated experimentally</a>. Methods in Ecology and Evolution, 14(2), pp.696-707.</li>
-</ul>
-<p>The same method can be extended to provide a simple test for phylogenetic effects on competition/growth:</p>
-<ul>
-<li>Lemos‐Costa, P., Miller, Z.R. and Allesina, S., 2024. <a href="https://onlinelibrary.wiley.com/doi/full/10.1111/ele.14490">Phylogeny structures species’ interactions in experimental ecological communities</a>. Ecology Letters, 27(8), p.e14490.</li>
-</ul>
+<p>We have seen in the lecture that this approach estimates all <span class="math inline">\(n^2\)</span> coefficients of the matrix <span class="math inline">\(B\)</span>. For the approach to be successful, we need to have observed enough combinations of populations growing together (each population must be present in at least <span class="math inline">\(n\)</span> experiments with distinct compositions, each pair of populations must appear in at least one final community). When the number of populations in the pool is large, and experiments are few, this approach is unfeasible. We can therefore try to simplify the model to reduce the number of parameters.</p>
+<p>The idea brought forward by Skwara <em>et al.</em> is to approximate the matrix <span class="math inline">\(B\)</span> as the sum of a diagonal matrix and a low-rank matrix. For example, a version of the model with only <span class="math inline">\(n + 1\)</span> parameters reads:</p>
+<p><span class="math display">\[
+B = D(s) + \alpha 1_n1_n^T
+\]</span></p>
+<p>i.e., a model in which each diagonal element <span class="math inline">\(B_{ii} = s_i + \alpha\)</span> has its own parameter (and thus can take arbitrary values), while the off-diagonals are all the same (i.e., each population has the same “mean-field” effect on all others).</p>
+<p>A more general model using <span class="math inline">\(3 n - 1\)</span> parameters reads:</p>
+<p><span class="math display">\[
+B = D(s) + u v^T
+\]</span></p>
+<p>in which the diagonal coefficients <span class="math inline">\(B_{ii} = s_i + u_i v_i\)</span> can take arbitrary values, while the off-diagonal elements <span class="math inline">\(B_{ij} = u_i v_j\)</span> are constrained; the effect of species <span class="math inline">\(j\)</span> on <span class="math inline">\(i\)</span> depends on two values: <span class="math inline">\(v_i\)</span> that measures how strongly species <span class="math inline">\(i\)</span> respond to the presence of other species, and <span class="math inline">\(v_j\)</span> that measures the magnitude of the typical effect of species <span class="math inline">\(j\)</span>. Either <span class="math inline">\(u\)</span> or <span class="math inline">\(v\)</span> can be taken as unitary (i.e., <span class="math inline">\(\sum_i v_i^2 = 1\)</span>) without loss of generality, thereby bringing the total number of parameters to <span class="math inline">\(3n-1\)</span>. When the number of populations is small, this approach does not lead to big gains (e.g., for <span class="math inline">\(n=3\)</span> we have 8 parameters instead of 9), but the reduction in parameters is substantial when <span class="math inline">\(n\)</span> becomes larger (e.g., for the whole data set, <span class="math inline">\(n=7\)</span>, and thus we would use 20 parameters instead of 49).</p>
+<p>Another advantage of this approach is that we can write the inverse in linear time, thereby removing the only big computational hurdle of the approach:</p>
+<p><span class="math display">\[\begin{aligned}
+B^{-1} 1_n&amp;= (D(s) + u v^T)^{-1}1_n\\
+&amp;= \left(D(s)^{-1} - \frac{1}{1 + v^TD(s)^{-1}u}D(s)^{-1} u v^TD(s)^{-1}\right)1_n\\ &amp;= D(s)^{-1}\left(1_n - \frac{v^T D(s)^{-1}1_n}{1 + v^TD(s)^{-1}u} u\right)
+\end{aligned}
+\]</span></p>
+<p>These models can be derived from the consumer-resource framework that you have seen in class.</p>
+<p>We can test different versions of the simplified model. A model with only the diagonal and an extra parameter performs very poorly:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>diag_a11 <span class="ot">&lt;-</span> <span class="fu">run_model</span>(</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">datafile =</span> <span class="st">"Ishizawa_3_strains.csv"</span>, <span class="co"># csv file containing the data to be fit</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> <span class="st">"diag_a11t"</span>,</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">goalf =</span> <span class="st">"LikLN"</span>, </span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">pars =</span> <span class="cn">NULL</span>, <span class="co"># start from Identity matrix</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">skipEM =</span> <span class="cn">TRUE</span>, <span class="co"># go directly to numerical optimization</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">plot_results =</span> <span class="cn">TRUE</span> <span class="co"># plot the results</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`mutate_if()` ignored the following grouping variables:
+• Column `comm`</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "numerical search"
+[1] -22.62175
+[1] -22.62175
+[1] -22.62175
+[1] -22.62175
+[1] -22.62175
+[1] -22.62175
+[1] -22.62175
+[1] -22.62175
+[1] -22.62175
+[1] -22.62175</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="tutorial_GLV_data_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_pred_obs</span>(diag_a11)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="tutorial_GLV_data_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>A model with symmetric interactions, <span class="math inline">\(B = D(s) + vv^T\)</span> does slightly better:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>diag_vvt <span class="ot">&lt;-</span> <span class="fu">run_model</span>(</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">datafile =</span> <span class="st">"Ishizawa_3_strains.csv"</span>, <span class="co"># csv file containing the data to be fit</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> <span class="st">"diag_vvt"</span>,</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">goalf =</span> <span class="st">"LikLN"</span>, </span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">pars =</span> <span class="cn">NULL</span>, <span class="co"># start from Identity matrix</span></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">skipEM =</span> <span class="cn">TRUE</span>, <span class="co"># go directly to numerical optimization</span></span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">plot_results =</span> <span class="cn">TRUE</span> <span class="co"># plot the results</span></span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`mutate_if()` ignored the following grouping variables:
+• Column `comm`</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "numerical search"
+[1] -38.12933
+[1] -38.36503
+[1] -38.37226
+[1] -38.38069
+[1] -38.38508
+[1] -38.39331
+[1] -38.39618
+[1] -38.39655
+[1] -38.39655
+[1] -38.39655</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="tutorial_GLV_data_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_pred_obs</span>(diag_vvt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="tutorial_GLV_data_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>And, finally, the model with 8 parameters, <span class="math inline">\(B = D(s) + vw^T\)</span>:</p>
+<p>A model with symmetric interactions, <span class="math inline">\(B = D(s) + vv^T\)</span> does slightly better:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>diag_vwt <span class="ot">&lt;-</span> <span class="fu">run_model</span>(</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">datafile =</span> <span class="st">"Ishizawa_3_strains.csv"</span>, <span class="co"># csv file containing the data to be fit</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> <span class="st">"diag_vwt"</span>,</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">goalf =</span> <span class="st">"LikLN"</span>, </span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">pars =</span> <span class="cn">NULL</span>, <span class="co"># start from Identity matrix</span></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">skipEM =</span> <span class="cn">TRUE</span>, <span class="co"># go directly to numerical optimization</span></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">plot_results =</span> <span class="cn">TRUE</span> <span class="co"># plot the results</span></span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`mutate_if()` ignored the following grouping variables:
+• Column `comm`</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "numerical search"
+[1] -34.87107
+[1] -49.06619
+[1] -49.06753
+[1] -49.0681
+[1] -49.0681
+[1] -49.0681
+[1] -49.0681
+[1] -49.06811
+[1] -49.06811
+[1] -49.06811</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="tutorial_GLV_data_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_pred_obs</span>(diag_vwt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="tutorial_GLV_data_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
 
 
 </section>

@@ -17,7 +17,7 @@ H. Ishizawa, Y. Tashiro, D. Inoue, M. Ike, H. Futamata.
 [*Learning beyond-pairwise interactions enables the bottom–up prediction of microbial community structure*](https://doi.org/10.1073/pnas.2312396121)
 PNAS 121 (7) e2312396121 (2024).
 
-The Authors inoculated duckweed (*lemna minor*) with synthetic bacterial communities formed by all possible combinations of seven strains. To this end, they cultured the infected duckweed in flasks for 10 days. At the end of the experiment, they plated the communities on agar plates containing antibiotics that would allow the growth only of a particular strain. In this way, they were able to measure the final density of each of the seven strains in each of the $2^7 - 1 = 127$ possible communities, and conducted each experiment in replicate. The full data set reports the outcome of 692 separate experiments! 
+The Authors inoculated duckweed (*Lemna minor*) with synthetic bacterial communities formed by all possible combinations of seven strains. To this end, they cultured the infected duckweed in flasks for 10 days. At the end of the experiment, they plated the communities on agar plates containing antibiotics that would allow the growth only of a particular strain. In this way, they were able to measure the final density of each of the seven strains in each of the $2^7 - 1 = 127$ possible communities, and conducted each experiment in replicate. The full data set reports the outcome of 692 separate experiments! 
 
 More modestly, here we are going to focus on a smaller pool of three strains taken from the seven available. We therefore have $7$ possible communities, ranging from a single strain growing in isolation to the three strains growing together. 
 
@@ -27,6 +27,7 @@ Here's the full table:
 #| echo: false
 #| message: false
 #| output: asis
+library(tidyverse)
 dt <- read_csv("Ishizawa_3_strains.csv", show_col_types = FALSE)
 dt <- dt %>% mutate_all(.funs = function(x) ifelse(x == 0, "", as.character(round(x, 3)))) 
 cat(md_table(dt))
@@ -73,7 +74,7 @@ full_SSQ <- run_model(
 ```
 The values being printed are the SSQ after each round of numerical optimization (in this case, the calculation converges immediately to the solution). 
 
-The boxplots show the data (points), as well as the corresponding boxplots, with the horizontal line being the median value of $\tilde{x}_i^{(k,r)}$ across $r$, the triangle shows the location of the mean. The circle marks the fitted mean value for the combination of strain/community, obtained computing $\left(B^{(k,k)}\right)^{-1}1_{\|k\|}$. As you can see, we can find a matrix $B$ that recapitulates the observed means quite well.
+The boxplots show the data (points), as well as the corresponding boxplots, with the horizontal line being the median value of $\tilde{x}_i^{(k,r)}$ across $r$, the triangle shows the location of the empirical mean. The circle marks the fitted mean value for the combination of strain/community, obtained computing $\left(B^{(k,k)}\right)^{-1}1_{\|k\|}$. As you can see, we can find a matrix $B$ that recapitulates the observed means quite well.
 
 The variable $full_SSQ$ now contains:
 
@@ -171,29 +172,86 @@ LOO_SSQ <- run_model_LOO(datafile = "Ishizawa_3_strains.csv", model = "full", go
 ```
 All three models are quite successful at recovering the observed means for the community we left out.
 
-
 ## Simplified models
 
+We have seen in the lecture that this approach estimates all $n^2$ coefficients of the matrix $B$. For the approach to be successful, we need to have observed enough combinations of populations growing together (each population must be present in at least $n$ experiments with distinct compositions, each pair of populations must appear in at least one final community). When the number of populations in the pool is large, and experiments are few, this approach is unfeasible. We can therefore try to simplify the model to reduce the number of parameters. 
+
+The idea brought forward by Skwara *et al.* is to approximate the matrix $B$ as the sum of a diagonal matrix and a low-rank matrix. For example, a version of the model with only $n + 1$ parameters reads:
+
+$$
+B = D(s) + \alpha 1_n1_n^T
+$$
+
+i.e., a model in which each diagonal element $B_{ii} = s_i + \alpha$ has its own parameter (and thus can take arbitrary values), while the off-diagonals are all the same (i.e., each population has the same "mean-field" effect on all others). 
+
+A more general model using $3 n - 1$ parameters reads:
+
+$$
+B = D(s) + u v^T
+$$
+
+in which the diagonal coefficients $B_{ii} = s_i + u_i v_i$ can take arbitrary values, while the off-diagonal elements $B_{ij} = u_i v_j$ are constrained; the effect of species $j$ on $i$ depends on two values: $v_i$ that measures how strongly species $i$ respond to the presence of other species, and $v_j$ that measures the magnitude of the typical effect of species $j$. Either $u$ or $v$ can be taken as unitary (i.e., $\sum_i v_i^2 = 1$) without loss of generality, thereby bringing the total number of parameters to $3n-1$. When the number of populations is small, this approach does not lead to big gains (e.g., for $n=3$ we have 8 parameters instead of 9), but the reduction in parameters is substantial when $n$ becomes larger (e.g., for the whole data set, $n=7$, and thus we would use 20 parameters instead of 49).
+
+Another advantage of this approach is that we can write the inverse in linear time, thereby removing the only big computational hurdle of the approach:
+
+$$\begin{aligned}
+B^{-1} 1_n&= (D(s) + u v^T)^{-1}1_n\\
+&= \left(D(s)^{-1} - \frac{1}{1 + v^TD(s)^{-1}u}D(s)^{-1} u v^TD(s)^{-1}\right)1_n\\ &= D(s)^{-1}\left(1_n - \frac{v^T D(s)^{-1}1_n}{1 + v^TD(s)^{-1}u} u\right)
+\end{aligned}
+$$
+
+These models can be derived from the consumer-resource framework that you have seen in class.
+
+We can test different versions of the simplified model. A model with only the diagonal and an extra parameter performs very poorly:
+
+```{r}
+diag_a11 <- run_model(
+  datafile = "Ishizawa_3_strains.csv", # csv file containing the data to be fit
+  model = "diag_a11t",
+  goalf = "LikLN", 
+  pars = NULL, # start from Identity matrix
+  skipEM = TRUE, # go directly to numerical optimization
+  plot_results = TRUE # plot the results
+)
+```
+
+```{r}
+plot_pred_obs(diag_a11)
+```
+
+A model with symmetric interactions, $B = D(s) + vv^T$ does slightly better:
+
+```{r}
+diag_vvt <- run_model(
+  datafile = "Ishizawa_3_strains.csv", # csv file containing the data to be fit
+  model = "diag_vvt",
+  goalf = "LikLN", 
+  pars = NULL, # start from Identity matrix
+  skipEM = TRUE, # go directly to numerical optimization
+  plot_results = TRUE # plot the results
+)
+```
+
+```{r}
+plot_pred_obs(diag_vvt)
+```
+
+And, finally, the model with 8 parameters, $B = D(s) + vw^T$:
+
+A model with symmetric interactions, $B = D(s) + vv^T$ does slightly better:
+
+```{r}
+diag_vwt <- run_model(
+  datafile = "Ishizawa_3_strains.csv", # csv file containing the data to be fit
+  model = "diag_vwt",
+  goalf = "LikLN", 
+  pars = NULL, # start from Identity matrix
+  skipEM = TRUE, # go directly to numerical optimization
+  plot_results = TRUE # plot the results
+)
+```
 
 
-## References and further readings
-
-The backbone of the statistical model can be found in numerous articles, which converged to the same solution starting from different angles:
-
-- Xiao, Y., Angulo, M. T., Friedman, J., Waldor, M. K., Weiss, S. T., & Liu, Y.-Y. (2017). [Mapping the ecological networks of microbial communities](https://www.nature.com/articles/s41467-017-02090-2). Nature Communications, 8(1), 1–12.
-
-- Fort, H. (2018). [On predicting species yields in multispecies communities: Quantifying the accuracy of the linear Lotka-Volterra generalized model](https://www.sciencedirect.com/science/article/abs/pii/S0304380018303053). Ecological Modelling, 387, 154–162.
-
-- Maynard, D. S., Miller, Z. R., & Allesina, S. (2020). [Predicting coexistence in experimental ecological communities](https://www.nature.com/articles/s41559-019-1059-z). Nature Ecology & Evolution, 4(1), 91–100.
-
-- Ansari, A. F., Reddy, Y., Raut, J., & Dixit, N. M. (2021). [An efficient and scalable top-down method for predicting structures of microbial communities](https://www.nature.com/articles/s43588-021-00131-x). Nature Computational Science, 1(9), 619–628.
-
-- Davis, J.D., Olivença, D.V., Brown, S.P. and Voit, E.O., (2022). [Methods of quantifying interactions among populations using Lotka-Volterra models](https://www.frontiersin.org/journals/systems-biology/articles/10.3389/fsysb.2022.1021897/full). Frontiers in Systems Biology, 2, p.1021897.
-
-For the tutorial, we are going to closely follow:
-
-- Skwara, A., Lemos‐Costa, P., Miller, Z.R. and Allesina, S., 2023. [Modelling ecological communities when composition is manipulated experimentally](https://besjournals.onlinelibrary.wiley.com/doi/full/10.1111/2041-210X.14028). Methods in Ecology and Evolution, 14(2), pp.696-707.
-
-The same method can be extended to provide a simple test for phylogenetic effects on competition/growth:
-
-- Lemos‐Costa, P., Miller, Z.R. and Allesina, S., 2024. [Phylogeny structures species' interactions in experimental ecological communities](https://onlinelibrary.wiley.com/doi/full/10.1111/ele.14490). Ecology Letters, 27(8), p.e14490.
+```{r}
+plot_pred_obs(diag_vwt)
+```

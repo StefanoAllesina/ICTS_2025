@@ -222,11 +222,22 @@ We can see that as $n$ increases, the distribution of $\|k\|$ approaches the bin
 
 ## Sketch of the proof
 
-We can approximate the "niche shadow" value when $n$ is large, as follows. We know that species $j$ is excluded if $c_i < c_j < l_i$, where $l_i$ is the niche shadow cast by species $i$:
+The argument to support these claims is a little too complicated for the time that we have available. To give a sense of how the argument is developed, we show that the probability that $\|k\|=1$ is about $1/2^{(n-1)}$ when we sample the colonization rates from the uniform distribution $\mathcal U[m, m+1]$.
+
+We can write the joint distribution for $(c_1, c_n)$ (i.e., the smallest and largest colonization rate) for an arbitrary (absolutely continuous) distribution, from which we extract $n$ colonization rates as:
+
+$$
+f(c_1,c_n) = n(n-1) (\Phi(c_n)-\Phi(c_1))^{(n-2)} \phi(c_1) \phi(c_n)
+$$
+
+where $\phi(\cdot)$ is the probability density function for the distribution used to sample the values, and $\Phi(\cdot)$ the cumulative density function. 
+
+When $n$ is large, we can approximate the "niche shadow" value as follows. We know that species $j$ is excluded if $c_i < c_j < l_i$, where $l_i$ is the niche shadow cast by species $i$:
 
 $$
 l_i = \frac{c_i^2}{l_{i-1}}
 $$
+
 Thus, to be included in the set of coexisting species, we need $c_j > l_i$. We introduce $X_i$, the amount by which $c_j$ exceeds $l_{i-1}$:
 
 $$
@@ -241,27 +252,38 @@ $$
 
 where we have neglected the term $X_i^2 / l_{i-1}$, which is small when $n$ is large (because the colonization values are closer together).
 
-We now can compute the probability that species $i$ excludes a given number of other species $\kappa$; that is, the probability that all the values $c_j > c_i$ fall in the range $[c_i,l_i] \approx [c_i,2 c_i - l_{i-1}]$ for $\kappa$ species, while for the remaining $n-\kappa-1$ we have $c_j > 2 c_i - l_{i-1}$. For example, the probability that species 1 excludes the following $\kappa < n-1$ species can be computed as:
+We now can compute the probability that species $1$ excludes all other species, assuming that the niche shadow cast by species 1 is $\approx 2 c_1 -m$. We need to distinguish between two cases: a) the shadow cast by species 1 does not exceed the upper bound for the distribution ($m+1$ in this case) and all other colonization rates fall into $(c_1, 2 c_1 - m)$, and b) the shadow cast by species 1 exceeds the bound, and thus all other species are excluded by definition. 
+
+The niche shadow for the first species, $l_1 \approx 2 c_1 - m$ does not exceed $m+1$ whenever $c_1 \leq m + 1/2$. We thus compute the probability that i) $c_1 \leq m + 1/2$, and ii) $c_n \leq 2 c_1 -m$ for the uniform distribution, using:
 
 $$
-\binom{n-1}{\kappa} (F(2 x -m) - F(x))^\kappa (1 - F(2 x - m))^{(n - 1 - \kappa)}
+\phi(z) = 1\quad \Phi(z) = z -m 
 $$
 
-when $c_1 \in (x, x + dx)$, and $F(\cdot)$ is the cumulative distribution function for the colonization rates.
-
-Integrating over the distribution, and adding a factor $n$ because each species could be the one with the minimum colonization rate, we obtain:
+The density for $(c_1,c_n)$ simplifies to:
 
 $$
-n\binom{n-1}{\kappa} \int_{m}^{U}(F(2 x -m) - F(x))^\kappa (1 - F(2 x - m))^{(n - 1 - \kappa)} f(x) dx
+f(c_1,c_n) = n(n-1) (c_n - c_1)^{(n-2)} 
 $$
-where $U$ is the upper bound for the niche shadow (either $(m + b)/2$ when the support is finite $[m,b]$, or $\infty$), and $f(\cdot)$ is the pdf. For example, when colonization rates are the order statistics of $\mathcal U[m, m + 1]$, we have $F(x) = x-m$, $f(x) = 1$, $U = m + 1/2$ and therefore:
+
+and we need to integrate this function for:
 
 $$
-n \binom{n-1}{\kappa} \int_m^{m+\frac{1}{2}} (x-m)^\kappa (1 + 2 m - 2 x)^{(n-1-\kappa)} dx = \frac{1}{2^{\kappa+1}}
+n(n-1)\int_{m}^{m + 1/2} \int_{c_1}^{2c_1 - m}(c_n-c_1)^{(n-2)} dc_1 dc_n = 2^{-n}
 $$
-showing that, for example, the probability that the first species does not exclude any other ($\kappa = 0$) is $1/2$. 
+Now we treat the case in which $c_1$ exceeds $m + 1/2$, and $c_1 \leq c_n \leq m+1$:
 
-This argument can be extended to compute the probability of each configuration with $\|k\|$ species surviving and $n - \|k\|$ going extinct, thereby obtaining the binomial distribution.
+$$
+n(n-1)\int_{m+1/2}^{m + 1} \int_{c_1}^{m+1}(c_n-c_1)^{(n-2)} dc_1 dc_n = 2^{-n}
+$$
+
+Summing the two mutually-exclusive outcomes, we find
+
+$$
+P(\|k\| = 1) = 2^{-n} + 2^{-n} = 2^{-n+1}
+$$
+
+consistently with the asymptotic distribution $\|k\|-1 \sim \mathcal B(n-1, 1/2)$. This approach can be extended by computing the probability that a given species $i$ excludes $\kappa_i$ other species; by summing across all combinations we can approximate the distribution of coexisting species (see Miller *et al.*, SI section B).
 
 ## References and further readings
 

@@ -359,10 +359,17 @@ c_{i+1} &gt; l_i
 </section>
 <section id="sketch-of-the-proof" class="level2">
 <h2 class="anchored" data-anchor-id="sketch-of-the-proof">Sketch of the proof</h2>
-<p>We can approximate the “niche shadow” value when <span class="math inline">\(n\)</span> is large, as follows. We know that species <span class="math inline">\(j\)</span> is excluded if <span class="math inline">\(c_i &lt; c_j &lt; l_i\)</span>, where <span class="math inline">\(l_i\)</span> is the niche shadow cast by species <span class="math inline">\(i\)</span>:</p>
+<p>The argument to support these claims is a little too complicated for the time that we have available. To give a sense of how the argument is developed, we show that the probability that <span class="math inline">\(\|k\|=1\)</span> is about <span class="math inline">\(1/2^{(n-1)}\)</span> when we sample the colonization rates from the uniform distribution <span class="math inline">\(\mathcal U[m, m+1]\)</span>.</p>
+<p>We can write the joint distribution for <span class="math inline">\((c_1, c_n)\)</span> (i.e., the smallest and largest colonization rate) for an arbitrary (absolutely continuous) distribution, from which we extract <span class="math inline">\(n\)</span> colonization rates as:</p>
+<p><span class="math display">\[
+f(c_1,c_n) = n(n-1) (\Phi(c_n)-\Phi(c_1))^{(n-2)} \phi(c_1) \phi(c_n)
+\]</span></p>
+<p>where <span class="math inline">\(\phi(\cdot)\)</span> is the probability density function for the distribution used to sample the values, and <span class="math inline">\(\Phi(\cdot)\)</span> the cumulative density function.</p>
+<p>When <span class="math inline">\(n\)</span> is large, we can approximate the “niche shadow” value as follows. We know that species <span class="math inline">\(j\)</span> is excluded if <span class="math inline">\(c_i &lt; c_j &lt; l_i\)</span>, where <span class="math inline">\(l_i\)</span> is the niche shadow cast by species <span class="math inline">\(i\)</span>:</p>
 <p><span class="math display">\[
 l_i = \frac{c_i^2}{l_{i-1}}
-\]</span> Thus, to be included in the set of coexisting species, we need <span class="math inline">\(c_j &gt; l_i\)</span>. We introduce <span class="math inline">\(X_i\)</span>, the amount by which <span class="math inline">\(c_j\)</span> exceeds <span class="math inline">\(l_{i-1}\)</span>:</p>
+\]</span></p>
+<p>Thus, to be included in the set of coexisting species, we need <span class="math inline">\(c_j &gt; l_i\)</span>. We introduce <span class="math inline">\(X_i\)</span>, the amount by which <span class="math inline">\(c_j\)</span> exceeds <span class="math inline">\(l_{i-1}\)</span>:</p>
 <p><span class="math display">\[
 X_i = c_i - l_{i-1}
 \]</span></p>
@@ -371,19 +378,27 @@ X_i = c_i - l_{i-1}
 l_i = \frac{(l_{i-1} + X_i)^2}{l_{i-1}} = l_{i-1} + 2 X_i +\frac{X_i^2}{l_{i-1}} \approx l_{i-1} + 2 X_i = 2 c_i - l_{i-1}
 \]</span></p>
 <p>where we have neglected the term <span class="math inline">\(X_i^2 / l_{i-1}\)</span>, which is small when <span class="math inline">\(n\)</span> is large (because the colonization values are closer together).</p>
-<p>We now can compute the probability that species <span class="math inline">\(i\)</span> excludes a given number of other species <span class="math inline">\(\kappa\)</span>; that is, the probability that all the values <span class="math inline">\(c_j &gt; c_i\)</span> fall in the range <span class="math inline">\([c_i,l_i] \approx [c_i,2 c_i - l_{i-1}]\)</span> for <span class="math inline">\(\kappa\)</span> species, while for the remaining <span class="math inline">\(n-\kappa-1\)</span> we have <span class="math inline">\(c_j &gt; 2 c_i - l_{i-1}\)</span>. For example, the probability that species 1 excludes the following <span class="math inline">\(\kappa &lt; n-1\)</span> species can be computed as:</p>
+<p>We now can compute the probability that species <span class="math inline">\(1\)</span> excludes all other species, assuming that the niche shadow cast by species 1 is <span class="math inline">\(\approx 2 c_1 -m\)</span>. We need to distinguish between two cases: a) the shadow cast by species 1 does not exceed the upper bound for the distribution (<span class="math inline">\(m+1\)</span> in this case) and all other colonization rates fall into <span class="math inline">\((c_1, 2 c_1 - m)\)</span>, and b) the shadow cast by species 1 exceeds the bound, and thus all other species are excluded by definition.</p>
+<p>The niche shadow for the first species, <span class="math inline">\(l_1 \approx 2 c_1 - m\)</span> does not exceed <span class="math inline">\(m+1\)</span> whenever <span class="math inline">\(c_1 \leq m + 1/2\)</span>. We thus compute the probability that i) <span class="math inline">\(c_1 \leq m + 1/2\)</span>, and ii) <span class="math inline">\(c_n \leq 2 c_1 -m\)</span> for the uniform distribution, using:</p>
 <p><span class="math display">\[
-\binom{n-1}{\kappa} (F(2 x -m) - F(x))^\kappa (1 - F(2 x - m))^{(n - 1 - \kappa)}
+\phi(z) = 1\quad \Phi(z) = z -m
 \]</span></p>
-<p>when <span class="math inline">\(c_1 \in (x, x + dx)\)</span>, and <span class="math inline">\(F(\cdot)\)</span> is the cumulative distribution function for the colonization rates.</p>
-<p>Integrating over the distribution, and adding a factor <span class="math inline">\(n\)</span> because each species could be the one with the minimum colonization rate, we obtain:</p>
+<p>The density for <span class="math inline">\((c_1,c_n)\)</span> simplifies to:</p>
 <p><span class="math display">\[
-n\binom{n-1}{\kappa} \int_{m}^{U}(F(2 x -m) - F(x))^\kappa (1 - F(2 x - m))^{(n - 1 - \kappa)} f(x) dx
-\]</span> where <span class="math inline">\(U\)</span> is the upper bound for the niche shadow (either <span class="math inline">\((m + b)/2\)</span> when the support is finite <span class="math inline">\([m,b]\)</span>, or <span class="math inline">\(\infty\)</span>), and <span class="math inline">\(f(\cdot)\)</span> is the pdf. For example, when colonization rates are the order statistics of <span class="math inline">\(\mathcal U[m, m + 1]\)</span>, we have <span class="math inline">\(F(x) = x-m\)</span>, <span class="math inline">\(f(x) = 1\)</span>, <span class="math inline">\(U = m + 1/2\)</span> and therefore:</p>
+f(c_1,c_n) = n(n-1) (c_n - c_1)^{(n-2)}
+\]</span></p>
+<p>and we need to integrate this function for:</p>
 <p><span class="math display">\[
-n \binom{n-1}{\kappa} \int_m^{m+\frac{1}{2}} (x-m)^\kappa (1 + 2 m - 2 x)^{(n-1-\kappa)} dx = \frac{1}{2^{\kappa+1}}
-\]</span> showing that, for example, the probability that the first species does not exclude any other (<span class="math inline">\(\kappa = 0\)</span>) is <span class="math inline">\(1/2\)</span>.</p>
-<p>This argument can be extended to compute the probability of each configuration with <span class="math inline">\(\|k\|\)</span> species surviving and <span class="math inline">\(n - \|k\|\)</span> going extinct, thereby obtaining the binomial distribution.</p>
+n(n-1)\int_{m}^{m + 1/2} \int_{c_1}^{2c_1 - m}(c_n-c_1)^{(n-2)} dc_1 dc_n = 2^{-n}
+\]</span> Now we treat the case in which <span class="math inline">\(c_1\)</span> exceeds <span class="math inline">\(m + 1/2\)</span>, and <span class="math inline">\(c_1 \leq c_n \leq m+1\)</span>:</p>
+<p><span class="math display">\[
+n(n-1)\int_{m+1/2}^{m + 1} \int_{c_1}^{m+1}(c_n-c_1)^{(n-2)} dc_1 dc_n = 2^{-n}
+\]</span></p>
+<p>Summing the two mutually-exclusive outcomes, we find</p>
+<p><span class="math display">\[
+P(\|k\| = 1) = 2^{-n} + 2^{-n} = 2^{-n+1}
+\]</span></p>
+<p>consistently with the asymptotic distribution <span class="math inline">\(\|k\|-1 \sim \mathcal B(n-1, 1/2)\)</span>. This approach can be extended by computing the probability that a given species <span class="math inline">\(i\)</span> excludes <span class="math inline">\(\kappa_i\)</span> other species; by summing across all combinations we can approximate the distribution of coexisting species (see Miller <em>et al.</em>, SI section B).</p>
 </section>
 <section id="references-and-further-readings" class="level2">
 <h2 class="anchored" data-anchor-id="references-and-further-readings">References and further readings</h2>
