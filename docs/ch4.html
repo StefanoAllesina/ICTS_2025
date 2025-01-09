@@ -336,7 +336,7 @@ c_2 &gt; \frac{c_1^2}{m}
 <p><span class="math display">\[
 c_3 &gt; \frac{c_2^2}{\frac{c_1^2}{m}}
 \]</span></p>
-<p>You can see that there is a simple pattern. Call <span class="math inline">\(l_0 = m\)</span>, then the condition for the first species to persist is that <span class="math inline">\(c_1 &gt; l_0\)</span>; second species to persist whenever <span class="math inline">\(c_2 &gt; c_1^2 / l_0 = l_1\)</span>; the third species persists whenever <span class="math inline">\(c_3 &gt; c_2^2 / l_1\)</span>, and so forth:</p>
+<p>You can see that there is a simple pattern. Call <span class="math inline">\(l_0 = m\)</span>, then the condition for the first species to persist is that <span class="math inline">\(c_1 &gt; l_0\)</span>; second species to persist whenever <span class="math inline">\(c_2 &gt; c_1^2 / l_0 = l_1\)</span>; the third species persists whenever <span class="math inline">\(c_3 &gt; c_2^2 / l_1 = l_2\)</span>, and so forth:</p>
 <p><span class="math display">\[
 l_i = \frac{c_i^2}{l_{i-1}}
 \]</span></p>
@@ -348,7 +348,7 @@ c_{i+1} &gt; l_i
 </section>
 <section id="random-parameters" class="level2">
 <h2 class="anchored" data-anchor-id="random-parameters">Random parameters</h2>
-<p>Sample the colonization rate values indipendently from a distribution (with positive support); for example <span class="math inline">\(\gamma_i \sim \mathcal U[m,1+m]\)</span>, or from the exponential distribution <span class="math inline">\(\gamma_i \sim \mathcal{Exp(\lambda) + m}\)</span> (we sample values above the mortality rate—any lower value for the colonization rate would lead to extinction). Then sort them and assign the smallest value to species 1 (<span class="math inline">\(c_1 = \min_i \gamma_i\)</span>), the second smallest value to species 2, etc. These are called the <em>order statistics</em> of the distribution.</p>
+<p>Sample the colonization rate values independently from a distribution (with positive support); for example <span class="math inline">\(\gamma_i \sim \mathcal U[m,1+m]\)</span>, or from the exponential distribution <span class="math inline">\(\gamma_i \sim \mathcal{Exp(\lambda) + m}\)</span> (we sample values above the mortality rate—any lower value for the colonization rate would lead to extinction). Then sort them and assign the smallest value to species 1 (<span class="math inline">\(c_1 = \min_i \gamma_i\)</span>), the second smallest value to species 2, etc. These are called the <em>order statistics</em> of the distribution.</p>
 <p>How many species will coexist? Given that the final set of coexisting species can be found in linear time, we can run large experiments in which we compute the number of coexisting species <span class="math inline">\(\|k\|\)</span> when starting with <span class="math inline">\(n\)</span> for different sizes <span class="math inline">\(n\)</span> and choice of distribution from which to sample the colonization rates.</p>
 <div class="cell">
 <div class="cell-output-display">

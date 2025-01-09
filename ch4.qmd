@@ -185,7 +185,7 @@ $$
 c_3 > \frac{c_2^2}{\frac{c_1^2}{m}}
 $$
 
-You can see that there is a simple pattern. Call $l_0 = m$, then the condition for the first species to persist is that $c_1 > l_0$; second species to persist whenever $c_2 > c_1^2 / l_0 = l_1$; the third species persists whenever $c_3 > c_2^2 / l_1$, and so forth:
+You can see that there is a simple pattern. Call $l_0 = m$, then the condition for the first species to persist is that $c_1 > l_0$; second species to persist whenever $c_2 > c_1^2 / l_0 = l_1$; the third species persists whenever $c_3 > c_2^2 / l_1 = l_2$, and so forth:
 
 $$
 l_i = \frac{c_i^2}{l_{i-1}}
@@ -201,7 +201,7 @@ Thus, if the species has a sufficiently large colonization rate, it will establi
 
 ## Random parameters
 
-Sample the colonization rate values indipendently from a distribution (with positive support); for example $\gamma_i \sim \mathcal U[m,1+m]$, or from the exponential distribution $\gamma_i \sim \mathcal{Exp(\lambda) + m}$ (we sample values above the mortality rate---any lower value for the colonization rate would lead to extinction). Then sort them and assign the smallest value to species 1 ($c_1 = \min_i \gamma_i$), the second smallest value to species 2, etc. These are called the *order statistics* of the distribution.
+Sample the colonization rate values independently from a distribution (with positive support); for example $\gamma_i \sim \mathcal U[m,1+m]$, or from the exponential distribution $\gamma_i \sim \mathcal{Exp(\lambda) + m}$ (we sample values above the mortality rate---any lower value for the colonization rate would lead to extinction). Then sort them and assign the smallest value to species 1 ($c_1 = \min_i \gamma_i$), the second smallest value to species 2, etc. These are called the *order statistics* of the distribution.
 
 How many species will coexist? Given that the final set of coexisting species can be found in linear time, we can run large experiments in which we compute the number of coexisting species $\|k\|$ when starting with $n$ for different sizes $n$ and choice of distribution from which to sample the colonization rates. 
 
